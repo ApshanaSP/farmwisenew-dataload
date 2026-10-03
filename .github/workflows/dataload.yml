@@ -95,14 +95,14 @@ jobs:
           echo "STATE_OK=1" >> "$GITHUB_ENV"
 
       - name: Load the grievance generator's MySQL from AWS
-        run: python ci/seed_mysql.py
+        run: bash ci/run.sh "MySQL seeding" python ci/seed_mysql.py
 
       - name: Collect all sources and rebuild the store
         run: |
           # the PC's config, with Linux's npm and no MySQL export
           sed -e 's/npm\.cmd/npm/' -e 's/export_after_build: true/export_after_build: false/' \
             district_intel/config.yaml > district_intel/config.ci.yaml
-          python district_intel/run_pipeline.py refresh --all --config district_intel/config.ci.yaml
+          bash ci/run.sh "Collection and build" python district_intel/run_pipeline.py refresh --all --config district_intel/config.ci.yaml
           python - <<'EOF'
           import json
           st = json.load(open("district_intel/output/state/refresh_state.json"))
@@ -114,13 +114,13 @@ jobs:
 
       - name: Upload to AWS
         run: |
-          python aws/export_intel.py
-          python aws/push.py cpcb police
+          bash ci/run.sh "Store upload" python aws/export_intel.py
+          bash ci/run.sh "CPCB and police upload" python aws/push.py cpcb police
 
       - name: Save the collectors' history
         if: always() && env.STATE_OK == '1'
         run: |
-          python ci/state.py pack state.tar.gz
+          bash ci/run.sh "State save" python ci/state.py pack state.tar.gz
           gh release view state >/dev/null 2>&1 || gh release create state --title "Pipeline state" \
             --notes "Saved by the hourly workflow: what the collectors keep between runs (ci/state.py). Not a software release."
           gh release upload state state.tar.gz --clobber
