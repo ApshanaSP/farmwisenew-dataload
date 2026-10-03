@@ -112,6 +112,12 @@ jobs:
               print(f"::warning::{name} failed this run (retried next hour): " + st[name]["tail"].strip().splitlines()[-1][:200])
           EOF
 
+      - name: Can this machine reach CPCB?
+        continue-on-error: true
+        run: |
+          r=$(curl -s -o /dev/null -m 60 -w "HTTP %{http_code} in %{time_total}s" https://airquality.cpcb.gov.in/ccr/ || echo "no connection")
+          echo "::notice title=CPCB reachability::airquality.cpcb.gov.in/ccr/ -> $r"
+
       - name: Upload to AWS
         run: |
           bash ci/run.sh "Store upload" python aws/export_intel.py
