@@ -88,7 +88,7 @@ def build(settings: Settings, only_steps: set[str] | None = None) -> dict:
     docs = N["documents"]
 
     base = pd.concat([G["events"], P["events"], W["events"], H["events"], E["events"]], ignore_index=True)
-    model = classify.CategoryModel().fit(base)
+    model = classify.daily_model(base)
     metrics["category_classifier"] = model.metrics
     classify.apply(base, docs, model)
     _refine_police_other(base, ref)
@@ -221,8 +221,9 @@ def build(settings: Settings, only_steps: set[str] | None = None) -> dict:
         "link_pairs": pairs, "review_queue": review, "source_health": S["health"], "data_quality": S["issues"], "quarantine": S["quarantine"],
         "category_drift": S["drift"], "world_calendar": calendar, "pwd_works": W["works"], "agent_runs": pd.DataFrame(agent_runs),
         "metrics": metrics_df, **ref_tables}
-    store.write_sqlite(settings.path(settings.raw["output"]["sqlite"]), tables)
-    store.write_csv(out / "curated", tables)
+    ready = store.prepare(tables)
+    store.write_sqlite(settings.path(settings.raw["output"]["sqlite"]), ready, prepared=True)
+    store.write_csv(out / "curated", ready, prepared=True)
     if truth is not None:
         (out / "truth").mkdir(parents=True, exist_ok=True)
         truth.to_csv(out / "truth" / "cross_source_truth.csv", index=False, encoding="utf-8-sig")

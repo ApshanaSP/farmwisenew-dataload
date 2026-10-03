@@ -53,6 +53,9 @@ def _sqlable(df: pd.DataFrame) -> pd.DataFrame:
         if pd.api.types.is_datetime64_any_dtype(s):
             out[c] = s.map(iso)
         elif s.dtype == object:
+            # plain text columns (most of them) need no conversion; infer_dtype checks that in C instead of per cell
+            if pd.api.types.infer_dtype(s, skipna=True) in ("string", "empty"):
+                continue
             out[c] = s.map(lambda v: json.dumps(v, ensure_ascii=False, default=str) if isinstance(v, (list, dict, set, tuple))
                            else iso(v) if isinstance(v, pd.Timestamp)
                            # numpy scalars in object columns: sqlite3 would store np.int64 as an 8-byte BLOB
@@ -62,7 +65,12 @@ def _sqlable(df: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
-def write_sqlite(path: Path, tables: dict[str, pd.DataFrame]) -> None:
+def prepare(tables: dict[str, pd.DataFrame]) -> dict[str, pd.DataFrame]:
+    """Convert every table once for both writers (SQLite and CSV used to convert each table twice)."""
+    return {name: None if df is None else _sqlable(df) for name, df in tables.items()}
+
+
+def write_sqlite(path: Path, tables: dict[str, pd.DataFrame], prepared: bool = False) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_suffix(".tmp.db")
     if tmp.exists():
@@ -72,7 +80,7 @@ def write_sqlite(path: Path, tables: dict[str, pd.DataFrame]) -> None:
         for name, df in tables.items():
             if df is None:
                 continue
-            _sqlable(df).to_sql(name, con, index=False, if_exists="replace", chunksize=2000)
+            (df if prepared else _sqlable(df)).to_sql(name, con, index=False, if_exists="replace", chunksize=2000)
             for col in INDEXES.get(name, []):
                 if col in df.columns:
                     con.execute(f'CREATE INDEX IF NOT EXISTS ix_{name}_{col} ON "{name}"("{col}")')
@@ -86,11 +94,11 @@ def write_sqlite(path: Path, tables: dict[str, pd.DataFrame]) -> None:
     log.info("sqlite: %s (%.1f MB, %d tables, %d views)", path, path.stat().st_size / 1e6, len(tables), len(VIEWS))
 
 
-def write_csv(dir_: Path, tables: dict[str, pd.DataFrame]) -> None:
+def write_csv(dir_: Path, tables: dict[str, pd.DataFrame], prepared: bool = False) -> None:
     dir_.mkdir(parents=True, exist_ok=True)
     for name, df in tables.items():
         if df is not None:
-            _sqlable(df).to_csv(dir_ / f"{name}.csv", index=False, encoding="utf-8-sig")
+            (df if prepared else _sqlable(df)).to_csv(dir_ / f"{name}.csv", index=False, encoding="utf-8-sig")
 
 
 def _j(v):

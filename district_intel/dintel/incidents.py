@@ -2,6 +2,8 @@
 SLA, priority (computed at as_of, with reasons) and attention flags."""
 from __future__ import annotations
 
+from collections import defaultdict
+
 import numpy as np
 import pandas as pd
 from scipy.spatial import cKDTree
@@ -32,7 +34,10 @@ def build(events: pd.DataFrame, timeline: pd.DataFrame, actions: pd.DataFrame, r
     inc["category_label"] = inc["category_code"].map(lambda c: ref.cat.get(c, ref.cat["OTHER"])["label"])
     inc["family"] = lead["category_family"]
     inc["lead_dept"] = lead["lead_dept"]
-    depts = g["lead_dept"].agg(lambda s: sorted({d for d in s if isinstance(d, str)}))
+    # per-incident sets in one pass over the rows (a Python function per group was most of this step's time)
+    ids = e["incident_id"].to_numpy()
+    dept_sets = _sets(ids, e["lead_dept"].to_numpy())
+    depts = [sorted(dept_sets.get(i, ())) for i in inc.index]
     support = inc["category_code"].map(lambda c: ref.cat.get(c, ref.cat["OTHER"]).get("support") or [])
     inc["depts_involved"] = [sorted(set(a) | {l}) for a, l in zip(depts, inc["lead_dept"])]
     inc["support_depts"] = ["|".join(s) for s in support]
@@ -53,11 +58,13 @@ def build(events: pd.DataFrame, timeline: pd.DataFrame, actions: pd.DataFrame, r
     e["_x"], e["_y"] = xy[:, 0], xy[:, 1]
     inc["spread_m"] = (np.hypot(g["_x"].max() - g["_x"].min(), g["_y"].max() - g["_y"].min())).round(0)
     inc["member_count"] = g.size()
-    inc["sources"] = g["source"].agg(lambda s: "|".join(sorted(set(s))))
+    src_sets = _sets(ids, e["source"].to_numpy(), keep=lambda v: True)
+    inc["sources"] = ["|".join(sorted(src_sets.get(i, ()))) for i in inc.index]
     inc["source_count"] = g["source"].nunique()
-    inc["channels"] = g["channel"].agg(lambda s: "|".join(sorted({c for c in s if isinstance(c, str)})))
-    inc["citizen_complaints"] = g["source"].agg(lambda s: int((s == "grievance").sum()))
-    inc["police_reports"] = g["source"].agg(lambda s: int((s == "police").sum()))
+    chan_sets = _sets(ids, e["channel"].to_numpy())
+    inc["channels"] = ["|".join(sorted(chan_sets.get(i, ()))) for i in inc.index]
+    inc["citizen_complaints"] = e["source"].eq("grievance").groupby(e["incident_id"]).sum().astype(int)
+    inc["police_reports"] = e["source"].eq("police").groupby(e["incident_id"]).sum().astype(int)
     inc["outlet_count"] = e[e["source"] == "news"].groupby("incident_id")["source_record_id"].nunique().reindex(inc.index).fillna(0).astype(int)
     inc["has_official_record"] = g["_official"].any().astype(int)
     inc["media_only"] = ((inc["has_official_record"] == 0) & (inc["outlet_count"] > 0)).astype(int)
@@ -74,7 +81,7 @@ def build(events: pd.DataFrame, timeline: pd.DataFrame, actions: pd.DataFrame, r
     # an incident is resolved only when every active official member is resolved
     unresolved = active[~active["status_std"].isin(["Resolved"])].groupby("incident_id").size()
     inc.loc[inc.index.isin(unresolved.index) & (inc["status_std"] == "Resolved"), "status_std"] = "In progress"
-    inc["verified"] = off.groupby("incident_id")["first_action_at"].apply(lambda s: int(s.notna().any())).reindex(inc.index).fillna(0).astype(int)
+    inc["verified"] = off["first_action_at"].notna().groupby(off["incident_id"]).any().astype(int).reindex(inc.index).fillna(0).astype(int)
     inc["verified_at"] = off.groupby("incident_id")["first_action_at"].min().reindex(inc.index)
     inc["closed_at"] = np.where(inc["status_std"].isin(["Resolved", "Rejected"]), g["closed_at"].max().reindex(inc.index), pd.NaT)
     inc["closed_at"] = pd.to_datetime(inc["closed_at"], utc=True).dt.tz_convert(IST)
@@ -90,7 +97,11 @@ def build(events: pd.DataFrame, timeline: pd.DataFrame, actions: pd.DataFrame, r
     inc["dead"] = g["dead"].max().fillna(0)
     inc["injured"] = g["injured"].max().fillna(0)
     inc["persons_affected"] = g["persons_affected"].max()
-    inc["vulnerable"] = g["vulnerable_flags"].agg(lambda s: "|".join(sorted({v for x in s if isinstance(x, str) for v in x.split("|") if v})))
+    vul_sets: dict = defaultdict(set)
+    for i, x in zip(ids, e["vulnerable_flags"].to_numpy()):
+        if isinstance(x, str):
+            vul_sets[i].update(v for v in x.split("|") if v)
+    inc["vulnerable"] = ["|".join(sorted(vul_sets.get(i, ()))) for i in inc.index]
     inc["weather_related"] = g["weather_related"].max().fillna(0).astype(int)
     inc["officer"] = lead["officer"]
     inc["reliability"] = g["source_reliability"].max()
@@ -177,7 +188,7 @@ def build(events: pd.DataFrame, timeline: pd.DataFrame, actions: pd.DataFrame, r
     news_led = lead["source"].reindex(inc.index) == "news"
     inc["title"] = [str(h)[:120] if nl else (f"{c} – {p}" if isinstance(p, str) and p else c)
                     for nl, h, c, p in zip(news_led, lead["title"].reindex(inc.index), inc["category_label"], inc["place_text"])]
-    srcs_lbl = e.groupby("incident_id")["channel"].agg(lambda s: ", ".join(sorted({CHANNEL_LABEL.get(c, str(c)) for c in s if isinstance(c, str)})))
+    srcs_lbl = pd.Series([", ".join(sorted({CHANNEL_LABEL.get(c, str(c)) for c in chan_sets.get(i, ())})) for i in inc.index], index=inc.index)
     inc["summary"] = [
         f"{int(n)} report{'s' if n > 1 else ''} ({sl}) about {lbl.lower()} at {p or 'an unresolved location'}"
         f"{f', Ward {int(w)}' if pd.notna(w) else ''}{f' ({zn})' if isinstance(zn, str) else ''}. "
@@ -216,6 +227,15 @@ def build(events: pd.DataFrame, timeline: pd.DataFrame, actions: pd.DataFrame, r
              len(inc), int(inc["is_open"].sum()), int((inc["source_count"] > 1).sum()), int(inc["attention_flag"].sum()),
              int(inc["awaiting_collector"].sum()))
     return {"incidents": inc, "members": members, "timeline": timeline_inc, "actions": act}
+
+
+def _sets(ids: np.ndarray, values: np.ndarray, keep=lambda v: isinstance(v, str)) -> dict:
+    """incident_id -> set of the values its rows carry (by default only text values, skipping blanks/NaN)."""
+    out: dict = defaultdict(set)
+    for i, v in zip(ids, values):
+        if keep(v):
+            out[i].add(v)
+    return out
 
 
 def _recurrence(inc: pd.DataFrame, ref: Reference) -> pd.Series:

@@ -70,7 +70,8 @@ Views: `v_open_incidents_live` (deadline re-checked against the wall clock),
 ## MySQL copy for the dashboard
 
 `python run_pipeline.py mysql` (or `build --mysql`, or `mysql.export_after_build: true`
-in `config.yaml`) copies the SQLite store into two databases on the local MySQL server:
+in `config.yaml`) copies the SQLite store into two databases on the local MySQL server.
+The automatic copy after each build is off: the website now reads the build from AWS.
 
 | Database | Owner | On each export |
 |---|---|---|
@@ -110,6 +111,17 @@ load (8 sources) -> classify -> locate -> overlay -> dedup -> link -> incidents
 
 Tuning lives in `config.yaml` and `reference/*.yaml` (categories carry their
 deadlines, link windows and radii, playbooks and news keywords).
+
+### What an hourly build reuses
+
+Work whose inputs do not change between builds is kept on disk. Delete a file to force a full rebuild of that part.
+
+| File | Holds | Rebuilt when |
+|---|---|---|
+| `output/cache/e5_small.npz` | multilingual-e5 vectors per news text | a text is new |
+| `output/cache/news_mentions.json` | gazetteer place mentions per article | an article is new, or the gazetteer's names, aliases or matcher code change |
+| `output/cache/news_gate.json` | the incident filter's cut-off and its cross-validated scores | first build of the day (IST), new hand labels, or a code change |
+| `output/models/category_model.pkl` | the category classifier | first build of the day (IST), a new category, or a code or scikit-learn change. Not in `output/cache`, which GitHub publishes, because it is trained on complaint text. |
 
 ## The scenario overlay
 

@@ -48,7 +48,10 @@ mysql:
   env_file: chennai-grievance-portal-main/.env
   database: district_intel            # replaced on every export
   ops_database: district_intel_ops    # the dashboard's own tables; only created if missing, never overwritten
-  export_after_build: true            # every build (including the scheduled refresh) also exports; a failed export retries next run
+  # Off since the website moved to AWS (DATA_BACKEND=aws): it reads the build from S3 (aws/export_intel.py), so the
+  # MySQL copy cost 1-2.5 min per hourly build for nothing. Turn on again only to run the MySQL version of the site;
+  # `python run_pipeline.py mysql` still copies one build by hand.
+  export_after_build: false
 
 pipeline:
   # "auto" = the newest record time across sources (keeps a frozen snapshot stable).

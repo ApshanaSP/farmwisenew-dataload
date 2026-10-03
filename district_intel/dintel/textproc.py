@@ -158,18 +158,16 @@ def normalize(text: Any) -> str:
     return re.sub(r"\s+", " ", s).strip()
 
 
+_BIT = np.arange(64, dtype=np.uint64)
+
+
 def simhash64(text: Any) -> str:
     toks = normalize(text).split()
     shingles = [" ".join(toks[i:i + 3]) for i in range(max(1, len(toks) - 2))] if toks else [""]
-    v = np.zeros(64)
-    for sh in shingles:
-        h = int.from_bytes(hashlib.md5(sh.encode("utf-8")).digest()[:8], "big")
-        bits = np.array([(h >> i) & 1 for i in range(64)])
-        v += np.where(bits == 1, 1, -1)
-    out = 0
-    for i in range(64):
-        if v[i] > 0:
-            out |= 1 << i
+    # all shingles' bits at once (one array op instead of a 64-step Python loop per shingle; same result)
+    h = np.array([int.from_bytes(hashlib.md5(sh.encode("utf-8")).digest()[:8], "big") for sh in shingles], dtype=np.uint64)
+    votes = (((h[:, None] >> _BIT) & np.uint64(1)).astype(np.int64) * 2 - 1).sum(axis=0)
+    out = int(np.bitwise_or.reduce(np.left_shift(np.uint64(1), _BIT[votes > 0]), initial=np.uint64(0)))
     return f"{out:016x}"
 
 

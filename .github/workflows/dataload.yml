@@ -1,5 +1,5 @@
-# Every hour, on GitHub's machine instead of the PC: collect all 8 sources, rebuild the district_intel store and
-# upload it to AWS. The website (DATA_BACKEND=aws) picks up the new build within 5 minutes.
+# Every hour, on GitHub's machine instead of the PC: collect 7 of the 8 sources (CPCB stays on the PC: GitHub cannot
+# reach it), rebuild the district_intel store and upload it to AWS. The website (DATA_BACKEND=aws) picks up the new build within 5 minutes.
 #
 # Needs one repository secret: REFRESH_API_KEY (the team API key; it never expires, and no AWS keys are used).
 # Between runs, the collectors' history lives in the `state` release (ci/state.py); the first run starts from the
@@ -102,7 +102,10 @@ jobs:
           # the PC's config, with Linux's npm and no MySQL export
           sed -e 's/npm\.cmd/npm/' -e 's/export_after_build: true/export_after_build: false/' \
             district_intel/config.yaml > district_intel/config.ci.yaml
-          bash ci/run.sh "Collection and build" python district_intel/run_pipeline.py refresh --all --config district_intel/config.ci.yaml
+          # CPCB is left to the PC: GitHub's machines cannot connect to airquality.cpcb.gov.in (checked on run 4), so
+          # here it only burned three timed-out tries every hour. The PC collects it and sends it with aws/push.py cpcb.
+          bash ci/run.sh "Collection and build" python district_intel/run_pipeline.py refresh --all \
+            --only news,imd,cfm,hospital,pwd,grievance,police --config district_intel/config.ci.yaml
           python - <<'EOF'
           import json
           st = json.load(open("district_intel/output/state/refresh_state.json"))
@@ -112,16 +115,10 @@ jobs:
               print(f"::warning::{name} failed this run (retried next hour): " + st[name]["tail"].strip().splitlines()[-1][:200])
           EOF
 
-      - name: Can this machine reach CPCB?
-        continue-on-error: true
-        run: |
-          r=$(curl -s -o /dev/null -m 60 -w "HTTP %{http_code} in %{time_total}s" https://airquality.cpcb.gov.in/ccr/ || echo "no connection")
-          echo "::notice title=CPCB reachability::airquality.cpcb.gov.in/ccr/ -> $r"
-
       - name: Upload to AWS
         run: |
           bash ci/run.sh "Store upload" python aws/export_intel.py
-          bash ci/run.sh "CPCB and police upload" python aws/push.py cpcb police
+          bash ci/run.sh "Police upload" python aws/push.py police
 
       - name: Save the collectors' history
         if: always() && env.STATE_OK == '1'

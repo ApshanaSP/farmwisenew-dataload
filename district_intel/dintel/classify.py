@@ -7,6 +7,10 @@ Used for grievances typed "Other" and for news articles the keyword rules could 
 """
 from __future__ import annotations
 
+import hashlib
+import pickle
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -15,7 +19,11 @@ from sklearn.metrics import f1_score
 from sklearn.model_selection import train_test_split
 
 from . import textproc as tp
-from .util import log
+from .util import INTEL_DIR, IST, log
+
+# Not in district_intel/output/cache: GitHub publishes that folder in its public `state` release, and this model's
+# character n-grams come from citizens' complaint text.
+MODEL_FILE = INTEL_DIR / "output" / "models" / "category_model.pkl"
 
 
 class CategoryModel:
@@ -56,6 +64,35 @@ class CategoryModel:
         P = self.clf.predict_proba(self.vec.transform(texts.fillna("").map(tp.normalize)))
         best = P.argmax(axis=1)
         return self.clf.classes_[best], P[np.arange(len(best)), best]
+
+
+def daily_model(events: pd.DataFrame, path: Path | None = None) -> CategoryModel:
+    """The category model, trained once a day and reused by that day's hourly builds.
+
+    Training took about a minute of every hourly build, while its training data (180 days of departmental records)
+    barely moves within a day. A new model is trained on the first build of each day (IST), or sooner when the code,
+    the library version or the set of categories changes.
+    """
+    path = path or MODEL_FILE
+    cats = sorted(events.loc[events["category_code"].notna(), "category_code"].astype(str).unique())
+    import sklearn
+    key = hashlib.sha1("|".join([pd.Timestamp.now(tz=IST).strftime("%Y-%m-%d"), sklearn.__version__,
+                                 hashlib.sha1(Path(__file__).read_bytes()).hexdigest(), *cats]).encode()).hexdigest()
+    try:
+        with open(path, "rb") as fh:
+            saved = pickle.load(fh)  # our own file, written below
+        if saved.get("key") == key:
+            log.info("category model: today's model reused (trained %s); %s", saved["trained_at"], saved["model"].metrics)
+            return saved["model"]
+    except (OSError, pickle.UnpicklingError, EOFError, AttributeError, KeyError):
+        pass
+    model = CategoryModel().fit(events)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(".tmp")
+    with open(tmp, "wb") as fh:
+        pickle.dump({"key": key, "trained_at": str(pd.Timestamp.now(tz=IST).floor("s")), "model": model}, fh, protocol=pickle.HIGHEST_PROTOCOL)
+    tmp.replace(path)
+    return model
 
 
 def apply(events: pd.DataFrame, docs: pd.DataFrame, model: CategoryModel, min_conf: float = 0.45) -> None:

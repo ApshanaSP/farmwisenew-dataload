@@ -56,6 +56,19 @@ def api(path: str, body: dict, key: str) -> dict:
         sys.exit(f"{path}: HTTP {e.code} {e.read().decode()[:300]}")
 
 
+def live_built_at(key: str) -> str:
+    """When the build AWS serves now was made ("" if none). The GitHub job publishes too, so an older build is kept back."""
+    req = urllib.request.Request(f"{API_URL}/intel/snapshot", data=b"{}", method="POST",
+                                 headers={"x-refresh-key": key, "content-type": "application/json"})
+    try:
+        with urllib.request.urlopen(req, timeout=60) as r:
+            return json.loads(r.read()).get("built_at", "")
+    except urllib.error.HTTPError as e:
+        if e.code == 404:  # nothing published yet
+            return ""
+        sys.exit(f"/intel/snapshot: HTTP {e.code} {e.read().decode()[:300]}")
+
+
 def snapshot(name: str, df, declared: dict) -> bytes:
     plan = plan_table(df, name, declared)
     rows = [[v.strftime("%Y-%m-%d %H:%M:%S") if isinstance(v, datetime) else v for v in r] for r in convert(df, plan)]
@@ -72,6 +85,11 @@ def main() -> int:
     db = INTEL / "output" / "district_intel.db"
     if not db.exists():
         sys.exit(f"{db} not found: run `python run_pipeline.py build` in district_intel first")
+    built = datetime.fromtimestamp(db.stat().st_mtime).strftime("%Y-%m-%d %H:%M:%S")
+    live = live_built_at(key)
+    if live >= built and "--force" not in sys.argv:
+        print(f"skipped: AWS already serves a build from {live} (this one is from {built}); --force sends it anyway")
+        return 0
     t0 = time.time()
     tables, declared = read_store(db, INTEL / "output" / "dashboard")
     blobs = {n: snapshot(n, df, declared.get(n, {})) for n, df in tables.items() if n not in SKIP_TABLES}
@@ -86,7 +104,6 @@ def main() -> int:
                 sys.exit(f"upload of {n} failed: HTTP {r.status}")
         sent += len(blobs[n])
 
-    built = datetime.fromtimestamp(db.stat().st_mtime).strftime("%Y-%m-%d %H:%M:%S")
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     manifest = {"build_id": f"{built}|{hashlib.sha256(''.join(sorted(shas.values())).encode()).hexdigest()[:12]}",
                 "built_at": built, "exported_at": now,

@@ -51,13 +51,19 @@ def _candidates(e: pd.DataFrame, ref: Reference) -> pd.DataFrame:
         fine = prec[idx] <= 300
         pairs = tree.query_pairs(rmax + 600, output_type="ndarray")
         if len(fine) and (~fine).any():
-            extra = []
-            for k in np.where(~fine)[0]:
-                for m in tree.query_ball_point(xy[idx[k]], rmax + prec[idx[k]] + 300):
-                    if m != k:
-                        extra.append((min(k, m), max(k, m)))
-            if extra:
-                pairs = np.unique(np.vstack([pairs.reshape(-1, 2), np.array(extra)]), axis=0)
+            # points with coarse locations get a wider search: all of them in one KD-tree call, and the pairs are
+            # de-duplicated as one integer key per pair (sorting rows with np.unique(axis=0) was the slow part)
+            coarse = np.where(~fine)[0]
+            hits = tree.query_ball_point(xy[idx[coarse]], rmax + prec[idx[coarse]] + 300)
+            k = np.repeat(coarse, [len(h) for h in hits])
+            m = np.fromiter((j for h in hits for j in h), dtype=np.int64, count=len(k))
+            keep = k != m
+            lo, hi = np.minimum(k[keep], m[keep]), np.maximum(k[keep], m[keep])
+            if len(lo):
+                n = len(idx)
+                p0 = pairs.reshape(-1, 2).astype(np.int64)
+                key = np.unique(np.concatenate([p0[:, 0] * n + p0[:, 1], lo * n + hi]))
+                pairs = np.column_stack([key // n, key % n])
         if not len(pairs):
             continue
         a, b = idx[pairs[:, 0]], idx[pairs[:, 1]]

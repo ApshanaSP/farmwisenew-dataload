@@ -1,6 +1,6 @@
 # farmwisenew-dataload
 
-The District IQ data job, moved off the PC. Every hour GitHub Actions collects all eight Chennai sources, rebuilds
+The District IQ data job, moved off the PC. Every hour GitHub Actions collects seven of the eight Chennai sources, rebuilds
 the `district_intel` store and uploads it to AWS. The website (running with `DATA_BACKEND=aws`) loads each new build
 within 5 minutes, so the dashboard stays current with the PC switched off.
 
@@ -13,10 +13,11 @@ within 5 minutes, so the dashboard stays current with the PC switched off.
    AWS (`ci/seed_mysql.py`): the reference tables (zones, wards, streets, complaint types) and the website's complaints,
    including ones citizens filed today. No users or passwords are loaded.
 3. **Collect and build**: `district_intel/run_pipeline.py refresh --all`. The same collectors and generators the PC
-   ran, with their own command lines, unchanged: news, IMD, CPCB (headless Chromium), CFM-DSS, hospital, PWD,
-   grievances, police; then the build (multilingual-e5-small on CPU).
-4. **Upload**: `aws/export_intel.py` (the store to S3) and `aws/push.py cpcb police` (DynamoDB), through the team
-   API with `REFRESH_API_KEY`. No AWS keys.
+   ran, with their own command lines, unchanged: news, IMD, CFM-DSS (headless Chromium), hospital, PWD, grievances,
+   police; then the build (multilingual-e5-small on CPU). CPCB is skipped here: GitHub's machines cannot connect to
+   airquality.cpcb.gov.in, so the PC collects it and sends it (`aws/push.py cpcb`).
+4. **Upload**: `aws/export_intel.py` (the store to S3, skipped when AWS already serves a newer build) and
+   `aws/push.py police` (DynamoDB), through the team API with `REFRESH_API_KEY`. No AWS keys.
 5. **Save history**: packs the updated state back into the `state` release for the next hour.
 
 A source that fails (a site timing out) is logged as a warning and retried the next hour; the rest still upload.

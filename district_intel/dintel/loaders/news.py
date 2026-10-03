@@ -6,10 +6,12 @@ extended with police and PWD localities. Nothing in the news pipeline is modifie
 """
 from __future__ import annotations
 
+import hashlib
 import importlib.util
 import json
 import re
 from collections import Counter
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -24,7 +26,7 @@ from .. import severity as sev
 from .. import textproc as tp
 from ..refdata import Reference
 from ..schema import DOC_COLUMNS, EVENT_COLUMNS, conform
-from ..util import REF_DIR, Settings, UnionFind, log, mixed_to_ist, sha256_file
+from ..util import INTEL_DIR, IST, REF_DIR, Settings, UnionFind, log, mixed_to_ist, sha256_file
 
 NON_INCIDENT_TYPES = ["service_notice", "announcement", "court", "politics", "entertainment_sport", "business"]
 
@@ -96,7 +98,55 @@ def build_gazetteer(settings: Settings, extra_places: pd.DataFrame):
         known.add(key)
         add({"name": r.name, "latitude": r.lat, "longitude": r.lon, "aliases_en": [r.name],
              "requires_context": r.name.lower() in ambiguous}, rf.CATEGORY_LOCALITY)
-    return rf, rf.Gazetteer(entries)
+    return rf, rf.Gazetteer(entries), entries
+
+
+MENTION_CACHE = INTEL_DIR / "output" / "cache" / "news_mentions.json"
+
+
+class MentionCache:
+    """The gazetteer's place mentions per article text, kept between builds.
+
+    Matching every alias pattern against every article was ~40 s of each build, yet an article's text never changes.
+    A mention is stored as (gazetteer entry number, start, end, matched text) and rebuilt on this build's own Place
+    objects, so coordinates always come from the current gazetteer. The cache is dropped whenever the names, aliases
+    or the matcher's code change (the signature), and keeps only the articles of the current build.
+    """
+
+    def __init__(self, rf, gaz, entries, path: Path | None = None) -> None:
+        self.rf, self.gaz, self.entries, self.path = rf, gaz, entries, path or MENTION_CACHE
+        sig = hashlib.sha1(Path(rf.__file__).read_bytes())
+        for pl, aliases, suffixes in entries:
+            sig.update(json.dumps([pl.name, pl.category, pl.requires_context, aliases, suffixes], ensure_ascii=False).encode("utf-8"))
+        self.sig = sig.hexdigest()
+        self.index = {id(pl): k for k, (pl, _, _) in enumerate(entries)}
+        self.old: dict = {}
+        try:
+            saved = json.loads(self.path.read_text(encoding="utf-8"))
+            if saved.get("signature") == self.sig:
+                self.old = saved["mentions"]
+        except (OSError, ValueError, KeyError):
+            pass
+        self.new: dict = {}
+        self.hits = self.calls = 0
+
+    def find(self, text: str) -> list:
+        self.calls += 1
+        key = hashlib.sha1(text.encode("utf-8")).hexdigest()
+        rows = self.old.get(key)
+        if rows is None:
+            rows = [[self.index[id(m.place)], m.start, m.end, m.matched_text] for m in self.gaz.find_mentions(text)]
+        else:
+            self.hits += 1
+        self.new[key] = rows
+        return [self.rf.Mention(self.entries[k][0], s, e, mt) for k, s, e, mt in rows]
+
+    def save(self) -> None:
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        tmp = self.path.with_suffix(".tmp")
+        tmp.write_text(json.dumps({"signature": self.sig, "mentions": self.new}, ensure_ascii=False), encoding="utf-8")
+        tmp.replace(self.path)
+        log.info("news places: %d of %d articles from the cache", self.hits, self.calls)
 
 
 def _publisher_names(n: pd.DataFrame, ref: Reference) -> dict[str, tuple[str, str, float]]:
@@ -235,7 +285,17 @@ def load(settings: Settings, ref: Reference, extra_places: pd.DataFrame) -> dict
         return LogisticRegression(max_iter=3000, C=2.0, class_weight="balanced").fit(X[idx], y, sample_weight=sw)
 
     thr = 0.5
-    if len(gidx) >= 50:
+    # the cut-off is chosen by 5-fold cross-validation on the hand labels (6 extra model fits); that is done once a day and
+    # reused by the day's hourly builds, which then fit only the final model
+    gate_key = hashlib.sha1("|".join([pd.Timestamp.now(tz=IST).strftime("%Y-%m-%d"), str(E is not None),
+                                      hashlib.sha1(Path(__file__).read_bytes()).hexdigest(),
+                                      gold.reset_index().to_json(orient="values")]).encode()).hexdigest()
+    saved = _gate_cache(gate_key) if len(gidx) >= 50 else None
+    if saved:
+        thr, gate_eval = saved["threshold"], saved["eval"]
+        log.info("news: today's incident-filter cut-off reused (%.3f, chosen %s)", thr, saved["chosen_at"])
+        model = fit(gidx, gy)
+    elif len(gidx) >= 50:
         cv_weak, cv_mix = np.zeros(len(gidx)), np.zeros(len(gidx))
         base = fit(np.array([], int), np.array([], int))
         for tr, te in StratifiedKFold(5, shuffle=True, random_state=3).split(gidx, gy):
@@ -249,6 +309,7 @@ def load(settings: Settings, ref: Reference, extra_places: pd.DataFrame) -> dict
                      "weak_labels_only": {**best_w[1], "threshold": float(round(best_w[0], 3))},
                      "weak_plus_hand_labels_cv": best[1],
                      "features": "char n-grams" + (" + multilingual-e5 embeddings" if E is not None else "")}
+        _gate_cache(gate_key, {"threshold": thr, "eval": gate_eval, "chosen_at": str(pd.Timestamp.now(tz=IST).floor("s"))})
         model = fit(gidx, gy)
     else:
         model = fit(np.array([], int), np.array([], int))
@@ -286,11 +347,12 @@ def load(settings: Settings, ref: Reference, extra_places: pd.DataFrame) -> dict
     d["dept_src"] = d["department"].map(ref.cmap["news_department"])
 
     # ---- 8. places (most specific first-mentioned), casualties
-    rf, gaz = build_gazetteer(settings, extra_places)
+    rf, gaz, entries = build_gazetteer(settings, extra_places)
+    mentions = MentionCache(rf, gaz, entries)
     order = {"locality": 0, "zone": 1, "taluk": 2, "district": 3}
     places, ptxt, lat, lon, level, conf = [], [], [], [], [], []
     for t in text:
-        ms = gaz.find_mentions(t)
+        ms = mentions.find(t)
         named = [m for m in ms if m.place.category != "district"]
         has_anchor = any(not m.place.requires_context for m in ms)
         named = [m for m in named if not m.place.requires_context or has_anchor]
@@ -302,6 +364,7 @@ def load(settings: Settings, ref: Reference, extra_places: pd.DataFrame) -> dict
         else:
             ptxt.append("Chennai"); lat.append(13.0827); lon.append(80.2707); level.append("district"); conf.append(GEO_CONF["district"])
     d["places"], d["place_text"], d["lat"], d["lon"], d["geo_level"], d["geo_conf"] = places, ptxt, lat, lon, level, conf
+    mentions.save()
     cas = [tp.casualties(t) for t in text]
     d["dead"] = [c[0] for c in cas]
     d["injured"] = [c[1] for c in cas]
@@ -319,6 +382,22 @@ def load(settings: Settings, ref: Reference, extra_places: pd.DataFrame) -> dict
     d["source_kind"] = "news"
     d["_text"] = text
     return {"documents": d, "raw_rows": raw_rows, "unique_urls": unique_urls, "snapshot": snap, "gate_eval": gate_eval}
+
+
+GATE_CACHE = INTEL_DIR / "output" / "cache" / "news_gate.json"
+
+
+def _gate_cache(key: str, value: dict | None = None) -> dict | None:
+    """Read (value None) or write today's incident-filter cut-off and its cross-validated scores."""
+    if value is None:
+        try:
+            saved = json.loads(GATE_CACHE.read_text(encoding="utf-8"))
+            return saved if saved.get("key") == key else None
+        except (OSError, ValueError):
+            return None
+    GATE_CACHE.parent.mkdir(parents=True, exist_ok=True)
+    GATE_CACHE.write_text(json.dumps({"key": key, **value}, ensure_ascii=False, default=float), encoding="utf-8")
+    return value
 
 
 def _gold(d: pd.DataFrame) -> pd.DataFrame:
