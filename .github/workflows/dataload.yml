@@ -86,7 +86,7 @@ jobs:
           if gh release download state --pattern state.tar.gz --clobber; then
             python ci/state.py unpack state.tar.gz
           elif git fetch --depth 1 origin seed 2>/dev/null; then
-            git show origin/seed:state.tar.gz > state.tar.gz
+            git show FETCH_HEAD:state.tar.gz > state.tar.gz
             python ci/state.py unpack state.tar.gz
             echo "first run: started from the seed branch"
           else
