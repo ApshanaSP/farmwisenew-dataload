@@ -1,0 +1,11 @@
+pandas>=2.2
+numpy>=1.26
+scipy>=1.11
+scikit-learn>=1.4
+matplotlib>=3.8      # matplotlib.path for point-in-polygon (no GEOS needed)
+PyYAML>=6.0
+sentence-transformers>=3.0   # multilingual-e5-small (about 470 MB, downloaded once) for news stories and the incident filter
+truststore>=0.9      # verify HTTPS with the OS certificate store (antivirus / proxy TLS inspection)
+openai>=1.40         # optional: only used when llm.enabled is true and OPENAI_API_KEY is set
+pytest>=8.0
+PyMySQL>=1.1          # MySQL export (python run_pipeline.py mysql)

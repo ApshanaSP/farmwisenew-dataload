@@ -1,0 +1,1441 @@
+{
+  "source": "https://erp.chennaicorporation.gov.in/pgr/citizen/BeforeReg.do",
+  "sourceDescription": "GCC Public Grievance Redressal - 'Register Complaint' page complaint-type selects",
+  "fetchedAt": "2026-09-23T14:50:02.778Z",
+  "categoryCount": 17,
+  "subcomplaintCount": 327,
+  "frequent": [
+    {
+      "gccId": 97,
+      "label": "Removal of Garbage"
+    },
+    {
+      "gccId": 112,
+      "label": "Pot hole fill up / Repairs to the damaged surface"
+    },
+    {
+      "gccId": 119,
+      "label": "Street Dogs"
+    },
+    {
+      "gccId": 138,
+      "label": "Stagnation of Water"
+    },
+    {
+      "gccId": 146,
+      "label": "Non burning of Street lights"
+    }
+  ],
+  "categories": [
+    {
+      "sortOrder": 0,
+      "category": "Street Light",
+      "subcomplaints": [
+        {
+          "gccId": 200,
+          "label": "Burning of street light in daytime"
+        },
+        {
+          "gccId": 148,
+          "label": "Damage to the Electric pole"
+        },
+        {
+          "gccId": 147,
+          "label": "Electric shock due to street light"
+        },
+        {
+          "gccId": 447,
+          "label": "Inadequate light in a particular location or spot/ dark spots"
+        },
+        {
+          "gccId": 149,
+          "label": "New Street lights"
+        },
+        {
+          "gccId": 146,
+          "label": "Non burning of Street lights"
+        },
+        {
+          "gccId": 151,
+          "label": "Overhead cable wires running in a haphazard manner"
+        },
+        {
+          "gccId": 150,
+          "label": "Shifting of Street light pole"
+        }
+      ]
+    },
+    {
+      "sortOrder": 1,
+      "category": "Park and Playground",
+      "subcomplaints": [
+        {
+          "gccId": 426,
+          "label": "Cleanliness in Parks"
+        },
+        {
+          "gccId": 155,
+          "label": "Complaints regarding Centre Median"
+        },
+        {
+          "gccId": 153,
+          "label": "Complaints regarding Park"
+        },
+        {
+          "gccId": 154,
+          "label": "Complaints regarding Playground"
+        },
+        {
+          "gccId": 156,
+          "label": "Complaints regarding Traffic Island"
+        },
+        {
+          "gccId": 427,
+          "label": "Greenary in Parks"
+        },
+        {
+          "gccId": 431,
+          "label": "Non functional lights/ no lights in parks"
+        },
+        {
+          "gccId": 158,
+          "label": "Obstruction of Trees"
+        },
+        {
+          "gccId": 429,
+          "label": "Opening and closing hours"
+        },
+        {
+          "gccId": 428,
+          "label": "Play Equipment"
+        },
+        {
+          "gccId": 152,
+          "label": "Removal of Fallen Trees"
+        },
+        {
+          "gccId": 432,
+          "label": "Safety in parks/playgrounds"
+        },
+        {
+          "gccId": 430,
+          "label": "Toilets in parks"
+        },
+        {
+          "gccId": 454,
+          "label": "Tree Pruning"
+        },
+        {
+          "gccId": 157,
+          "label": "Unauthorized Tree Cutting"
+        },
+        {
+          "gccId": 433,
+          "label": "Women related safety issues in parks"
+        }
+      ]
+    },
+    {
+      "sortOrder": 2,
+      "category": "Public Toilet",
+      "subcomplaints": [
+        {
+          "gccId": 434,
+          "label": "Availability or cleanliness of dustbins in public toilets"
+        },
+        {
+          "gccId": 436,
+          "label": "Broken sinks, toilets or urinals and doors"
+        },
+        {
+          "gccId": 435,
+          "label": "Cleanliness/ water supply in toilets"
+        },
+        {
+          "gccId": 162,
+          "label": "Complaints regarding Cleanliness of Toilets in Shopping Complex"
+        },
+        {
+          "gccId": 161,
+          "label": "Complaints regarding Cleanliness of Toilets in Theatre"
+        },
+        {
+          "gccId": 160,
+          "label": "Complaints regarding Free Usage of Public Toilets"
+        },
+        {
+          "gccId": 159,
+          "label": "Complaints regarding Public Toilets"
+        },
+        {
+          "gccId": 438,
+          "label": "Illegal activities in toilet"
+        },
+        {
+          "gccId": 440,
+          "label": "Inadequate lighting in and around the toilet"
+        },
+        {
+          "gccId": 437,
+          "label": "Request for new toilet"
+        },
+        {
+          "gccId": 441,
+          "label": "Safety in public toilets"
+        },
+        {
+          "gccId": 439,
+          "label": "Toilets not in use/ closed"
+        }
+      ]
+    },
+    {
+      "sortOrder": 3,
+      "category": "Building Plan Permission",
+      "subcomplaints": [
+        {
+          "gccId": 163,
+          "label": "Building Plan Sanction"
+        },
+        {
+          "gccId": 165,
+          "label": "Unauthorized / Illegal Construction"
+        },
+        {
+          "gccId": 164,
+          "label": "Violation of DCR/Building By laws"
+        }
+      ]
+    },
+    {
+      "sortOrder": 4,
+      "category": "Tax and Licence",
+      "subcomplaints": [
+        {
+          "gccId": 167,
+          "label": "Complaints related to Professional Tax"
+        },
+        {
+          "gccId": 166,
+          "label": "Complaints related to Property Tax"
+        },
+        {
+          "gccId": 168,
+          "label": "Complaints related to Trade Licence"
+        },
+        {
+          "gccId": 231,
+          "label": "General Revision Objection"
+        },
+        {
+          "gccId": 230,
+          "label": "Online Payment Issue"
+        }
+      ]
+    },
+    {
+      "sortOrder": 5,
+      "category": "Voter ID",
+      "subcomplaints": [
+        {
+          "gccId": 175,
+          "label": "Change of Address in Electoral Roll"
+        },
+        {
+          "gccId": 178,
+          "label": "Complaints regarding Voter List"
+        },
+        {
+          "gccId": 177,
+          "label": "Inclusion, Deletion, Correction in Voter List"
+        },
+        {
+          "gccId": 176,
+          "label": "Issue of Voter ID"
+        },
+        {
+          "gccId": 174,
+          "label": "Name Error (Spelling Related)"
+        },
+        {
+          "gccId": 179,
+          "label": "Name not found in the Electoral Roll"
+        }
+      ]
+    },
+    {
+      "sortOrder": 6,
+      "category": "Garbage",
+      "subcomplaints": [
+        {
+          "gccId": 101,
+          "label": "Absenteeism of Door to door garbage Collector"
+        },
+        {
+          "gccId": 100,
+          "label": "Absenteeism of Sweepers"
+        },
+        {
+          "gccId": 104,
+          "label": "Broken Bin"
+        },
+        {
+          "gccId": 108,
+          "label": "Burning of Garbage"
+        },
+        {
+          "gccId": 111,
+          "label": "Burning of Garbage at Dumping Ground"
+        },
+        {
+          "gccId": 106,
+          "label": "Cleaning of Water Table"
+        },
+        {
+          "gccId": 109,
+          "label": "Garbage Lorry without Net"
+        },
+        {
+          "gccId": 102,
+          "label": "Improper Sweeping"
+        },
+        {
+          "gccId": 107,
+          "label": "Nuisance by Garbage Tractor/Truck"
+        },
+        {
+          "gccId": 98,
+          "label": "Overflowing of Garbage Bin"
+        },
+        {
+          "gccId": 103,
+          "label": "Provison of Garbage Bin"
+        },
+        {
+          "gccId": 99,
+          "label": "Removal of Debris"
+        },
+        {
+          "gccId": 97,
+          "label": "Removal of Garbage"
+        },
+        {
+          "gccId": 105,
+          "label": "Shifting of Garbage Bin"
+        },
+        {
+          "gccId": 110,
+          "label": "Spilling of Garbage from Lorry"
+        }
+      ]
+    },
+    {
+      "sortOrder": 7,
+      "category": "General",
+      "subcomplaints": [
+        {
+          "gccId": 182,
+          "label": "Complaints related to Schools"
+        },
+        {
+          "gccId": 188,
+          "label": "Complaints regarding Bridges / Flyovers / Subways"
+        },
+        {
+          "gccId": 191,
+          "label": "Complaints regarding Burial Ground"
+        },
+        {
+          "gccId": 190,
+          "label": "Complaints regarding Community Hall"
+        },
+        {
+          "gccId": 192,
+          "label": "Complaints regarding any other CoC building"
+        },
+        {
+          "gccId": 189,
+          "label": "Complaints related Shopping Complex"
+        },
+        {
+          "gccId": 184,
+          "label": "Complaints related to issue of all types of Registration Certificate"
+        },
+        {
+          "gccId": 181,
+          "label": "Encroachment on the Public Property"
+        },
+        {
+          "gccId": 226,
+          "label": "Food Requirement"
+        },
+        {
+          "gccId": 180,
+          "label": "Issue of Birth and Death Certificate"
+        },
+        {
+          "gccId": 193,
+          "label": "Parking Issue"
+        },
+        {
+          "gccId": 186,
+          "label": "Poor Quality of Work"
+        },
+        {
+          "gccId": 227,
+          "label": "Relief Center Requirement"
+        },
+        {
+          "gccId": 185,
+          "label": "Slow Progress of Work"
+        },
+        {
+          "gccId": 187,
+          "label": "Unauthorized Advertisement Boards"
+        }
+      ]
+    },
+    {
+      "sortOrder": 8,
+      "category": "Public Health",
+      "subcomplaints": [
+        {
+          "gccId": 135,
+          "label": "Biomedical waste / Health hazard waste removal"
+        },
+        {
+          "gccId": 195,
+          "label": "Complaints Regarding Plastics"
+        },
+        {
+          "gccId": 137,
+          "label": "Complaints regarding CDH"
+        },
+        {
+          "gccId": 136,
+          "label": "Complaints regarding Corporation Hospitals"
+        },
+        {
+          "gccId": 204,
+          "label": "Complaints regarding laboratory issues"
+        },
+        {
+          "gccId": 202,
+          "label": "Complaints regarding non availability of Doctors"
+        },
+        {
+          "gccId": 203,
+          "label": "Complaints regarding non availability of medicines"
+        },
+        {
+          "gccId": 129,
+          "label": "Complaints regarding quality of food in hotels"
+        },
+        {
+          "gccId": 128,
+          "label": "Complaints regarding unhygenic Restaurants"
+        },
+        {
+          "gccId": 122,
+          "label": "Death of Stray Animals"
+        },
+        {
+          "gccId": 125,
+          "label": "Flies Menace from Dumping Ground"
+        },
+        {
+          "gccId": 127,
+          "label": "Illegal Draining of Sewage to SWD / Open Site"
+        },
+        {
+          "gccId": 133,
+          "label": "Illegal Slaughtering"
+        },
+        {
+          "gccId": 206,
+          "label": "Issues regarding Amma nutrition kit for pregnant woman"
+        },
+        {
+          "gccId": 207,
+          "label": "Issues regarding Muthulakshmi Reddy Maternity Benefit Scheme (MRMBS)"
+        },
+        {
+          "gccId": 205,
+          "label": "Issues regarding amma baby care kits (After Delivery)"
+        },
+        {
+          "gccId": 208,
+          "label": "Issues regarding janani suraksha yojana scheme (JSY)"
+        },
+        {
+          "gccId": 118,
+          "label": "Mosquito Menace"
+        },
+        {
+          "gccId": 196,
+          "label": "No electricity in public toilet"
+        },
+        {
+          "gccId": 197,
+          "label": "No water supply in public toilet"
+        },
+        {
+          "gccId": 126,
+          "label": "Open Defecation"
+        },
+        {
+          "gccId": 123,
+          "label": "Public Health / Dengue / Malaria / Gastro Enteritis"
+        },
+        {
+          "gccId": 198,
+          "label": "Public toilet blockage"
+        },
+        {
+          "gccId": 199,
+          "label": "Public toilet cleaning"
+        },
+        {
+          "gccId": 130,
+          "label": "Road Side Eateries"
+        },
+        {
+          "gccId": 131,
+          "label": "Slaughter House related complaints"
+        },
+        {
+          "gccId": 120,
+          "label": "Stray Cattle"
+        },
+        {
+          "gccId": 121,
+          "label": "Stray Pigs"
+        },
+        {
+          "gccId": 119,
+          "label": "Street Dogs"
+        },
+        {
+          "gccId": 124,
+          "label": "Transfer Station Smell"
+        },
+        {
+          "gccId": 132,
+          "label": "Unauthorized Sale of Meat and Meat products"
+        },
+        {
+          "gccId": 134,
+          "label": "Unhygenic and Improper Transport of Meat and Livestock"
+        }
+      ]
+    },
+    {
+      "sortOrder": 9,
+      "category": "Road and Footpath",
+      "subcomplaints": [
+        {
+          "gccId": 442,
+          "label": "Cleanliness in footpath"
+        },
+        {
+          "gccId": 443,
+          "label": "Electrical wires/obstruction on footpath"
+        },
+        {
+          "gccId": 114,
+          "label": "Formation of New Road"
+        },
+        {
+          "gccId": 201,
+          "label": "Illegal Parking on foot path"
+        },
+        {
+          "gccId": 222,
+          "label": "Milling/Scraping of Road before Relaying of Road"
+        },
+        {
+          "gccId": 112,
+          "label": "Pot hole fill up / Repairs to the damaged surface"
+        },
+        {
+          "gccId": 445,
+          "label": "Public defecation/urination"
+        },
+        {
+          "gccId": 113,
+          "label": "Relaying of Road"
+        },
+        {
+          "gccId": 117,
+          "label": "Removal of Shops in the Footpath"
+        },
+        {
+          "gccId": 115,
+          "label": "Repairs to existing Footpath"
+        },
+        {
+          "gccId": 116,
+          "label": "Request to provide Footpath"
+        },
+        {
+          "gccId": 444,
+          "label": "Unsafe dark spots/ corners"
+        },
+        {
+          "gccId": 446,
+          "label": "Women related safety issues"
+        }
+      ]
+    },
+    {
+      "sortOrder": 10,
+      "category": "Water Stagnation",
+      "subcomplaints": [
+        {
+          "gccId": 143,
+          "label": "Covering Manholes of Storm Water Drain"
+        },
+        {
+          "gccId": 141,
+          "label": "Desilting of Canal"
+        },
+        {
+          "gccId": 140,
+          "label": "Desilting of Drain"
+        },
+        {
+          "gccId": 145,
+          "label": "Disposal of Removed Silt on the Road"
+        },
+        {
+          "gccId": 144,
+          "label": "New Drain Construction"
+        },
+        {
+          "gccId": 139,
+          "label": "Obstruction of Water Flow"
+        },
+        {
+          "gccId": 142,
+          "label": "Repairs to Storm Water Drain"
+        },
+        {
+          "gccId": 138,
+          "label": "Stagnation of Water"
+        }
+      ]
+    },
+    {
+      "sortOrder": 11,
+      "category": "Air Quality",
+      "subcomplaints": [
+        {
+          "gccId": 229,
+          "label": "Air Quality"
+        }
+      ]
+    },
+    {
+      "sortOrder": 12,
+      "category": "Storm Water Drains",
+      "subcomplaints": [
+        {
+          "gccId": 237,
+          "label": "Insufficient Barricading"
+        }
+      ]
+    },
+    {
+      "sortOrder": 13,
+      "category": "MEGA STREETS - PLANNING PHASE",
+      "subcomplaints": [
+        {
+          "gccId": 247,
+          "label": "Advance information on consultation not provided (Arunachaleshwar Road)"
+        },
+        {
+          "gccId": 250,
+          "label": "Advance information on consultation not provided (Khadar Nawas Khan Road)"
+        },
+        {
+          "gccId": 248,
+          "label": "Advance information on consultation not provided (MC Road)"
+        },
+        {
+          "gccId": 251,
+          "label": "Advance information on consultation not provided (Race Course road + Guindy MMI)"
+        },
+        {
+          "gccId": 246,
+          "label": "Advance information on consultation not provided (Thiruvotriyur High Road)"
+        },
+        {
+          "gccId": 249,
+          "label": "Advance information on consultation not provided (Washermenpet Metro)"
+        },
+        {
+          "gccId": 259,
+          "label": "Information on detailed work plan not provided (Arunachaleshwar Road)"
+        },
+        {
+          "gccId": 262,
+          "label": "Information on detailed work plan not provided (Khadar Nawas Khan Road)"
+        },
+        {
+          "gccId": 260,
+          "label": "Information on detailed work plan not provided (MC Road)"
+        },
+        {
+          "gccId": 263,
+          "label": "Information on detailed work plan not provided (Race Course road + Guindy MMI)"
+        },
+        {
+          "gccId": 258,
+          "label": "Information on detailed work plan not provided (Thiruvotriyur High Road)"
+        },
+        {
+          "gccId": 261,
+          "label": "Information on detailed work plan not provided (Washermenpet Metro)"
+        },
+        {
+          "gccId": 253,
+          "label": "Location and area of consultation not provided (Arunachaleshwar Road)"
+        },
+        {
+          "gccId": 256,
+          "label": "Location and area of consultation not provided (Khadar Nawas Khan Road)"
+        },
+        {
+          "gccId": 254,
+          "label": "Location and area of consultation not provided (MC Road)"
+        },
+        {
+          "gccId": 257,
+          "label": "Location and area of consultation not provided (Race Course road + Guindy MMI)"
+        },
+        {
+          "gccId": 252,
+          "label": "Location and area of consultation not provided (Thiruvotriyur High Road)"
+        },
+        {
+          "gccId": 255,
+          "label": "Location and area of consultation not provided (Washermenpet Metro)"
+        },
+        {
+          "gccId": 265,
+          "label": "Others (Arunachaleshwar Road)"
+        },
+        {
+          "gccId": 268,
+          "label": "Others (Khadar Nawas Khan Road)"
+        },
+        {
+          "gccId": 266,
+          "label": "Others (MC Road)"
+        },
+        {
+          "gccId": 269,
+          "label": "Others (Race Course road + Guindy MMI)"
+        },
+        {
+          "gccId": 264,
+          "label": "Others (Thiruvotriyur High Road)"
+        },
+        {
+          "gccId": 267,
+          "label": "Others (Washermenpet Metro)"
+        },
+        {
+          "gccId": 241,
+          "label": "Project information not provided (Arunachaleshwar Road)"
+        },
+        {
+          "gccId": 244,
+          "label": "Project information not provided (Khadar Nawas Khan Road)"
+        },
+        {
+          "gccId": 242,
+          "label": "Project information not provided (MC Road)"
+        },
+        {
+          "gccId": 245,
+          "label": "Project information not provided (Race Course road + Guindy MMI)"
+        },
+        {
+          "gccId": 240,
+          "label": "Project information not provided (Thiruvotriyur High Road)"
+        },
+        {
+          "gccId": 243,
+          "label": "Project information not provided (Washermenpet Metro)"
+        }
+      ]
+    },
+    {
+      "sortOrder": 14,
+      "category": "MEGA STREETS - OPERATION PHASE",
+      "subcomplaints": [
+        {
+          "gccId": 409,
+          "label": "Damage to utilities (TNEB, CMWSSB, BSNL) (Arunachaleshwar Road)"
+        },
+        {
+          "gccId": 412,
+          "label": "Damage to utilities (TNEB, CMWSSB, BSNL) (Khadar Nawas Khan Road)"
+        },
+        {
+          "gccId": 410,
+          "label": "Damage to utilities (TNEB, CMWSSB, BSNL) (MC Road)"
+        },
+        {
+          "gccId": 413,
+          "label": "Damage to utilities (TNEB, CMWSSB, BSNL) (Race Course road + Guindy MMI)"
+        },
+        {
+          "gccId": 408,
+          "label": "Damage to utilities (TNEB, CMWSSB, BSNL) (Thiruvotriyur High Road)"
+        },
+        {
+          "gccId": 411,
+          "label": "Damage to utilities (TNEB, CMWSSB, BSNL) (Washermenpet Metro)"
+        },
+        {
+          "gccId": 415,
+          "label": "Encroaching Public Space (Arunachaleshwar Road)"
+        },
+        {
+          "gccId": 418,
+          "label": "Encroaching Public Space (Khadar Nawas Khan Road)"
+        },
+        {
+          "gccId": 416,
+          "label": "Encroaching Public Space (MC Road)"
+        },
+        {
+          "gccId": 419,
+          "label": "Encroaching Public Space (Race Course road + Guindy MMI)"
+        },
+        {
+          "gccId": 414,
+          "label": "Encroaching Public Space (Thiruvotriyur High Road)"
+        },
+        {
+          "gccId": 417,
+          "label": "Encroaching Public Space (Washermenpet Metro)"
+        },
+        {
+          "gccId": 391,
+          "label": "Insufficient Barricading (Arunachaleshwar Road)"
+        },
+        {
+          "gccId": 394,
+          "label": "Insufficient Barricading (Khadar Nawas Khan Road)"
+        },
+        {
+          "gccId": 392,
+          "label": "Insufficient Barricading (MC Road)"
+        },
+        {
+          "gccId": 395,
+          "label": "Insufficient Barricading (Race Course road + Guindy MMI)"
+        },
+        {
+          "gccId": 390,
+          "label": "Insufficient Barricading (Thiruvotriyur High Road)"
+        },
+        {
+          "gccId": 393,
+          "label": "Insufficient Barricading (Washermenpet Metro)"
+        },
+        {
+          "gccId": 421,
+          "label": "Need Pathway ramp (Arunachaleshwar Road)"
+        },
+        {
+          "gccId": 424,
+          "label": "Need Pathway ramp (Khadar Nawas Khan Road)"
+        },
+        {
+          "gccId": 422,
+          "label": "Need Pathway ramp (MC Road)"
+        },
+        {
+          "gccId": 425,
+          "label": "Need Pathway ramp (Race Course road + Guindy MMI)"
+        },
+        {
+          "gccId": 420,
+          "label": "Need Pathway ramp (Thiruvotriyur High Road)"
+        },
+        {
+          "gccId": 423,
+          "label": "Need Pathway ramp (Washermenpet Metro)"
+        },
+        {
+          "gccId": 397,
+          "label": "Non Removal of Debris (Arunachaleshwar Road)"
+        },
+        {
+          "gccId": 400,
+          "label": "Non Removal of Debris (Khadar Nawas Khan Road)"
+        },
+        {
+          "gccId": 398,
+          "label": "Non Removal of Debris (MC Road)"
+        },
+        {
+          "gccId": 401,
+          "label": "Non Removal of Debris (Race Course road + Guindy MMI)"
+        },
+        {
+          "gccId": 396,
+          "label": "Non Removal of Debris (Thiruvotriyur High Road)"
+        },
+        {
+          "gccId": 399,
+          "label": "Non Removal of Debris (Washermenpet Metro)"
+        },
+        {
+          "gccId": 403,
+          "label": "Potholes fill up (Arunachaleshwar Road)"
+        },
+        {
+          "gccId": 406,
+          "label": "Potholes fill up (Khadar Nawas Khan Road)"
+        },
+        {
+          "gccId": 404,
+          "label": "Potholes fill up (MC Road)"
+        },
+        {
+          "gccId": 407,
+          "label": "Potholes fill up (Race Course road + Guindy MMI)"
+        },
+        {
+          "gccId": 402,
+          "label": "Potholes fill up (Thiruvotriyur High Road)"
+        },
+        {
+          "gccId": 405,
+          "label": "Potholes fill up (Washermenpet Metro)"
+        }
+      ]
+    },
+    {
+      "sortOrder": 15,
+      "category": "MEGA STREETS - CONSTRUCTION PHASE",
+      "subcomplaints": [
+        {
+          "gccId": 367,
+          "label": "No information on number of labour working at the site (Arunachaleshwar Road)"
+        },
+        {
+          "gccId": 370,
+          "label": "No information on number of labour working at the site (Khadar Nawas Khan Road)"
+        },
+        {
+          "gccId": 368,
+          "label": "No information on number of labour working at the site (MC Road)"
+        },
+        {
+          "gccId": 371,
+          "label": "No information on number of labour working at the site (Race Course road + Guindy MMI)"
+        },
+        {
+          "gccId": 366,
+          "label": "No information on number of labour working at the site (Thiruvotriyur High Road)"
+        },
+        {
+          "gccId": 369,
+          "label": "No information on number of labour working at the site (Washermenpet Metro)"
+        },
+        {
+          "gccId": 325,
+          "label": "Disposal of debris not appropriately managed (Arunachaleshwar Road)"
+        },
+        {
+          "gccId": 328,
+          "label": "Disposal of debris not appropriately managed (Khadar Nawas Khan Road)"
+        },
+        {
+          "gccId": 326,
+          "label": "Disposal of debris not appropriately managed (MC Road)"
+        },
+        {
+          "gccId": 329,
+          "label": "Disposal of debris not appropriately managed (Race Course road + Guindy MMI)"
+        },
+        {
+          "gccId": 324,
+          "label": "Disposal of debris not appropriately managed (Thiruvotriyur High Road)"
+        },
+        {
+          "gccId": 327,
+          "label": "Disposal of debris not appropriately managed (Washermenpet Metro)"
+        },
+        {
+          "gccId": 343,
+          "label": "Drinking water/ other basic needs for Labour not available at worksite (Arunachaleshwar Road)"
+        },
+        {
+          "gccId": 346,
+          "label": "Drinking water/ other basic needs for Labour not available at worksite (Khadar Nawas Khan Road)"
+        },
+        {
+          "gccId": 344,
+          "label": "Drinking water/ other basic needs for Labour not available at worksite (MC Road)"
+        },
+        {
+          "gccId": 347,
+          "label": "Drinking water/ other basic needs for Labour not available at worksite (Race Course road + Guindy MMI)"
+        },
+        {
+          "gccId": 342,
+          "label": "Drinking water/ other basic needs for Labour not available at worksite (Thiruvotriyur High Road)"
+        },
+        {
+          "gccId": 345,
+          "label": "Drinking water/ other basic needs for Labour not available at worksite (Washermenpet Metro)"
+        },
+        {
+          "gccId": 319,
+          "label": "Electricity supply disrupted and alternate arrangement not provided (Arunachaleshwar Road)"
+        },
+        {
+          "gccId": 322,
+          "label": "Electricity supply disrupted and alternate arrangement not provided (Khadar Nawas Khan Road)"
+        },
+        {
+          "gccId": 320,
+          "label": "Electricity supply disrupted and alternate arrangement not provided (MC Road)"
+        },
+        {
+          "gccId": 323,
+          "label": "Electricity supply disrupted and alternate arrangement not provided (Race Course road + Guindy MMI)"
+        },
+        {
+          "gccId": 318,
+          "label": "Electricity supply disrupted and alternate arrangement not provided (Thiruvotriyur High Road)"
+        },
+        {
+          "gccId": 321,
+          "label": "Electricity supply disrupted and alternate arrangement not provided (Washermenpet Metro)"
+        },
+        {
+          "gccId": 337,
+          "label": "GRM and helpline numbers not displayed at worksite (Arunachaleshwar Road)"
+        },
+        {
+          "gccId": 340,
+          "label": "GRM and helpline numbers not displayed at worksite (Khadar Nawas Khan Road)"
+        },
+        {
+          "gccId": 338,
+          "label": "GRM and helpline numbers not displayed at worksite (MC Road)"
+        },
+        {
+          "gccId": 341,
+          "label": "GRM and helpline numbers not displayed at worksite (Race Course road + Guindy MMI)"
+        },
+        {
+          "gccId": 336,
+          "label": "GRM and helpline numbers not displayed at worksite (Thiruvotriyur High Road)"
+        },
+        {
+          "gccId": 339,
+          "label": "GRM and helpline numbers not displayed at worksite (Washermenpet Metro)"
+        },
+        {
+          "gccId": 373,
+          "label": "Labourer not using the safety equipment (Arunachaleshwar Road)"
+        },
+        {
+          "gccId": 376,
+          "label": "Labourer not using the safety equipment (Khadar Nawas Khan Road)"
+        },
+        {
+          "gccId": 374,
+          "label": "Labourer not using the safety equipment (MC Road)"
+        },
+        {
+          "gccId": 377,
+          "label": "Labourer not using the safety equipment (Race Course road + Guindy MMI)"
+        },
+        {
+          "gccId": 372,
+          "label": "Labourer not using the safety equipment (Thiruvotriyur High Road)"
+        },
+        {
+          "gccId": 375,
+          "label": "Labourer not using the safety equipment (Washermenpet Metro)"
+        },
+        {
+          "gccId": 289,
+          "label": "No arrangement made for temporary displacement (Arunachaleshwar Road)"
+        },
+        {
+          "gccId": 292,
+          "label": "No arrangement made for temporary displacement (Khadar Nawas Khan Road)"
+        },
+        {
+          "gccId": 290,
+          "label": "No arrangement made for temporary displacement (MC Road)"
+        },
+        {
+          "gccId": 293,
+          "label": "No arrangement made for temporary displacement (Race Course road + Guindy MMI)"
+        },
+        {
+          "gccId": 288,
+          "label": "No arrangement made for temporary displacement (Thiruvotriyur High Road)"
+        },
+        {
+          "gccId": 291,
+          "label": "No arrangement made for temporary displacement (Washermenpet Metro)"
+        },
+        {
+          "gccId": 283,
+          "label": "No consultation carried out with the people affected by the civil works (Arunachaleshwar Road)"
+        },
+        {
+          "gccId": 286,
+          "label": "No consultation carried out with the people affected by the civil works (Khadar Nawas Khan Road)"
+        },
+        {
+          "gccId": 284,
+          "label": "No consultation carried out with the people affected by the civil works (MC Road)"
+        },
+        {
+          "gccId": 287,
+          "label": "No consultation carried out with the people affected by the civil works (Race Course road + Guindy MMI)"
+        },
+        {
+          "gccId": 282,
+          "label": "No consultation carried out with the people affected by the civil works (Thiruvotriyur High Road)"
+        },
+        {
+          "gccId": 285,
+          "label": "No consultation carried out with the people affected by the civil works (Washermenpet Metro)"
+        },
+        {
+          "gccId": 295,
+          "label": "No display board on the project installed at work site (Arunachaleshwar Road)"
+        },
+        {
+          "gccId": 298,
+          "label": "No display board on the project installed at work site (Khadar Nawas Khan Road)"
+        },
+        {
+          "gccId": 296,
+          "label": "No display board on the project installed at work site (MC Road)"
+        },
+        {
+          "gccId": 299,
+          "label": "No display board on the project installed at work site (Race Course road + Guindy MMI)"
+        },
+        {
+          "gccId": 294,
+          "label": "No display board on the project installed at work site (Thiruvotriyur High Road)"
+        },
+        {
+          "gccId": 297,
+          "label": "No display board on the project installed at work site (Washermenpet Metro)"
+        },
+        {
+          "gccId": 271,
+          "label": "No information in advance provided on the date and time of civil works (Arunachaleshwar Road)"
+        },
+        {
+          "gccId": 274,
+          "label": "No information in advance provided on the date and time of civil works (Khadar Nawas Khan Road)"
+        },
+        {
+          "gccId": 272,
+          "label": "No information in advance provided on the date and time of civil works (MC Road)"
+        },
+        {
+          "gccId": 275,
+          "label": "No information in advance provided on the date and time of civil works (Race Course road + Guindy MMI)"
+        },
+        {
+          "gccId": 270,
+          "label": "No information in advance provided on the date and time of civil works (Thiruvotriyur High Road)"
+        },
+        {
+          "gccId": 273,
+          "label": "No information in advance provided on the date and time of civil works (Washermenpet Metro)"
+        },
+        {
+          "gccId": 277,
+          "label": "No information provided on the nature and schedule of civil work (Arunachaleshwar Road)"
+        },
+        {
+          "gccId": 280,
+          "label": "No information provided on the nature and schedule of civil work (Khadar Nawas Khan Road)"
+        },
+        {
+          "gccId": 278,
+          "label": "No information provided on the nature and schedule of civil work (MC Road)"
+        },
+        {
+          "gccId": 281,
+          "label": "No information provided on the nature and schedule of civil work (Race Course road + Guindy MMI)"
+        },
+        {
+          "gccId": 276,
+          "label": "No information provided on the nature and schedule of civil work (Thiruvotriyur High Road)"
+        },
+        {
+          "gccId": 279,
+          "label": "No information provided on the nature and schedule of civil work (Washermenpet Metro)"
+        },
+        {
+          "gccId": 307,
+          "label": "No safety measures taken at worksite (Arunachaleshwar Road)"
+        },
+        {
+          "gccId": 310,
+          "label": "No safety measures taken at worksite (Khadar Nawas Khan Road)"
+        },
+        {
+          "gccId": 308,
+          "label": "No safety measures taken at worksite (MC Road)"
+        },
+        {
+          "gccId": 311,
+          "label": "No safety measures taken at worksite (Race Course road + Guindy MMI)"
+        },
+        {
+          "gccId": 306,
+          "label": "No safety measures taken at worksite (Thiruvotriyur High Road)"
+        },
+        {
+          "gccId": 309,
+          "label": "No safety measures taken at worksite (Washermenpet Metro)"
+        },
+        {
+          "gccId": 349,
+          "label": "Noise levels are very high (Arunachaleshwar Road)"
+        },
+        {
+          "gccId": 352,
+          "label": "Noise levels are very high (Khadar Nawas Khan Road)"
+        },
+        {
+          "gccId": 350,
+          "label": "Noise levels are very high (MC Road)"
+        },
+        {
+          "gccId": 353,
+          "label": "Noise levels are very high (Race Course road + Guindy MMI)"
+        },
+        {
+          "gccId": 348,
+          "label": "Noise levels are very high (Thiruvotriyur High Road)"
+        },
+        {
+          "gccId": 351,
+          "label": "Noise levels are very high (Washermenpet Metro)"
+        },
+        {
+          "gccId": 385,
+          "label": "Others (Arunachaleshwar Road)"
+        },
+        {
+          "gccId": 388,
+          "label": "Others (Khadar Nawas Khan Road)"
+        },
+        {
+          "gccId": 386,
+          "label": "Others (MC Road)"
+        },
+        {
+          "gccId": 389,
+          "label": "Others (Race Course road + Guindy MMI)"
+        },
+        {
+          "gccId": 384,
+          "label": "Others (Thiruvotriyur High Road)"
+        },
+        {
+          "gccId": 387,
+          "label": "Others (Washermenpet Metro)"
+        },
+        {
+          "gccId": 379,
+          "label": "Sewerage pipe is damaged (Arunachaleshwar Road)"
+        },
+        {
+          "gccId": 382,
+          "label": "Sewerage pipe is damaged (Khadar Nawas Khan Road)"
+        },
+        {
+          "gccId": 380,
+          "label": "Sewerage pipe is damaged (MC Road)"
+        },
+        {
+          "gccId": 383,
+          "label": "Sewerage pipe is damaged (Race Course road + Guindy MMI)"
+        },
+        {
+          "gccId": 378,
+          "label": "Sewerage pipe is damaged (Thiruvotriyur High Road)"
+        },
+        {
+          "gccId": 381,
+          "label": "Sewerage pipe is damaged (Washermenpet Metro)"
+        },
+        {
+          "gccId": 301,
+          "label": "Temporary access to structures not provided and or not adequate (Arunachaleshwar Road)"
+        },
+        {
+          "gccId": 304,
+          "label": "Temporary access to structures not provided and or not adequate (Khadar Nawas Khan Road)"
+        },
+        {
+          "gccId": 302,
+          "label": "Temporary access to structures not provided and or not adequate (MC Road)"
+        },
+        {
+          "gccId": 305,
+          "label": "Temporary access to structures not provided and or not adequate (Race Course road + Guindy MMI)"
+        },
+        {
+          "gccId": 300,
+          "label": "Temporary access to structures not provided and or not adequate (Thiruvotriyur High Road)"
+        },
+        {
+          "gccId": 303,
+          "label": "Temporary access to structures not provided and or not adequate (Washermenpet Metro)"
+        },
+        {
+          "gccId": 361,
+          "label": "The worksite is not barricaded; (Arunachaleshwar Road)"
+        },
+        {
+          "gccId": 364,
+          "label": "The worksite is not barricaded; (Khadar Nawas Khan Road)"
+        },
+        {
+          "gccId": 362,
+          "label": "The worksite is not barricaded; (MC Road)"
+        },
+        {
+          "gccId": 365,
+          "label": "The worksite is not barricaded; (Race Course road + Guindy MMI)"
+        },
+        {
+          "gccId": 360,
+          "label": "The worksite is not barricaded; (Thiruvotriyur High Road)"
+        },
+        {
+          "gccId": 363,
+          "label": "The worksite is not barricaded; (Washermenpet Metro)"
+        },
+        {
+          "gccId": 313,
+          "label": "Water supply disrupted and alternate arrangement not provided (Arunachaleshwar Road)"
+        },
+        {
+          "gccId": 316,
+          "label": "Water supply disrupted and alternate arrangement not provided (Khadar Nawas Khan Road)"
+        },
+        {
+          "gccId": 314,
+          "label": "Water supply disrupted and alternate arrangement not provided (MC Road)"
+        },
+        {
+          "gccId": 317,
+          "label": "Water supply disrupted and alternate arrangement not provided (Race Course road + Guindy MMI)"
+        },
+        {
+          "gccId": 312,
+          "label": "Water supply disrupted and alternate arrangement not provided (Thiruvotriyur High Road)"
+        },
+        {
+          "gccId": 315,
+          "label": "Water supply disrupted and alternate arrangement not provided (Washermenpet Metro)"
+        },
+        {
+          "gccId": 355,
+          "label": "Sprinkling of water at worksite not carried out (Arunachaleshwar Road)"
+        },
+        {
+          "gccId": 358,
+          "label": "Sprinkling of water at worksite not carried out (Khadar Nawas Khan Road)"
+        },
+        {
+          "gccId": 356,
+          "label": "Sprinkling of water at worksite not carried out (MC Road)"
+        },
+        {
+          "gccId": 359,
+          "label": "Sprinkling of water at worksite not carried out (Race Course road + Guindy MMI)"
+        },
+        {
+          "gccId": 354,
+          "label": "Sprinkling of water at worksite not carried out (Thiruvotriyur High Road)"
+        },
+        {
+          "gccId": 357,
+          "label": "Sprinkling of water at worksite not carried out (Washermenpet Metro)"
+        },
+        {
+          "gccId": 331,
+          "label": "Temporary arrangement for parking not provided (Arunachaleshwar Road)"
+        },
+        {
+          "gccId": 334,
+          "label": "Temporary arrangement for parking not provided (Khadar Nawas Khan Road)"
+        },
+        {
+          "gccId": 332,
+          "label": "Temporary arrangement for parking not provided (MC Road)"
+        },
+        {
+          "gccId": 335,
+          "label": "Temporary arrangement for parking not provided (Race Course road + Guindy MMI)"
+        },
+        {
+          "gccId": 330,
+          "label": "Temporary arrangement for parking not provided (Thiruvotriyur High Road)"
+        },
+        {
+          "gccId": 333,
+          "label": "Temporary arrangement for parking not provided (Washermenpet Metro)"
+        }
+      ]
+    },
+    {
+      "sortOrder": 16,
+      "category": "Flood",
+      "subcomplaints": [
+        {
+          "gccId": 449,
+          "label": "EB wire cut/Spark seen"
+        },
+        {
+          "gccId": 451,
+          "label": "Elderly Medicine"
+        },
+        {
+          "gccId": 452,
+          "label": "Food/Basic amenities demand"
+        },
+        {
+          "gccId": 450,
+          "label": "Pregnant women issues"
+        },
+        {
+          "gccId": 453,
+          "label": "Trap at home/ any place"
+        },
+        {
+          "gccId": 448,
+          "label": "Water entering Home/Shop"
+        }
+      ]
+    }
+  ]
+}

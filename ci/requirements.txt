@@ -1,0 +1,22 @@
+# Everything the collectors, the district_intel build and the upload scripts import (one environment for all).
+# torch is installed first from the CPU-only index (see the workflow): the default wheel is several GB of CUDA.
+pandas>=2.2
+numpy>=1.26
+scipy>=1.11
+scikit-learn>=1.4
+matplotlib>=3.8
+PyYAML>=6.0
+sentence-transformers>=3.0
+truststore>=0.9
+PyMySQL>=1.1
+python-dotenv>=1.0
+requests>=2.31
+urllib3>=2.0
+beautifulsoup4>=4.12
+lxml>=5.0
+feedparser>=6.0.11
+trafilatura>=2.0
+python-dateutil>=2.8
+tzdata>=2024.1
+langdetect>=1.0.9
+playwright>=1.45

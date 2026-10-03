@@ -1,0 +1,432 @@
+# Unified incident categories.
+#   base_severity   0-100 starting point for sources without their own severity (news, overlay)
+#   sla_h           hours to resolve, by severity (Severe, High, Medium, Low)
+#   sla_basis       resolution (default) or response: police cases stay under investigation for weeks,
+#                   so their deadline is on the first response, not on closure
+#   link_window_h   max hours between two reports of the same incident
+#   link_radius_m   max distance between two reports of the same incident
+#   support         departments that usually have to act as well (coordination)
+#   keywords_en/ta  news cues; a strong cue alone is enough, weak cues need two hits
+- code: FLOOD_WATERLOGGING
+  label: Flooding & waterlogging
+  family: FLOOD
+  lead: GCC-SWD
+  support: [POL-GCP, DIST-DM]
+  base_severity: 45
+  rain_sensitive: true
+  sla_h: [6, 24, 72, 120]
+  link_window_h: 72
+  link_radius_m: 600
+  playbook: [Deploy pumps and clear standing water, Clear drain inlets and silt, Divert traffic and barricade, Check low-lying homes for evacuation, Submit completion report with photo]
+  keywords_en: [waterlogged, waterlogging, water-logged, inundated, inundation, flooded, flooding, knee-deep, rainwater stagnat, water stagnation, stagnant water, submerged, water entered houses]
+  keywords_ta: [மழைநீர் தேங்கி, தண்ணீர் தேங்கி, வெள்ளம், வெள்ள நீர், மழைநீர் புகுந்த, நீரில் மூழ்கி, தேங்கிய மழைநீர்]
+- code: FLOOD_RELIEF
+  label: Flood relief needs
+  family: FLOOD
+  lead: DIST-DM
+  support: [GCC-HLT, GCC-SWD]
+  base_severity: 55
+  rain_sensitive: true
+  sla_h: [4, 12, 24, 48]
+  link_window_h: 72
+  link_radius_m: 1500
+  playbook: [Contact affected households, Arrange food and drinking water, Arrange medical support, Shift to relief centre if needed, Close with report]
+  keywords_en: [relief camp, relief centre, food packets, evacuated, rescued, stranded]
+  keywords_ta: [நிவாரண முகாம், நிவாரணம், மீட்பு, வெளியேற்ற]
+- code: WATERBODY_INFRA
+  label: Lakes, bunds & sluices
+  family: FLOOD
+  lead: PWD-WRD
+  support: [DIST-DM]
+  base_severity: 50
+  rain_sensitive: true
+  sla_h: [6, 24, 72, 168]
+  link_window_h: 72
+  link_radius_m: 1500
+  playbook: [Inspect the structure, Warn downstream residents, Carry out repair, Monitor water level for 48 h, Submit report]
+  keywords_en: [surplus water, lake breach, bund breach, sluice, surplus channel, reservoir release, water released from, lake overflow]
+  keywords_ta: [உபரி நீர், ஏரி உடைப்பு, கரை உடைப்பு, மதகு, நீர் திறப்பு, ஏரி நிரம்பி]
+- code: FLOOD_RISK_SIGNAL
+  label: Weather & flood warnings
+  family: FLOOD
+  lead: DIST-DM
+  support: [PWD-WRD, GCC-SWD]
+  base_severity: 40
+  rain_sensitive: true
+  sla_h: [6, 12, 24, 48]
+  link_window_h: 48
+  link_radius_m: 30000
+  playbook: [Alert zonal teams, Pre-position pumps and crews, Check drains in low-lying wards, Issue public advisory, Review after the event]
+  keywords_en: [orange alert, red alert, yellow alert, heavy rain warning, imd warns, cyclone]
+  keywords_ta: [ஆரஞ்சு எச்சரிக்கை, சிவப்பு எச்சரிக்கை, கனமழை எச்சரிக்கை, புயல்]
+- code: DRAINAGE_SEWAGE
+  label: Drainage & sewage
+  family: DRAINAGE
+  lead: GCC-SWD
+  support: [CMWSSB]
+  base_severity: 30
+  rain_sensitive: true
+  sla_h: [24, 72, 168, 240]
+  link_window_h: 72
+  link_radius_m: 300
+  playbook: [Inspect the drain, Desilt or clear the blockage, Repair cover or pipe, Disinfect the area, Submit completion report]
+  keywords_en: [sewage, drain overflow, overflowing drain, open drain, manhole, clogged drain, blocked drain, desilting, stormwater drain, storm water drain]
+  keywords_ta: [கழிவுநீர், கால்வாய் அடைப்பு, மழைநீர் வடிகால், பாதாள சாக்கடை, சாக்கடை]
+- code: DRAIN_WORKS_SAFETY
+  label: Drain works site safety
+  family: DRAINAGE
+  lead: GCC-SWD
+  support: [POL-GCP]
+  base_severity: 35
+  rain_sensitive: false
+  sla_h: [12, 48, 120, 168]
+  link_window_h: 48
+  link_radius_m: 200
+  playbook: [Inspect the worksite, Install barricades and signage, Instruct the contractor, Re-inspect, Close with photo]
+  keywords_en: [unbarricaded, no barricade, open trench, dug up road]
+  keywords_ta: [தடுப்பு இல்லாமல், பள்ளம் தோண்டி]
+- code: ROAD_DAMAGE
+  label: Roads, footpaths & bridges
+  family: ROADS_TRAFFIC
+  lead: GCC-ENG
+  support: [POL-GCP]
+  base_severity: 25
+  rain_sensitive: true
+  sla_h: [24, 72, 168, 336]
+  link_window_h: 72
+  link_radius_m: 200
+  playbook: [Inspect and barricade, Patch with cold mix, Schedule relaying, Quality check, Close with photo]
+  keywords_en: [pothole, potholes, cave-in, caved in, road damage, damaged road, crater, sinkhole, bridge damage, flyover crack]
+  keywords_ta: [பள்ளம், சாலை சேதம், குண்டும் குழியுமான, சாலை உள்வாங்கி]
+- code: ROAD_ACCIDENT
+  label: Road accident
+  family: ROADS_TRAFFIC
+  lead: POL-GCP
+  support: [GCC-ENG, HLT-DMS]
+  base_severity: 40
+  rain_sensitive: false
+  sla_h: [2, 6, 24, 48]
+  sla_basis: response
+  link_window_h: 6
+  link_radius_m: 300
+  playbook: [Send patrol and ambulance, Clear the carriageway, Register the case, Check road defects at the spot, Close with report]
+  keywords_en: [accident, collided, collision, run over, mowed, knocked down, crashed, overturned, hit-and-run, rammed]
+  keywords_ta: [விபத்து, மோதி, மோதல், கவிழ்ந்து, சாலை விபத்து]
+- code: TRAFFIC_OBSTRUCTION
+  label: Traffic obstruction & parking
+  family: ROADS_TRAFFIC
+  lead: POL-GCP
+  support: [GCC-ENG]
+  base_severity: 20
+  rain_sensitive: true
+  sla_h: [2, 6, 24, 72]
+  link_window_h: 12
+  link_radius_m: 400
+  playbook: [Deploy traffic police, Clear the obstruction, Tow illegal parking, Review signal timing, Close]
+  keywords_en: [traffic snarl, gridlock, traffic jam, traffic diverted, diversion, illegal parking, bumper-to-bumper, signal not working]
+  keywords_ta: [போக்குவரத்து நெரிசல், போக்குவரத்து பாதிப்பு, போக்குவரத்து மாற்றம்]
+- code: ENCROACHMENT
+  label: Encroachment & unauthorised construction
+  family: STRUCTURES_LAND
+  lead: GCC-ENG
+  support: [DIST-REV, PWD-WRD]
+  base_severity: 15
+  rain_sensitive: false
+  sla_h: [72, 168, 336, 720]
+  link_window_h: 168
+  link_radius_m: 150
+  playbook: [Survey the site, Serve notice, Remove the encroachment, Fence or mark the land, Close]
+  keywords_en: [encroachment, encroached, illegal construction, unauthorised construction, unauthorized construction]
+  keywords_ta: [ஆக்கிரமிப்பு, அனுமதியின்றி கட்ட]
+- code: BUILDING_SAFETY
+  label: Unsafe buildings & walls
+  family: STRUCTURES_LAND
+  lead: PWD-BLD
+  support: [GCC-ENG, DIST-DM]
+  base_severity: 45
+  rain_sensitive: true
+  sla_h: [6, 24, 72, 168]
+  link_window_h: 72
+  link_radius_m: 100
+  playbook: [Inspect the structure, Cordon off the area, Shift occupants if unsafe, Repair or demolish, Close with report]
+  keywords_en: [wall collapse, wall collapsed, building collapse, collapsed, portion of building, cracks in building, dilapidated, crumbled, roof caved]
+  keywords_ta: [சுவர் இடிந்து, கட்டடம் இடிந்து, இடிந்து விழுந்த, விரிசல், பழுதடைந்த கட்டடம்]
+- code: SOLID_WASTE
+  label: Garbage & solid waste
+  family: WASTE_SANITATION
+  lead: GCC-SWM
+  support: [GCC-HLT]
+  base_severity: 20
+  rain_sensitive: false
+  sla_h: [12, 24, 48, 72]
+  link_window_h: 48
+  link_radius_m: 250
+  playbook: [Dispatch a compactor, Clear the waste, Disinfect the spot, Increase pickup frequency, Close with photo]
+  keywords_en: [garbage, trash, waste dumped, dumping, stench, uncleared waste, overflowing bin, debris dumped, dumpyard]
+  keywords_ta: [குப்பை, குப்பைகள், துர்நாற்றம், குப்பைக் கிடங்கு]
+- code: SANITATION_TOILETS
+  label: Public toilets & open defecation
+  family: WASTE_SANITATION
+  lead: GCC-HLT
+  support: [GCC-SWM]
+  base_severity: 20
+  rain_sensitive: false
+  sla_h: [24, 48, 96, 168]
+  link_window_h: 72
+  link_radius_m: 200
+  playbook: [Inspect, Clean and restore water and power, Repair fixtures, Schedule monitoring, Close]
+  keywords_en: [public toilet, open defecation, toilet not maintained]
+  keywords_ta: [பொதுக் கழிப்பறை, கழிப்பிடம், திறந்தவெளி]
+- code: STREETLIGHT_ELECTRICAL
+  label: Street lights & electrical hazards
+  family: ELECTRICAL
+  lead: GCC-ELE
+  support: [TANGEDCO]
+  base_severity: 25
+  rain_sensitive: true
+  sla_h: [4, 24, 48, 96]
+  link_window_h: 72
+  link_radius_m: 300
+  playbook: [Inspect the feeder pillar, Isolate live parts, Replace fittings, Restore supply, Close]
+  keywords_en: [streetlight, street light, electrocuted, electrocution, live wire, snapped wire, power cut, power outage, transformer, electric shock]
+  keywords_ta: [மின்சாரம் தாக்கி, மின் கம்பி, மின்தடை, மின் விளக்கு, தெருவிளக்கு, மின்மாற்றி]
+- code: DARK_SPOT_SAFETY
+  label: Dark spots & public safety
+  family: PUBLIC_SAFETY
+  lead: GCC-ELE
+  support: [POL-GCP]
+  base_severity: 35
+  rain_sensitive: false
+  sla_h: [24, 48, 96, 168]
+  link_window_h: 168
+  link_radius_m: 300
+  playbook: [Add lighting, Increase patrols, Install CCTV if needed, Collect community feedback, Close]
+  keywords_en: [dark stretch, unsafe for women, poorly lit, no lighting]
+  keywords_ta: [இருள் சூழ்ந்த, பெண்கள் பாதுகாப்பு]
+- code: VECTOR_DISEASE
+  label: Vector- & water-borne disease
+  family: HEALTH
+  lead: GCC-HLT
+  support: [HLT-DMS, GCC-SWD]
+  base_severity: 40
+  rain_sensitive: true
+  sla_h: [12, 24, 72, 120]
+  link_window_h: 336
+  link_radius_m: 1500
+  playbook: [Source reduction and fogging, Door-to-door fever survey, Hold a fever camp, Clear stagnant water, Send daily situation report]
+  keywords_en: [dengue, malaria, chikungunya, fever cases, cholera, diarrhoea, diarrhea, gastroenteritis, mosquito menace, jaundice, contaminated water]
+  keywords_ta: [டெங்கு, மலேரியா, காய்ச்சல், வயிற்றுப்போக்கு, கொசு, மஞ்சள் காமாலை]
+- code: FOOD_SAFETY
+  label: Food safety & meat hygiene
+  family: HEALTH
+  lead: GCC-HLT
+  support: []
+  base_severity: 20
+  rain_sensitive: false
+  sla_h: [24, 72, 168, 240]
+  link_window_h: 72
+  link_radius_m: 200
+  playbook: [Inspect the premises, Collect samples, Issue notice, Re-inspect, Close]
+  keywords_en: [food poisoning, food safety, stale meat, unhygienic eatery, food safety officials seized]
+  keywords_ta: [உணவு பாதுகாப்பு, கெட்டுப்போன இறைச்சி, உணவு விஷ]
+- code: STRAY_ANIMALS
+  label: Stray animals
+  family: HEALTH
+  lead: GCC-HLT
+  support: []
+  base_severity: 15
+  rain_sensitive: false
+  sla_h: [24, 72, 168, 240]
+  link_window_h: 72
+  link_radius_m: 500
+  playbook: [Send the catching team, Vaccinate and sterilise, Remove carcasses, Follow up, Close]
+  keywords_en: [stray dog, dog bite, dog menace, stray cattle, cattle on road]
+  keywords_ta: [தெருநாய், நாய் கடி, மாடுகள் சாலையில்]
+- code: HEALTH_SERVICES
+  label: Health services & hospital capacity
+  family: HEALTH
+  lead: HLT-DMS
+  support: [GCC-HLT]
+  base_severity: 35
+  rain_sensitive: false
+  sla_h: [6, 24, 72, 168]
+  link_window_h: 48
+  link_radius_m: 2000
+  playbook: [Check bed and staff capacity, Redeploy staff or beds, Arrange medicines or ambulance, Report to DMS, Close]
+  keywords_en: [shortage of doctors, medicine shortage, bed shortage, ambulance delay, patients suffer]
+  keywords_ta: [மருத்துவர் பற்றாக்குறை, மருந்து தட்டுப்பாடு, படுக்கை பற்றாக்குறை]
+- code: AIR_POLLUTION
+  label: Air pollution
+  family: ENVIRONMENT
+  lead: TNPCB
+  support: [GCC-HLT]
+  base_severity: 25
+  rain_sensitive: false
+  sla_h: [24, 48, 120, 240]
+  link_window_h: 72
+  link_radius_m: 3000
+  playbook: [Check station readings, Inspect nearby sources, Issue a health advisory, Enforce against polluters, Close]
+  keywords_en: [air pollution, air quality, smog, toxic fumes, aqi]
+  keywords_ta: [காற்று மாசு, புகைமூட்டம்]
+- code: TREES_PARKS
+  label: Trees, parks & playgrounds
+  family: GREEN
+  lead: GCC-PRK
+  support: [POL-GCP]
+  base_severity: 15
+  rain_sensitive: true
+  sla_h: [6, 48, 120, 240]
+  link_window_h: 48
+  link_radius_m: 200
+  playbook: [Clear the fallen tree, Prune trees, Repair equipment, Clean the park, Close]
+  keywords_en: [tree fell, uprooted, fallen tree, tree collapsed, branch fell]
+  keywords_ta: [மரம் சாய்ந்து, மரம் முறிந்து, மரம் விழுந்து]
+- code: CRIME_PROPERTY
+  label: Theft, snatching & fraud
+  family: CRIME
+  lead: POL-GCP
+  support: []
+  base_severity: 25
+  rain_sensitive: false
+  sla_h: [6, 24, 72, 168]
+  sla_basis: response
+  link_window_h: 6
+  link_radius_m: 500
+  playbook: [Register the case, Patrol the hotspot, Review CCTV, Recover property, Close]
+  keywords_en: [chain snatching, snatched, theft, stolen, burglary, robbed, robbery, cyber fraud, duped, cheated]
+  keywords_ta: [திருட்டு, சங்கிலி பறிப்பு, கொள்ளை, மோசடி]
+- code: CRIME_VIOLENT
+  label: Violent crime & crimes against women
+  family: CRIME
+  lead: POL-GCP
+  support: []
+  base_severity: 55
+  rain_sensitive: false
+  sla_h: [2, 6, 24, 48]
+  sla_basis: response
+  link_window_h: 6
+  link_radius_m: 300
+  playbook: [Respond immediately, Register the case, Protect the victim, Arrest the accused, Close]
+  keywords_en: [murder, murdered, hacked to death, stabbed, assault, attacked, sexual assault, harassment, molested]
+  keywords_ta: [கொலை, வெட்டிக் கொலை, தாக்குதல், பாலியல்]
+- code: MISSING_PERSON
+  label: Missing person
+  family: CRIME
+  lead: POL-GCP
+  support: []
+  base_severity: 40
+  rain_sensitive: false
+  sla_h: [2, 12, 24, 48]
+  sla_basis: response
+  link_window_h: 24
+  link_radius_m: 2000
+  playbook: [Register the complaint, Circulate details, Search, Trace, Close]
+  keywords_en: [missing, went missing, drowned]
+  keywords_ta: [காணாமல், மாயம், நீரில் மூழ்கி]
+- code: DRUGS_LIQUOR
+  label: Drugs & illicit liquor
+  family: CRIME
+  lead: POL-GCP
+  support: []
+  base_severity: 30
+  rain_sensitive: false
+  sla_h: [12, 24, 72, 168]
+  sla_basis: response
+  link_window_h: 24
+  link_radius_m: 500
+  playbook: [Conduct a raid, Seize material, Register the case, Follow up, Close]
+  keywords_en: [ganja, drugs seized, narcotics, illicit liquor, arrack]
+  keywords_ta: [கஞ்சா, போதைப் பொருள், கள்ளச்சாராயம்]
+- code: PUBLIC_ORDER
+  label: Protests & public nuisance
+  family: PUBLIC_ORDER
+  lead: POL-GCP
+  support: [DIST-REV]
+  base_severity: 20
+  rain_sensitive: false
+  sla_h: [2, 6, 24, 48]
+  sla_basis: response
+  link_window_h: 12
+  link_radius_m: 500
+  playbook: [Deploy personnel, Manage crowd and traffic, Engage organisers, Document the event, Close]
+  keywords_en: [protest, protested, agitation, road roko, blockade, demonstration, staged a dharna, sit-in]
+  keywords_ta: [போராட்டம், சாலை மறியல், ஆர்ப்பாட்டம், முற்றுகை]
+- code: POLICE_OTHER
+  label: Other police matters
+  family: PUBLIC_ORDER
+  lead: POL-GCP
+  support: []
+  base_severity: 15
+  rain_sensitive: false
+  sla_h: [6, 24, 72, 168]
+  sla_basis: response
+  link_window_h: 24
+  link_radius_m: 500
+  playbook: [Assess, Act, Close]
+  keywords_en: []
+  keywords_ta: []
+- code: PUBLIC_WORKS
+  label: Public works quality & worksites
+  family: WORKS
+  lead: GCC-ENG
+  support: []
+  base_severity: 15
+  rain_sensitive: false
+  sla_h: [48, 120, 240, 480]
+  link_window_h: 168
+  link_radius_m: 300
+  playbook: [Inspect the work, Instruct the contractor, Fix deficiencies, Quality check, Close]
+  keywords_en: [delayed work, stalled work, poor quality work, metro work, work in progress for months]
+  keywords_ta: [பணிகள் தாமதம், பணிகள் நிறைவடையாமல்]
+- code: WATER_SUPPLY
+  label: Drinking water supply
+  family: DRAINAGE
+  lead: CMWSSB
+  support: [GCC-SWD]
+  base_severity: 30
+  rain_sensitive: false
+  sla_h: [12, 24, 72, 120]
+  link_window_h: 72
+  link_radius_m: 1000
+  playbook: [Check the supply line, Arrange tanker supply, Repair leak or valve, Test water quality, Close]
+  keywords_en: [drinking water, water supply, no water, water scarcity, water tanker, pipeline burst, pipe burst, contaminated supply]
+  keywords_ta: [குடிநீர், குடிநீர் தட்டுப்பாடு, குடிநீர் விநியோகம், குழாய் உடைப்பு]
+- code: CIVIC_FACILITIES
+  label: Civic buildings & facilities
+  family: WORKS
+  lead: GCC-GAD
+  support: [GCC-BLD]
+  base_severity: 15
+  rain_sensitive: false
+  sla_h: [48, 120, 240, 480]
+  link_window_h: 168
+  link_radius_m: 300
+  playbook: [Inspect, Repair, Follow up, Close]
+  keywords_en: [burial ground, crematorium, community hall, corporation school]
+  keywords_ta: [மயானம், சமுதாயக் கூடம், மாநகராட்சி பள்ளி]
+- code: ADMIN_SERVICES
+  label: Tax, certificates & electoral services
+  family: ADMIN
+  lead: GCC-REV
+  support: [GCC-GAD]
+  base_severity: 5
+  rain_sensitive: false
+  sla_h: [72, 168, 336, 720]
+  link_window_h: 168
+  link_radius_m: 5000
+  playbook: [Review the application, Resolve, Inform the citizen, Close]
+  keywords_en: [property tax, trade licence, voter list, birth certificate, death certificate]
+  keywords_ta: [சொத்து வரி, வாக்காளர் பட்டியல், பிறப்பு சான்றிதழ்]
+- code: OTHER
+  label: Other / unclassified
+  family: OTHER
+  lead: GCC-GAD
+  support: []
+  base_severity: 10
+  rain_sensitive: false
+  sla_h: [72, 168, 336, 720]
+  link_window_h: 72
+  link_radius_m: 300
+  playbook: [Triage, Route to the right department, Close]
+  keywords_en: []
+  keywords_ta: []

@@ -1,0 +1,2185 @@
+{
+ "source": "district_intel/reference/categories.yaml, taluks.yaml and the chennai_news_pipeline gazetteer (copied; re-run scripts/export-reference.py after editing them)",
+ "categories": [
+  {
+   "code": "FLOOD_WATERLOGGING",
+   "label": "Flooding & waterlogging",
+   "family": "FLOOD",
+   "lead": "GCC-SWD",
+   "base_severity": 45,
+   "playbook": [
+    "Deploy pumps and clear standing water",
+    "Clear drain inlets and silt",
+    "Divert traffic and barricade",
+    "Check low-lying homes for evacuation",
+    "Submit completion report with photo"
+   ],
+   "keywords_en": [
+    "waterlogged",
+    "waterlogging",
+    "water-logged",
+    "inundated",
+    "inundation",
+    "flooded",
+    "flooding",
+    "knee-deep",
+    "rainwater stagnat",
+    "water stagnation",
+    "stagnant water",
+    "submerged",
+    "water entered houses"
+   ],
+   "keywords_ta": [
+    "மழைநீர் தேங்கி",
+    "தண்ணீர் தேங்கி",
+    "வெள்ளம்",
+    "வெள்ள நீர்",
+    "மழைநீர் புகுந்த",
+    "நீரில் மூழ்கி",
+    "தேங்கிய மழைநீர்"
+   ]
+  },
+  {
+   "code": "FLOOD_RELIEF",
+   "label": "Flood relief needs",
+   "family": "FLOOD",
+   "lead": "DIST-DM",
+   "base_severity": 55,
+   "playbook": [
+    "Contact affected households",
+    "Arrange food and drinking water",
+    "Arrange medical support",
+    "Shift to relief centre if needed",
+    "Close with report"
+   ],
+   "keywords_en": [
+    "relief camp",
+    "relief centre",
+    "food packets",
+    "evacuated",
+    "rescued",
+    "stranded"
+   ],
+   "keywords_ta": [
+    "நிவாரண முகாம்",
+    "நிவாரணம்",
+    "மீட்பு",
+    "வெளியேற்ற"
+   ]
+  },
+  {
+   "code": "WATERBODY_INFRA",
+   "label": "Lakes, bunds & sluices",
+   "family": "FLOOD",
+   "lead": "PWD-WRD",
+   "base_severity": 50,
+   "playbook": [
+    "Inspect the structure",
+    "Warn downstream residents",
+    "Carry out repair",
+    "Monitor water level for 48 h",
+    "Submit report"
+   ],
+   "keywords_en": [
+    "surplus water",
+    "lake breach",
+    "bund breach",
+    "sluice",
+    "surplus channel",
+    "reservoir release",
+    "water released from",
+    "lake overflow"
+   ],
+   "keywords_ta": [
+    "உபரி நீர்",
+    "ஏரி உடைப்பு",
+    "கரை உடைப்பு",
+    "மதகு",
+    "நீர் திறப்பு",
+    "ஏரி நிரம்பி"
+   ]
+  },
+  {
+   "code": "FLOOD_RISK_SIGNAL",
+   "label": "Weather & flood warnings",
+   "family": "FLOOD",
+   "lead": "DIST-DM",
+   "base_severity": 40,
+   "playbook": [
+    "Alert zonal teams",
+    "Pre-position pumps and crews",
+    "Check drains in low-lying wards",
+    "Issue public advisory",
+    "Review after the event"
+   ],
+   "keywords_en": [
+    "orange alert",
+    "red alert",
+    "yellow alert",
+    "heavy rain warning",
+    "imd warns",
+    "cyclone"
+   ],
+   "keywords_ta": [
+    "ஆரஞ்சு எச்சரிக்கை",
+    "சிவப்பு எச்சரிக்கை",
+    "கனமழை எச்சரிக்கை",
+    "புயல்"
+   ]
+  },
+  {
+   "code": "DRAINAGE_SEWAGE",
+   "label": "Drainage & sewage",
+   "family": "DRAINAGE",
+   "lead": "GCC-SWD",
+   "base_severity": 30,
+   "playbook": [
+    "Inspect the drain",
+    "Desilt or clear the blockage",
+    "Repair cover or pipe",
+    "Disinfect the area",
+    "Submit completion report"
+   ],
+   "keywords_en": [
+    "sewage",
+    "drain overflow",
+    "overflowing drain",
+    "open drain",
+    "manhole",
+    "clogged drain",
+    "blocked drain",
+    "desilting",
+    "stormwater drain",
+    "storm water drain"
+   ],
+   "keywords_ta": [
+    "கழிவுநீர்",
+    "கால்வாய் அடைப்பு",
+    "மழைநீர் வடிகால்",
+    "பாதாள சாக்கடை",
+    "சாக்கடை"
+   ]
+  },
+  {
+   "code": "DRAIN_WORKS_SAFETY",
+   "label": "Drain works site safety",
+   "family": "DRAINAGE",
+   "lead": "GCC-SWD",
+   "base_severity": 35,
+   "playbook": [
+    "Inspect the worksite",
+    "Install barricades and signage",
+    "Instruct the contractor",
+    "Re-inspect",
+    "Close with photo"
+   ],
+   "keywords_en": [
+    "unbarricaded",
+    "no barricade",
+    "open trench",
+    "dug up road"
+   ],
+   "keywords_ta": [
+    "தடுப்பு இல்லாமல்",
+    "பள்ளம் தோண்டி"
+   ]
+  },
+  {
+   "code": "ROAD_DAMAGE",
+   "label": "Roads, footpaths & bridges",
+   "family": "ROADS_TRAFFIC",
+   "lead": "GCC-ENG",
+   "base_severity": 25,
+   "playbook": [
+    "Inspect and barricade",
+    "Patch with cold mix",
+    "Schedule relaying",
+    "Quality check",
+    "Close with photo"
+   ],
+   "keywords_en": [
+    "pothole",
+    "potholes",
+    "cave-in",
+    "caved in",
+    "road damage",
+    "damaged road",
+    "crater",
+    "sinkhole",
+    "bridge damage",
+    "flyover crack"
+   ],
+   "keywords_ta": [
+    "பள்ளம்",
+    "சாலை சேதம்",
+    "குண்டும் குழியுமான",
+    "சாலை உள்வாங்கி"
+   ]
+  },
+  {
+   "code": "ROAD_ACCIDENT",
+   "label": "Road accident",
+   "family": "ROADS_TRAFFIC",
+   "lead": "POL-GCP",
+   "base_severity": 40,
+   "playbook": [
+    "Send patrol and ambulance",
+    "Clear the carriageway",
+    "Register the case",
+    "Check road defects at the spot",
+    "Close with report"
+   ],
+   "keywords_en": [
+    "accident",
+    "collided",
+    "collision",
+    "run over",
+    "mowed",
+    "knocked down",
+    "crashed",
+    "overturned",
+    "hit-and-run",
+    "rammed"
+   ],
+   "keywords_ta": [
+    "விபத்து",
+    "மோதி",
+    "மோதல்",
+    "கவிழ்ந்து",
+    "சாலை விபத்து"
+   ]
+  },
+  {
+   "code": "TRAFFIC_OBSTRUCTION",
+   "label": "Traffic obstruction & parking",
+   "family": "ROADS_TRAFFIC",
+   "lead": "POL-GCP",
+   "base_severity": 20,
+   "playbook": [
+    "Deploy traffic police",
+    "Clear the obstruction",
+    "Tow illegal parking",
+    "Review signal timing",
+    "Close"
+   ],
+   "keywords_en": [
+    "traffic snarl",
+    "gridlock",
+    "traffic jam",
+    "traffic diverted",
+    "diversion",
+    "illegal parking",
+    "bumper-to-bumper",
+    "signal not working"
+   ],
+   "keywords_ta": [
+    "போக்குவரத்து நெரிசல்",
+    "போக்குவரத்து பாதிப்பு",
+    "போக்குவரத்து மாற்றம்"
+   ]
+  },
+  {
+   "code": "ENCROACHMENT",
+   "label": "Encroachment & unauthorised construction",
+   "family": "STRUCTURES_LAND",
+   "lead": "GCC-ENG",
+   "base_severity": 15,
+   "playbook": [
+    "Survey the site",
+    "Serve notice",
+    "Remove the encroachment",
+    "Fence or mark the land",
+    "Close"
+   ],
+   "keywords_en": [
+    "encroachment",
+    "encroached",
+    "illegal construction",
+    "unauthorised construction",
+    "unauthorized construction"
+   ],
+   "keywords_ta": [
+    "ஆக்கிரமிப்பு",
+    "அனுமதியின்றி கட்ட"
+   ]
+  },
+  {
+   "code": "BUILDING_SAFETY",
+   "label": "Unsafe buildings & walls",
+   "family": "STRUCTURES_LAND",
+   "lead": "PWD-BLD",
+   "base_severity": 45,
+   "playbook": [
+    "Inspect the structure",
+    "Cordon off the area",
+    "Shift occupants if unsafe",
+    "Repair or demolish",
+    "Close with report"
+   ],
+   "keywords_en": [
+    "wall collapse",
+    "wall collapsed",
+    "building collapse",
+    "collapsed",
+    "portion of building",
+    "cracks in building",
+    "dilapidated",
+    "crumbled",
+    "roof caved"
+   ],
+   "keywords_ta": [
+    "சுவர் இடிந்து",
+    "கட்டடம் இடிந்து",
+    "இடிந்து விழுந்த",
+    "விரிசல்",
+    "பழுதடைந்த கட்டடம்"
+   ]
+  },
+  {
+   "code": "SOLID_WASTE",
+   "label": "Garbage & solid waste",
+   "family": "WASTE_SANITATION",
+   "lead": "GCC-SWM",
+   "base_severity": 20,
+   "playbook": [
+    "Dispatch a compactor",
+    "Clear the waste",
+    "Disinfect the spot",
+    "Increase pickup frequency",
+    "Close with photo"
+   ],
+   "keywords_en": [
+    "garbage",
+    "trash",
+    "waste dumped",
+    "dumping",
+    "stench",
+    "uncleared waste",
+    "overflowing bin",
+    "debris dumped",
+    "dumpyard"
+   ],
+   "keywords_ta": [
+    "குப்பை",
+    "குப்பைகள்",
+    "துர்நாற்றம்",
+    "குப்பைக் கிடங்கு"
+   ]
+  },
+  {
+   "code": "SANITATION_TOILETS",
+   "label": "Public toilets & open defecation",
+   "family": "WASTE_SANITATION",
+   "lead": "GCC-HLT",
+   "base_severity": 20,
+   "playbook": [
+    "Inspect",
+    "Clean and restore water and power",
+    "Repair fixtures",
+    "Schedule monitoring",
+    "Close"
+   ],
+   "keywords_en": [
+    "public toilet",
+    "open defecation",
+    "toilet not maintained"
+   ],
+   "keywords_ta": [
+    "பொதுக் கழிப்பறை",
+    "கழிப்பிடம்",
+    "திறந்தவெளி"
+   ]
+  },
+  {
+   "code": "STREETLIGHT_ELECTRICAL",
+   "label": "Street lights & electrical hazards",
+   "family": "ELECTRICAL",
+   "lead": "GCC-ELE",
+   "base_severity": 25,
+   "playbook": [
+    "Inspect the feeder pillar",
+    "Isolate live parts",
+    "Replace fittings",
+    "Restore supply",
+    "Close"
+   ],
+   "keywords_en": [
+    "streetlight",
+    "street light",
+    "electrocuted",
+    "electrocution",
+    "live wire",
+    "snapped wire",
+    "power cut",
+    "power outage",
+    "transformer",
+    "electric shock"
+   ],
+   "keywords_ta": [
+    "மின்சாரம் தாக்கி",
+    "மின் கம்பி",
+    "மின்தடை",
+    "மின் விளக்கு",
+    "தெருவிளக்கு",
+    "மின்மாற்றி"
+   ]
+  },
+  {
+   "code": "DARK_SPOT_SAFETY",
+   "label": "Dark spots & public safety",
+   "family": "PUBLIC_SAFETY",
+   "lead": "GCC-ELE",
+   "base_severity": 35,
+   "playbook": [
+    "Add lighting",
+    "Increase patrols",
+    "Install CCTV if needed",
+    "Collect community feedback",
+    "Close"
+   ],
+   "keywords_en": [
+    "dark stretch",
+    "unsafe for women",
+    "poorly lit",
+    "no lighting"
+   ],
+   "keywords_ta": [
+    "இருள் சூழ்ந்த",
+    "பெண்கள் பாதுகாப்பு"
+   ]
+  },
+  {
+   "code": "VECTOR_DISEASE",
+   "label": "Vector- & water-borne disease",
+   "family": "HEALTH",
+   "lead": "GCC-HLT",
+   "base_severity": 40,
+   "playbook": [
+    "Source reduction and fogging",
+    "Door-to-door fever survey",
+    "Hold a fever camp",
+    "Clear stagnant water",
+    "Send daily situation report"
+   ],
+   "keywords_en": [
+    "dengue",
+    "malaria",
+    "chikungunya",
+    "fever cases",
+    "cholera",
+    "diarrhoea",
+    "diarrhea",
+    "gastroenteritis",
+    "mosquito menace",
+    "jaundice",
+    "contaminated water"
+   ],
+   "keywords_ta": [
+    "டெங்கு",
+    "மலேரியா",
+    "காய்ச்சல்",
+    "வயிற்றுப்போக்கு",
+    "கொசு",
+    "மஞ்சள் காமாலை"
+   ]
+  },
+  {
+   "code": "FOOD_SAFETY",
+   "label": "Food safety & meat hygiene",
+   "family": "HEALTH",
+   "lead": "GCC-HLT",
+   "base_severity": 20,
+   "playbook": [
+    "Inspect the premises",
+    "Collect samples",
+    "Issue notice",
+    "Re-inspect",
+    "Close"
+   ],
+   "keywords_en": [
+    "food poisoning",
+    "food safety",
+    "stale meat",
+    "unhygienic eatery",
+    "food safety officials seized"
+   ],
+   "keywords_ta": [
+    "உணவு பாதுகாப்பு",
+    "கெட்டுப்போன இறைச்சி",
+    "உணவு விஷ"
+   ]
+  },
+  {
+   "code": "STRAY_ANIMALS",
+   "label": "Stray animals",
+   "family": "HEALTH",
+   "lead": "GCC-HLT",
+   "base_severity": 15,
+   "playbook": [
+    "Send the catching team",
+    "Vaccinate and sterilise",
+    "Remove carcasses",
+    "Follow up",
+    "Close"
+   ],
+   "keywords_en": [
+    "stray dog",
+    "dog bite",
+    "dog menace",
+    "stray cattle",
+    "cattle on road"
+   ],
+   "keywords_ta": [
+    "தெருநாய்",
+    "நாய் கடி",
+    "மாடுகள் சாலையில்"
+   ]
+  },
+  {
+   "code": "HEALTH_SERVICES",
+   "label": "Health services & hospital capacity",
+   "family": "HEALTH",
+   "lead": "HLT-DMS",
+   "base_severity": 35,
+   "playbook": [
+    "Check bed and staff capacity",
+    "Redeploy staff or beds",
+    "Arrange medicines or ambulance",
+    "Report to DMS",
+    "Close"
+   ],
+   "keywords_en": [
+    "shortage of doctors",
+    "medicine shortage",
+    "bed shortage",
+    "ambulance delay",
+    "patients suffer"
+   ],
+   "keywords_ta": [
+    "மருத்துவர் பற்றாக்குறை",
+    "மருந்து தட்டுப்பாடு",
+    "படுக்கை பற்றாக்குறை"
+   ]
+  },
+  {
+   "code": "AIR_POLLUTION",
+   "label": "Air pollution",
+   "family": "ENVIRONMENT",
+   "lead": "TNPCB",
+   "base_severity": 25,
+   "playbook": [
+    "Check station readings",
+    "Inspect nearby sources",
+    "Issue a health advisory",
+    "Enforce against polluters",
+    "Close"
+   ],
+   "keywords_en": [
+    "air pollution",
+    "air quality",
+    "smog",
+    "toxic fumes",
+    "aqi"
+   ],
+   "keywords_ta": [
+    "காற்று மாசு",
+    "புகைமூட்டம்"
+   ]
+  },
+  {
+   "code": "TREES_PARKS",
+   "label": "Trees, parks & playgrounds",
+   "family": "GREEN",
+   "lead": "GCC-PRK",
+   "base_severity": 15,
+   "playbook": [
+    "Clear the fallen tree",
+    "Prune trees",
+    "Repair equipment",
+    "Clean the park",
+    "Close"
+   ],
+   "keywords_en": [
+    "tree fell",
+    "uprooted",
+    "fallen tree",
+    "tree collapsed",
+    "branch fell"
+   ],
+   "keywords_ta": [
+    "மரம் சாய்ந்து",
+    "மரம் முறிந்து",
+    "மரம் விழுந்து"
+   ]
+  },
+  {
+   "code": "CRIME_PROPERTY",
+   "label": "Theft, snatching & fraud",
+   "family": "CRIME",
+   "lead": "POL-GCP",
+   "base_severity": 25,
+   "playbook": [
+    "Register the case",
+    "Patrol the hotspot",
+    "Review CCTV",
+    "Recover property",
+    "Close"
+   ],
+   "keywords_en": [
+    "chain snatching",
+    "snatched",
+    "theft",
+    "stolen",
+    "burglary",
+    "robbed",
+    "robbery",
+    "cyber fraud",
+    "duped",
+    "cheated"
+   ],
+   "keywords_ta": [
+    "திருட்டு",
+    "சங்கிலி பறிப்பு",
+    "கொள்ளை",
+    "மோசடி"
+   ]
+  },
+  {
+   "code": "CRIME_VIOLENT",
+   "label": "Violent crime & crimes against women",
+   "family": "CRIME",
+   "lead": "POL-GCP",
+   "base_severity": 55,
+   "playbook": [
+    "Respond immediately",
+    "Register the case",
+    "Protect the victim",
+    "Arrest the accused",
+    "Close"
+   ],
+   "keywords_en": [
+    "murder",
+    "murdered",
+    "hacked to death",
+    "stabbed",
+    "assault",
+    "attacked",
+    "sexual assault",
+    "harassment",
+    "molested"
+   ],
+   "keywords_ta": [
+    "கொலை",
+    "வெட்டிக் கொலை",
+    "தாக்குதல்",
+    "பாலியல்"
+   ]
+  },
+  {
+   "code": "MISSING_PERSON",
+   "label": "Missing person",
+   "family": "CRIME",
+   "lead": "POL-GCP",
+   "base_severity": 40,
+   "playbook": [
+    "Register the complaint",
+    "Circulate details",
+    "Search",
+    "Trace",
+    "Close"
+   ],
+   "keywords_en": [
+    "missing",
+    "went missing",
+    "drowned"
+   ],
+   "keywords_ta": [
+    "காணாமல்",
+    "மாயம்",
+    "நீரில் மூழ்கி"
+   ]
+  },
+  {
+   "code": "DRUGS_LIQUOR",
+   "label": "Drugs & illicit liquor",
+   "family": "CRIME",
+   "lead": "POL-GCP",
+   "base_severity": 30,
+   "playbook": [
+    "Conduct a raid",
+    "Seize material",
+    "Register the case",
+    "Follow up",
+    "Close"
+   ],
+   "keywords_en": [
+    "ganja",
+    "drugs seized",
+    "narcotics",
+    "illicit liquor",
+    "arrack"
+   ],
+   "keywords_ta": [
+    "கஞ்சா",
+    "போதைப் பொருள்",
+    "கள்ளச்சாராயம்"
+   ]
+  },
+  {
+   "code": "PUBLIC_ORDER",
+   "label": "Protests & public nuisance",
+   "family": "PUBLIC_ORDER",
+   "lead": "POL-GCP",
+   "base_severity": 20,
+   "playbook": [
+    "Deploy personnel",
+    "Manage crowd and traffic",
+    "Engage organisers",
+    "Document the event",
+    "Close"
+   ],
+   "keywords_en": [
+    "protest",
+    "protested",
+    "agitation",
+    "road roko",
+    "blockade",
+    "demonstration",
+    "staged a dharna",
+    "sit-in"
+   ],
+   "keywords_ta": [
+    "போராட்டம்",
+    "சாலை மறியல்",
+    "ஆர்ப்பாட்டம்",
+    "முற்றுகை"
+   ]
+  },
+  {
+   "code": "POLICE_OTHER",
+   "label": "Other police matters",
+   "family": "PUBLIC_ORDER",
+   "lead": "POL-GCP",
+   "base_severity": 15,
+   "playbook": [
+    "Assess",
+    "Act",
+    "Close"
+   ],
+   "keywords_en": [],
+   "keywords_ta": []
+  },
+  {
+   "code": "PUBLIC_WORKS",
+   "label": "Public works quality & worksites",
+   "family": "WORKS",
+   "lead": "GCC-ENG",
+   "base_severity": 15,
+   "playbook": [
+    "Inspect the work",
+    "Instruct the contractor",
+    "Fix deficiencies",
+    "Quality check",
+    "Close"
+   ],
+   "keywords_en": [
+    "delayed work",
+    "stalled work",
+    "poor quality work",
+    "metro work",
+    "work in progress for months"
+   ],
+   "keywords_ta": [
+    "பணிகள் தாமதம்",
+    "பணிகள் நிறைவடையாமல்"
+   ]
+  },
+  {
+   "code": "WATER_SUPPLY",
+   "label": "Drinking water supply",
+   "family": "DRAINAGE",
+   "lead": "CMWSSB",
+   "base_severity": 30,
+   "playbook": [
+    "Check the supply line",
+    "Arrange tanker supply",
+    "Repair leak or valve",
+    "Test water quality",
+    "Close"
+   ],
+   "keywords_en": [
+    "drinking water",
+    "water supply",
+    "no water",
+    "water scarcity",
+    "water tanker",
+    "pipeline burst",
+    "pipe burst",
+    "contaminated supply"
+   ],
+   "keywords_ta": [
+    "குடிநீர்",
+    "குடிநீர் தட்டுப்பாடு",
+    "குடிநீர் விநியோகம்",
+    "குழாய் உடைப்பு"
+   ]
+  },
+  {
+   "code": "CIVIC_FACILITIES",
+   "label": "Civic buildings & facilities",
+   "family": "WORKS",
+   "lead": "GCC-GAD",
+   "base_severity": 15,
+   "playbook": [
+    "Inspect",
+    "Repair",
+    "Follow up",
+    "Close"
+   ],
+   "keywords_en": [
+    "burial ground",
+    "crematorium",
+    "community hall",
+    "corporation school"
+   ],
+   "keywords_ta": [
+    "மயானம்",
+    "சமுதாயக் கூடம்",
+    "மாநகராட்சி பள்ளி"
+   ]
+  },
+  {
+   "code": "ADMIN_SERVICES",
+   "label": "Tax, certificates & electoral services",
+   "family": "ADMIN",
+   "lead": "GCC-REV",
+   "base_severity": 5,
+   "playbook": [
+    "Review the application",
+    "Resolve",
+    "Inform the citizen",
+    "Close"
+   ],
+   "keywords_en": [
+    "property tax",
+    "trade licence",
+    "voter list",
+    "birth certificate",
+    "death certificate"
+   ],
+   "keywords_ta": [
+    "சொத்து வரி",
+    "வாக்காளர் பட்டியல்",
+    "பிறப்பு சான்றிதழ்"
+   ]
+  },
+  {
+   "code": "OTHER",
+   "label": "Other / unclassified",
+   "family": "OTHER",
+   "lead": "GCC-GAD",
+   "base_severity": 10,
+   "playbook": [
+    "Triage",
+    "Route to the right department",
+    "Close"
+   ],
+   "keywords_en": [],
+   "keywords_ta": []
+  }
+ ],
+ "taluks": [
+  {
+   "code": "TLK-ALD",
+   "name": "Alandur",
+   "name_ta": "ஆலந்தூர்",
+   "in_district": true
+  },
+  {
+   "code": "TLK-AMB",
+   "name": "Ambattur",
+   "name_ta": "அம்பத்தூர்",
+   "in_district": true
+  },
+  {
+   "code": "TLK-AMJ",
+   "name": "Aminjikarai",
+   "name_ta": "அமைந்தகரை",
+   "in_district": true
+  },
+  {
+   "code": "TLK-AYN",
+   "name": "Ayanavaram",
+   "name_ta": "அயனாவரம்",
+   "in_district": true
+  },
+  {
+   "code": "TLK-EGM",
+   "name": "Egmore",
+   "name_ta": "எழும்பூர்",
+   "in_district": true
+  },
+  {
+   "code": "TLK-GND",
+   "name": "Guindy",
+   "name_ta": "கிண்டி",
+   "in_district": true
+  },
+  {
+   "code": "TLK-KLT",
+   "name": "Kolathur",
+   "name_ta": "கொளத்தூர்",
+   "in_district": true
+  },
+  {
+   "code": "TLK-MDV",
+   "name": "Madhavaram",
+   "name_ta": "மாதவரம்",
+   "in_district": true
+  },
+  {
+   "code": "TLK-MDR",
+   "name": "Maduravoyal",
+   "name_ta": "மதுரவாயல்",
+   "in_district": true
+  },
+  {
+   "code": "TLK-MBM",
+   "name": "Mambalam",
+   "name_ta": "மாம்பலம்",
+   "in_district": true
+  },
+  {
+   "code": "TLK-MYL",
+   "name": "Mylapore",
+   "name_ta": "மயிலாப்பூர்",
+   "in_district": true
+  },
+  {
+   "code": "TLK-PRB",
+   "name": "Perambur",
+   "name_ta": "பெரம்பூர்",
+   "in_district": true
+  },
+  {
+   "code": "TLK-PSW",
+   "name": "Purasawalkam",
+   "name_ta": "புரசைவாக்கம்",
+   "in_district": true
+  },
+  {
+   "code": "TLK-SHN",
+   "name": "Sholinganallur",
+   "name_ta": "சோழிங்கநல்லூர்",
+   "in_district": true
+  },
+  {
+   "code": "TLK-TVT",
+   "name": "Thiruvottiyur",
+   "name_ta": "திருவொற்றியூர்",
+   "in_district": true
+  },
+  {
+   "code": "TLK-TDP",
+   "name": "Tondiarpet",
+   "name_ta": "தண்டையார்பேட்டை",
+   "in_district": true
+  },
+  {
+   "code": "TLK-VLC",
+   "name": "Velachery",
+   "name_ta": "வேளச்சேரி",
+   "in_district": true
+  },
+  {
+   "code": "TLK-TBM",
+   "name": "Tambaram",
+   "name_ta": "தாம்பரம்",
+   "in_district": false
+  }
+ ],
+ "places": [
+  {
+   "name": "T. Nagar",
+   "kind": "locality",
+   "lat": 13.0418,
+   "lon": 80.2341,
+   "zone": null,
+   "aliases_en": [
+    "T. Nagar",
+    "Thyagaraya Nagar",
+    "Thiyagaraya Nagar"
+   ],
+   "aliases_ta": [
+    "தி.நகர்",
+    "தியாகராய நகர்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Triplicane",
+   "kind": "locality",
+   "lat": 13.0588,
+   "lon": 80.2756,
+   "zone": null,
+   "aliases_en": [
+    "Triplicane"
+   ],
+   "aliases_ta": [
+    "திருவல்லிக்கேணி"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Chintadripet",
+   "kind": "locality",
+   "lat": 13.0732,
+   "lon": 80.2713,
+   "zone": null,
+   "aliases_en": [
+    "Chintadripet",
+    "Chindadripet"
+   ],
+   "aliases_ta": [
+    "சிந்தாதிரிப்பேட்டை"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Vepery",
+   "kind": "locality",
+   "lat": 13.085,
+   "lon": 80.262,
+   "zone": null,
+   "aliases_en": [
+    "Vepery"
+   ],
+   "aliases_ta": [
+    "வேப்பேரி"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Washermanpet",
+   "kind": "locality",
+   "lat": 13.1125,
+   "lon": 80.287,
+   "zone": null,
+   "aliases_en": [
+    "Washermanpet",
+    "Old Washermanpet"
+   ],
+   "aliases_ta": [
+    "வண்ணாரப்பேட்டை"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Kodungaiyur",
+   "kind": "locality",
+   "lat": 13.1375,
+   "lon": 80.2478,
+   "zone": null,
+   "aliases_en": [
+    "Kodungaiyur"
+   ],
+   "aliases_ta": [
+    "கொடுங்கையூர்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Vyasarpadi",
+   "kind": "locality",
+   "lat": 13.117,
+   "lon": 80.256,
+   "zone": null,
+   "aliases_en": [
+    "Vyasarpadi"
+   ],
+   "aliases_ta": [
+    "வியாசர்பாடி"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Sembium",
+   "kind": "locality",
+   "lat": 13.118,
+   "lon": 80.233,
+   "zone": null,
+   "aliases_en": [
+    "Sembium",
+    "Sembiam"
+   ],
+   "aliases_ta": [
+    "செம்பியம்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Pulianthope",
+   "kind": "locality",
+   "lat": 13.098,
+   "lon": 80.263,
+   "zone": null,
+   "aliases_en": [
+    "Pulianthope"
+   ],
+   "aliases_ta": [
+    "புளியந்தோப்பு"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Otteri",
+   "kind": "locality",
+   "lat": 13.095,
+   "lon": 80.25,
+   "zone": null,
+   "aliases_en": [
+    "Otteri"
+   ],
+   "aliases_ta": [
+    "ஓட்டேரி"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Kilpauk",
+   "kind": "locality",
+   "lat": 13.082,
+   "lon": 80.242,
+   "zone": null,
+   "aliases_en": [
+    "Kilpauk"
+   ],
+   "aliases_ta": [
+    "கீழ்ப்பாக்கம்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Villivakkam",
+   "kind": "locality",
+   "lat": 13.108,
+   "lon": 80.205,
+   "zone": null,
+   "aliases_en": [
+    "Villivakkam"
+   ],
+   "aliases_ta": [
+    "வில்லிவாக்கம்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Koyambedu",
+   "kind": "locality",
+   "lat": 13.0694,
+   "lon": 80.1948,
+   "zone": null,
+   "aliases_en": [
+    "Koyambedu"
+   ],
+   "aliases_ta": [
+    "கோயம்பேடு",
+    "கோயம்பேட்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Arumbakkam",
+   "kind": "locality",
+   "lat": 13.072,
+   "lon": 80.21,
+   "zone": null,
+   "aliases_en": [
+    "Arumbakkam"
+   ],
+   "aliases_ta": [
+    "அரும்பாக்கம்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Nungambakkam",
+   "kind": "locality",
+   "lat": 13.0569,
+   "lon": 80.2425,
+   "zone": null,
+   "aliases_en": [
+    "Nungambakkam"
+   ],
+   "aliases_ta": [
+    "நுங்கம்பாக்கம்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Vadapalani",
+   "kind": "locality",
+   "lat": 13.05,
+   "lon": 80.2121,
+   "zone": null,
+   "aliases_en": [
+    "Vadapalani",
+    "Vadapalni"
+   ],
+   "aliases_ta": [
+    "வடபழனி"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Saidapet",
+   "kind": "locality",
+   "lat": 13.0213,
+   "lon": 80.2231,
+   "zone": null,
+   "aliases_en": [
+    "Saidapet"
+   ],
+   "aliases_ta": [
+    "சைதாப்பேட்டை"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Ashok Nagar",
+   "kind": "locality",
+   "lat": 13.035,
+   "lon": 80.212,
+   "zone": null,
+   "aliases_en": [
+    "Ashok Nagar"
+   ],
+   "aliases_ta": [
+    "அசோக் நகர்"
+   ],
+   "requires_context": true
+  },
+  {
+   "name": "K.K. Nagar",
+   "kind": "locality",
+   "lat": 13.041,
+   "lon": 80.199,
+   "zone": null,
+   "aliases_en": [
+    "K.K. Nagar"
+   ],
+   "aliases_ta": [
+    "கே.கே.நகர்"
+   ],
+   "requires_context": true
+  },
+  {
+   "name": "Saligramam",
+   "kind": "locality",
+   "lat": 13.054,
+   "lon": 80.2,
+   "zone": null,
+   "aliases_en": [
+    "Saligramam"
+   ],
+   "aliases_ta": [
+    "சாலிகிராமம்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Virugambakkam",
+   "kind": "locality",
+   "lat": 13.053,
+   "lon": 80.192,
+   "zone": null,
+   "aliases_en": [
+    "Virugambakkam"
+   ],
+   "aliases_ta": [
+    "விருகம்பாக்கம்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Porur",
+   "kind": "locality",
+   "lat": 13.0382,
+   "lon": 80.1565,
+   "zone": null,
+   "aliases_en": [
+    "Porur"
+   ],
+   "aliases_ta": [
+    "போரூர்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Ramapuram",
+   "kind": "locality",
+   "lat": 13.032,
+   "lon": 80.178,
+   "zone": null,
+   "aliases_en": [
+    "Ramapuram"
+   ],
+   "aliases_ta": [
+    "ராமாபுரம்"
+   ],
+   "requires_context": true
+  },
+  {
+   "name": "Mogappair",
+   "kind": "locality",
+   "lat": 13.0837,
+   "lon": 80.175,
+   "zone": null,
+   "aliases_en": [
+    "Mogappair",
+    "Mugappair"
+   ],
+   "aliases_ta": [
+    "முகப்பேர்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Padi",
+   "kind": "locality",
+   "lat": 13.098,
+   "lon": 80.186,
+   "zone": null,
+   "aliases_en": [
+    "Padi"
+   ],
+   "aliases_ta": [],
+   "requires_context": true
+  },
+  {
+   "name": "Korattur",
+   "kind": "locality",
+   "lat": 13.11,
+   "lon": 80.183,
+   "zone": null,
+   "aliases_en": [
+    "Korattur"
+   ],
+   "aliases_ta": [
+    "கொரட்டூர்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Puzhal",
+   "kind": "locality",
+   "lat": 13.158,
+   "lon": 80.203,
+   "zone": null,
+   "aliases_en": [
+    "Puzhal"
+   ],
+   "aliases_ta": [
+    "புழல்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Ennore",
+   "kind": "locality",
+   "lat": 13.2146,
+   "lon": 80.3203,
+   "zone": null,
+   "aliases_en": [
+    "Ennore"
+   ],
+   "aliases_ta": [
+    "எண்ணூர்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Kasimedu",
+   "kind": "locality",
+   "lat": 13.123,
+   "lon": 80.295,
+   "zone": null,
+   "aliases_en": [
+    "Kasimedu"
+   ],
+   "aliases_ta": [
+    "காசிமேடு"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "George Town",
+   "kind": "locality",
+   "lat": 13.093,
+   "lon": 80.286,
+   "zone": null,
+   "aliases_en": [
+    "George Town",
+    "Georgetown"
+   ],
+   "aliases_ta": [
+    "ஜார்ஜ் டவுன்"
+   ],
+   "requires_context": true
+  },
+  {
+   "name": "Parrys",
+   "kind": "locality",
+   "lat": 13.09,
+   "lon": 80.288,
+   "zone": null,
+   "aliases_en": [
+    "Parrys",
+    "Parry's Corner",
+    "Parrys Corner"
+   ],
+   "aliases_ta": [
+    "பாரிமுனை"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Chepauk",
+   "kind": "locality",
+   "lat": 13.063,
+   "lon": 80.28,
+   "zone": null,
+   "aliases_en": [
+    "Chepauk"
+   ],
+   "aliases_ta": [
+    "சேப்பாக்கம்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Marina Beach",
+   "kind": "locality",
+   "lat": 13.05,
+   "lon": 80.2824,
+   "zone": null,
+   "aliases_en": [
+    "Marina Beach"
+   ],
+   "aliases_ta": [
+    "மெரினா"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Royapettah",
+   "kind": "locality",
+   "lat": 13.054,
+   "lon": 80.264,
+   "zone": null,
+   "aliases_en": [
+    "Royapettah"
+   ],
+   "aliases_ta": [
+    "ராயப்பேட்டை"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Alwarpet",
+   "kind": "locality",
+   "lat": 13.0339,
+   "lon": 80.255,
+   "zone": null,
+   "aliases_en": [
+    "Alwarpet"
+   ],
+   "aliases_ta": [
+    "ஆழ்வார்பேட்டை"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Mandaveli",
+   "kind": "locality",
+   "lat": 13.027,
+   "lon": 80.262,
+   "zone": null,
+   "aliases_en": [
+    "Mandaveli",
+    "Mandavelli"
+   ],
+   "aliases_ta": [
+    "மந்தைவெளி"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Nandanam",
+   "kind": "locality",
+   "lat": 13.029,
+   "lon": 80.239,
+   "zone": null,
+   "aliases_en": [
+    "Nandanam"
+   ],
+   "aliases_ta": [
+    "நந்தனம்"
+   ],
+   "requires_context": true
+  },
+  {
+   "name": "Ekkattuthangal",
+   "kind": "locality",
+   "lat": 13.021,
+   "lon": 80.205,
+   "zone": null,
+   "aliases_en": [
+    "Ekkattuthangal",
+    "Ekkaduthangal",
+    "Ekkatuthangal"
+   ],
+   "aliases_ta": [
+    "ஈக்காட்டுத்தாங்கல்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Besant Nagar",
+   "kind": "locality",
+   "lat": 13.0003,
+   "lon": 80.2667,
+   "zone": null,
+   "aliases_en": [
+    "Besant Nagar"
+   ],
+   "aliases_ta": [
+    "பெசன்ட் நகர்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Thiruvanmiyur",
+   "kind": "locality",
+   "lat": 12.983,
+   "lon": 80.2594,
+   "zone": null,
+   "aliases_en": [
+    "Thiruvanmiyur",
+    "Tiruvanmiyur"
+   ],
+   "aliases_ta": [
+    "திருவான்மியூர்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Taramani",
+   "kind": "locality",
+   "lat": 12.9863,
+   "lon": 80.2432,
+   "zone": null,
+   "aliases_en": [
+    "Taramani",
+    "Tharamani"
+   ],
+   "aliases_ta": [
+    "தரமணி"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Pallikaranai",
+   "kind": "locality",
+   "lat": 12.9349,
+   "lon": 80.2137,
+   "zone": null,
+   "aliases_en": [
+    "Pallikaranai"
+   ],
+   "aliases_ta": [
+    "பள்ளிக்கரணை"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Madipakkam",
+   "kind": "locality",
+   "lat": 12.9623,
+   "lon": 80.1986,
+   "zone": null,
+   "aliases_en": [
+    "Madipakkam"
+   ],
+   "aliases_ta": [
+    "மடிப்பாக்கம்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Nanganallur",
+   "kind": "locality",
+   "lat": 12.9807,
+   "lon": 80.188,
+   "zone": null,
+   "aliases_en": [
+    "Nanganallur"
+   ],
+   "aliases_ta": [
+    "நங்கநல்லூர்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Meenambakkam",
+   "kind": "locality",
+   "lat": 12.987,
+   "lon": 80.176,
+   "zone": null,
+   "aliases_en": [
+    "Meenambakkam"
+   ],
+   "aliases_ta": [
+    "மீனம்பாக்கம்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Thoraipakkam",
+   "kind": "locality",
+   "lat": 12.9406,
+   "lon": 80.238,
+   "zone": null,
+   "aliases_en": [
+    "Thoraipakkam",
+    "Thoraippakkam"
+   ],
+   "aliases_ta": [
+    "துரைப்பாக்கம்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Karapakkam",
+   "kind": "locality",
+   "lat": 12.918,
+   "lon": 80.229,
+   "zone": null,
+   "aliases_en": [
+    "Karapakkam"
+   ],
+   "aliases_ta": [
+    "கரப்பாக்கம்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Neelankarai",
+   "kind": "locality",
+   "lat": 12.949,
+   "lon": 80.259,
+   "zone": null,
+   "aliases_en": [
+    "Neelankarai",
+    "Neelangarai"
+   ],
+   "aliases_ta": [
+    "நீலாங்கரை"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Kottivakkam",
+   "kind": "locality",
+   "lat": 12.968,
+   "lon": 80.259,
+   "zone": null,
+   "aliases_en": [
+    "Kottivakkam"
+   ],
+   "aliases_ta": [
+    "கொட்டிவாக்கம்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Enjambakkam",
+   "kind": "locality",
+   "lat": 12.92,
+   "lon": 80.25,
+   "zone": null,
+   "aliases_en": [
+    "Enjambakkam",
+    "Injambakkam"
+   ],
+   "aliases_ta": [
+    "ஈஞ்சம்பாக்கம்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Semmancheri",
+   "kind": "locality",
+   "lat": 12.868,
+   "lon": 80.224,
+   "zone": null,
+   "aliases_en": [
+    "Semmancheri",
+    "Semmenchery"
+   ],
+   "aliases_ta": [
+    "செம்மஞ்சேரி"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Pattinapakkam",
+   "kind": "locality",
+   "lat": 13.0269,
+   "lon": 80.2785,
+   "zone": null,
+   "aliases_en": [
+    "Pattinapakkam",
+    "Pattinappakkam"
+   ],
+   "aliases_ta": [
+    "பட்டினப்பாக்கம்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Santhome",
+   "kind": "locality",
+   "lat": 13.033,
+   "lon": 80.278,
+   "zone": null,
+   "aliases_en": [
+    "Santhome",
+    "San Thome"
+   ],
+   "aliases_ta": [
+    "சாந்தோம்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Kotturpuram",
+   "kind": "locality",
+   "lat": 13.017,
+   "lon": 80.242,
+   "zone": null,
+   "aliases_en": [
+    "Kotturpuram"
+   ],
+   "aliases_ta": [
+    "கோட்டூர்புரம்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Choolaimedu",
+   "kind": "locality",
+   "lat": 13.064,
+   "lon": 80.227,
+   "zone": null,
+   "aliases_en": [
+    "Choolaimedu"
+   ],
+   "aliases_ta": [
+    "சூளைமேடு"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Manali",
+   "kind": "zone",
+   "lat": 13.1668,
+   "lon": 80.261,
+   "zone": 2,
+   "aliases_en": [
+    "Manali"
+   ],
+   "aliases_ta": [
+    "மணலி"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Royapuram",
+   "kind": "zone",
+   "lat": 13.1137,
+   "lon": 80.2954,
+   "zone": 5,
+   "aliases_en": [
+    "Royapuram"
+   ],
+   "aliases_ta": [
+    "ராயபுரம்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Thiru-Vi-Ka Nagar",
+   "kind": "zone",
+   "lat": 13.117,
+   "lon": 80.238,
+   "zone": 6,
+   "aliases_en": [
+    "Thiru-Vi-Ka Nagar",
+    "Thiru. Vi. Ka. Nagar",
+    "Thiruvika Nagar",
+    "TVK Nagar"
+   ],
+   "aliases_ta": [
+    "திரு.வி.க. நகர்",
+    "திருவிக நகர்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Anna Nagar",
+   "kind": "zone",
+   "lat": 13.085,
+   "lon": 80.2101,
+   "zone": 8,
+   "aliases_en": [
+    "Anna Nagar"
+   ],
+   "aliases_ta": [
+    "அண்ணா நகர்",
+    "அண்ணாநகர்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Teynampet",
+   "kind": "zone",
+   "lat": 13.0405,
+   "lon": 80.2503,
+   "zone": 9,
+   "aliases_en": [
+    "Teynampet"
+   ],
+   "aliases_ta": [
+    "தேனாம்பேட்டை"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Kodambakkam",
+   "kind": "zone",
+   "lat": 13.052,
+   "lon": 80.2255,
+   "zone": 10,
+   "aliases_en": [
+    "Kodambakkam"
+   ],
+   "aliases_ta": [
+    "கோடம்பாக்கம்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Valasaravakkam",
+   "kind": "zone",
+   "lat": 13.04,
+   "lon": 80.172,
+   "zone": 11,
+   "aliases_en": [
+    "Valasaravakkam"
+   ],
+   "aliases_ta": [
+    "வளசரவாக்கம்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Adyar",
+   "kind": "zone",
+   "lat": 13.0012,
+   "lon": 80.2565,
+   "zone": 13,
+   "aliases_en": [
+    "Adyar",
+    "Adayar"
+   ],
+   "aliases_ta": [
+    "அடையாறு",
+    "அடையாற்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Perungudi",
+   "kind": "zone",
+   "lat": 12.9654,
+   "lon": 80.2461,
+   "zone": 14,
+   "aliases_en": [
+    "Perungudi"
+   ],
+   "aliases_ta": [
+    "பெருங்குடி"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Alandur",
+   "kind": "taluk",
+   "lat": 12.9975,
+   "lon": 80.2006,
+   "zone": 12,
+   "aliases_en": [
+    "Alandur"
+   ],
+   "aliases_ta": [
+    "ஆலந்தூர்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Ambattur",
+   "kind": "taluk",
+   "lat": 13.1143,
+   "lon": 80.1548,
+   "zone": 7,
+   "aliases_en": [
+    "Ambattur"
+   ],
+   "aliases_ta": [
+    "அம்பத்தூர்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Aminjikarai",
+   "kind": "taluk",
+   "lat": 13.0698,
+   "lon": 80.2245,
+   "zone": null,
+   "aliases_en": [
+    "Aminjikarai",
+    "Aminjikkarai",
+    "Aminjakarai"
+   ],
+   "aliases_ta": [
+    "அமைந்தகரை"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Ayanavaram",
+   "kind": "taluk",
+   "lat": 13.0986,
+   "lon": 80.233,
+   "zone": null,
+   "aliases_en": [
+    "Ayanavaram"
+   ],
+   "aliases_ta": [
+    "அயனாவரம்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Egmore",
+   "kind": "taluk",
+   "lat": 13.0732,
+   "lon": 80.2609,
+   "zone": null,
+   "aliases_en": [
+    "Egmore"
+   ],
+   "aliases_ta": [
+    "எழும்பூர்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Guindy",
+   "kind": "taluk",
+   "lat": 13.0067,
+   "lon": 80.2206,
+   "zone": null,
+   "aliases_en": [
+    "Guindy"
+   ],
+   "aliases_ta": [
+    "கிண்டி"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Kolathur",
+   "kind": "taluk",
+   "lat": 13.1231,
+   "lon": 80.2121,
+   "zone": null,
+   "aliases_en": [
+    "Kolathur",
+    "Kolattur"
+   ],
+   "aliases_ta": [
+    "கொளத்தூர்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Madhavaram",
+   "kind": "taluk",
+   "lat": 13.1488,
+   "lon": 80.2306,
+   "zone": 3,
+   "aliases_en": [
+    "Madhavaram",
+    "Madavaram",
+    "Madhvaram"
+   ],
+   "aliases_ta": [
+    "மாதவரம்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Maduravoyal",
+   "kind": "taluk",
+   "lat": 13.0654,
+   "lon": 80.1636,
+   "zone": null,
+   "aliases_en": [
+    "Maduravoyal",
+    "Madhuravoyal"
+   ],
+   "aliases_ta": [
+    "மதுரவாயல்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Mambalam",
+   "kind": "taluk",
+   "lat": 13.0382,
+   "lon": 80.221,
+   "zone": null,
+   "aliases_en": [
+    "Mambalam"
+   ],
+   "aliases_ta": [
+    "மாம்பலம்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Mylapore",
+   "kind": "taluk",
+   "lat": 13.0368,
+   "lon": 80.2676,
+   "zone": null,
+   "aliases_en": [
+    "Mylapore"
+   ],
+   "aliases_ta": [
+    "மயிலாப்பூர்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Perambur",
+   "kind": "taluk",
+   "lat": 13.121,
+   "lon": 80.233,
+   "zone": null,
+   "aliases_en": [
+    "Perambur"
+   ],
+   "aliases_ta": [
+    "பெரம்பூர்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Purasawalkam",
+   "kind": "taluk",
+   "lat": 13.0885,
+   "lon": 80.256,
+   "zone": null,
+   "aliases_en": [
+    "Purasawalkam",
+    "Purasaiwalkam",
+    "Purasaiwalkkam",
+    "Purasaiwakkam",
+    "Purasawakkam",
+    "Purasaivakkam"
+   ],
+   "aliases_ta": [
+    "புரசைவாக்கம்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Sholinganallur",
+   "kind": "taluk",
+   "lat": 12.901,
+   "lon": 80.2279,
+   "zone": 15,
+   "aliases_en": [
+    "Sholinganallur",
+    "Sholinganalur",
+    "Sholinganallore"
+   ],
+   "aliases_ta": [
+    "சோழிங்கநல்லூர்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Thiruvottiyur",
+   "kind": "taluk",
+   "lat": 13.1643,
+   "lon": 80.3003,
+   "zone": 1,
+   "aliases_en": [
+    "Thiruvottiyur",
+    "Tiruvottiyur",
+    "Tiruvotriyur",
+    "Thiruvotriyur",
+    "Thiruvottriyur"
+   ],
+   "aliases_ta": [
+    "திருவொற்றியூர்"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Tondiarpet",
+   "kind": "taluk",
+   "lat": 13.126,
+   "lon": 80.288,
+   "zone": 4,
+   "aliases_en": [
+    "Tondiarpet",
+    "Tondiarpettai",
+    "Tondairpet"
+   ],
+   "aliases_ta": [
+    "தண்டையார்பேட்டை"
+   ],
+   "requires_context": false
+  },
+  {
+   "name": "Velachery",
+   "kind": "taluk",
+   "lat": 12.9815,
+   "lon": 80.218,
+   "zone": null,
+   "aliases_en": [
+    "Velachery",
+    "Velacheri"
+   ],
+   "aliases_ta": [
+    "வேளச்சேரி"
+   ],
+   "requires_context": false
+  }
+ ]
+}

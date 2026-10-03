@@ -1,0 +1,126 @@
+# Every hour, on GitHub's machine instead of the PC: collect all 8 sources, rebuild the district_intel store and
+# upload it to AWS. The website (DATA_BACKEND=aws) picks up the new build within 5 minutes.
+#
+# Needs one repository secret: REFRESH_API_KEY (the team API key; it never expires, and no AWS keys are used).
+# Between runs, the collectors' history lives in the `state` release (ci/state.py); the first run starts from the
+# `seed` branch's copy of the PC's state when there is no release yet.
+name: Hourly data load
+
+on:
+  schedule:
+    - cron: "17 * * * *"   # every hour at :17 (GitHub may start scheduled runs a few minutes late)
+  workflow_dispatch:       # "Run workflow" button in the Actions tab
+
+permissions:
+  contents: write          # to save the state release
+
+concurrency:
+  group: dataload
+  cancel-in-progress: false
+
+jobs:
+  load:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    services:
+      # Temporary MySQL for the grievance generator only; thrown away when the job ends
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: ci-only
+        ports: ["3306:3306"]
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -pci-only"
+          --health-interval=5s --health-timeout=5s --health-retries=30
+
+    env:
+      TZ: Asia/Kolkata                       # the collectors and generators keep IST wall-clock time
+      PYTHONIOENCODING: utf-8
+      REFRESH_API_KEY: ${{ secrets.REFRESH_API_KEY }}
+      DB_HOST: 127.0.0.1
+      DB_PORT: "3306"
+      DB_USER: root
+      DB_PASSWORD: ci-only
+      DB_NAME: district_collector_dashboard
+      HF_HOME: ${{ github.workspace }}/.hf   # the multilingual-e5-small model, cached between runs
+      GH_TOKEN: ${{ github.token }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check the API key secret
+        run: |
+          if [ -z "$REFRESH_API_KEY" ]; then
+            echo "::error::Add the repository secret REFRESH_API_KEY (Settings > Secrets and variables > Actions)"; exit 1
+          fi
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: ci/requirements.txt
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Python packages
+        run: |
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install -r ci/requirements.txt
+          python -m playwright install --with-deps chromium
+
+      - name: Install Node packages
+        run: |
+          npm ci --prefix police_dataset_generator --no-audit --no-fund
+          npm install --prefix chennai-grievance-portal-main --no-audit --no-fund
+
+      - uses: actions/cache@v4
+        with:
+          path: .hf
+          key: hf-multilingual-e5-small-v1
+
+      - name: Restore the collectors' history
+        run: |
+          if gh release download state --pattern state.tar.gz --clobber; then
+            python ci/state.py unpack state.tar.gz
+          elif git fetch --depth 1 origin seed 2>/dev/null; then
+            git show origin/seed:state.tar.gz > state.tar.gz
+            python ci/state.py unpack state.tar.gz
+            echo "first run: started from the seed branch"
+          else
+            echo "::warning::no saved state and no seed branch: starting from empty history"
+          fi
+          echo "STATE_OK=1" >> "$GITHUB_ENV"
+
+      - name: Load the grievance generator's MySQL from AWS
+        run: python ci/seed_mysql.py
+
+      - name: Collect all sources and rebuild the store
+        run: |
+          # the PC's config, with Linux's npm and no MySQL export
+          sed -e 's/npm\.cmd/npm/' -e 's/export_after_build: true/export_after_build: false/' \
+            district_intel/config.yaml > district_intel/config.ci.yaml
+          python district_intel/run_pipeline.py refresh --all --config district_intel/config.ci.yaml
+          python - <<'EOF'
+          import json
+          st = json.load(open("district_intel/output/state/refresh_state.json"))
+          last = st.get("_last_collection", {})
+          print("sources:", ", ".join(last.get("ran", [])), "| failed:", ", ".join(last.get("failed", [])) or "none")
+          for name in last.get("failed", []):
+              print(f"::warning::{name} failed this run (retried next hour): " + st[name]["tail"].strip().splitlines()[-1][:200])
+          EOF
+
+      - name: Upload to AWS
+        run: |
+          python aws/export_intel.py
+          python aws/push.py cpcb police
+
+      - name: Save the collectors' history
+        if: always() && env.STATE_OK == '1'
+        run: |
+          python ci/state.py pack state.tar.gz
+          gh release view state >/dev/null 2>&1 || gh release create state --title "Pipeline state" \
+            --notes "Saved by the hourly workflow: what the collectors keep between runs (ci/state.py). Not a software release."
+          gh release upload state state.tar.gz --clobber

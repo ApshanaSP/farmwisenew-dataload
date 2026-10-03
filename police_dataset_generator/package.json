@@ -1,0 +1,25 @@
+{
+  "name": "police-dataset-generator",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Synthetic Chennai Police incident dataset generator for the District Collector Intelligence Dashboard (FarmwiseAI Task 6)",
+  "scripts": {
+    "setup": "tsx src/setup.ts",
+    "generate": "tsx src/generate.ts",
+    "validate": "tsx src/validate.ts",
+    "all": "npm run setup && npm run generate && npm run validate",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "dotenv": "^18.0.3",
+    "mysql2": "^3.24.4"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.2",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}

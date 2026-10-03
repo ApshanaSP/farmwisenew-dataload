@@ -1,0 +1,42 @@
+# Standard lifecycle. "Awaiting verification" is the Collector's own queue:
+# both the grievance and the PWD task lifecycles have that step.
+stages: [Open, Under review, Assigned, In progress, Awaiting verification, Resolved, Rejected, Lapsed]
+# Lapsed: a news-only incident with no coverage for 7 days and no department record.
+closed_stages: [Resolved, Rejected, Lapsed]
+
+grievance:
+  Complaint Filed: Open
+  Pending Approval: Under review
+  Approved by Department Officer: Assigned
+  In Progress: In progress
+  Completed - Pending Collector Verification: Awaiting verification
+  Verified by Collector: Resolved
+  Rejected: Rejected
+
+police:
+  REPORTED: Open
+  UNDER_INVESTIGATION: In progress
+  ACTION_TAKEN: In progress
+  CLOSED: Resolved
+
+pwd_incident:
+  open: Open
+  in_progress: In progress
+  resolved: Resolved
+
+pwd_task:
+  assigned: Assigned
+  accepted: Assigned
+  in_progress: In progress
+  completed_pending_verification: Awaiting verification
+  verified: Resolved
+  reopened: In progress
+
+# Action (task) status as the dashboard's action list shows it.
+action_status:
+  assigned: Not started
+  accepted: Pending
+  in_progress: In progress
+  completed_pending_verification: Done
+  verified: Done
+  reopened: In progress

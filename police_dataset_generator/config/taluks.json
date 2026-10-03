@@ -1,0 +1,297 @@
+{
+  "district": "Chennai",
+  "_comment": "Taluk / locality / station master for the generator. Swap this file for an export of the Location Master table later. hotspots = per-category multipliers on the chance an incident of that category lands in this taluk. heavy_vehicle_share = share of road accidents involving lorries, containers, tankers or buses.",
+  "bounds": { "min_lat": 12.82, "max_lat": 13.24, "min_lng": 80.12, "max_lng": 80.34 },
+  "taluks": [
+    {
+      "code": "TLK-ALD", "name": "Alandur", "centroid": { "lat": 12.9975, "lng": 80.2006 }, "weight": 1.0, "heavy_vehicle_share": 0.18,
+      "hotspots": {},
+      "localities": [
+        { "name": "Alandur", "lat": 13.0035, "lng": 80.2012, "landmarks": ["Alandur Metro Station", "GST Road", "Alandur Court"] },
+        { "name": "St. Thomas Mount", "lat": 12.9953, "lng": 80.1945, "landmarks": ["St. Thomas Mount Railway Station", "Butt Road"] },
+        { "name": "Nanganallur", "lat": 12.9812, "lng": 80.1880, "landmarks": ["Nanganallur Anjaneyar Temple", "Nanganallur 4th Main Road"] },
+        { "name": "Adambakkam", "lat": 12.9901, "lng": 80.2046, "landmarks": ["Adambakkam Lake", "Brindavan Nagar"] },
+        { "name": "Meenambakkam", "lat": 12.9876, "lng": 80.1753, "landmarks": ["Meenambakkam Metro Station", "Airport Arrival Gate"] },
+        { "name": "Palavanthangal", "lat": 12.9860, "lng": 80.1870, "landmarks": ["Palavanthangal Railway Station"] }
+      ],
+      "stations": [
+        { "code": "PS-ALD-01", "name": "Alandur Police Station", "lat": 13.0020, "lng": 80.2005 },
+        { "code": "PS-ALD-02", "name": "St. Thomas Mount Police Station", "lat": 12.9960, "lng": 80.1960 },
+        { "code": "PS-ALD-03", "name": "Adambakkam Police Station", "lat": 12.9895, "lng": 80.2055 },
+        { "code": "PS-ALD-04", "name": "Pazhavanthangal Police Station", "lat": 12.9850, "lng": 80.1875 }
+      ]
+    },
+    {
+      "code": "TLK-AMB", "name": "Ambattur", "centroid": { "lat": 13.1100, "lng": 80.1650 }, "weight": 1.15, "heavy_vehicle_share": 0.22,
+      "hotspots": {},
+      "localities": [
+        { "name": "Ambattur", "lat": 13.1143, "lng": 80.1548, "landmarks": ["Ambattur OT Bus Stand", "Ambattur Railway Station"] },
+        { "name": "Ambattur Industrial Estate", "lat": 13.0990, "lng": 80.1630, "landmarks": ["Estate Main Road", "Dunlop Junction"] },
+        { "name": "Mogappair", "lat": 13.0837, "lng": 80.1750, "landmarks": ["Mogappair West Bus Terminus", "Golden Flats"] },
+        { "name": "Padi", "lat": 13.0970, "lng": 80.1850, "landmarks": ["Padi Flyover", "Britannia Junction"] },
+        { "name": "Korattur", "lat": 13.1080, "lng": 80.1830, "landmarks": ["Korattur Lake", "Korattur Railway Station"] },
+        { "name": "Pattaravakkam", "lat": 13.1060, "lng": 80.1670, "landmarks": ["Pattaravakkam Railway Station"] }
+      ],
+      "stations": [
+        { "code": "PS-AMB-01", "name": "Ambattur Police Station", "lat": 13.1150, "lng": 80.1560 },
+        { "code": "PS-AMB-02", "name": "Ambattur Estate Police Station", "lat": 13.1000, "lng": 80.1640 },
+        { "code": "PS-AMB-03", "name": "Mogappair Police Station", "lat": 13.0845, "lng": 80.1760 },
+        { "code": "PS-AMB-04", "name": "Korattur Police Station", "lat": 13.1085, "lng": 80.1840 }
+      ]
+    },
+    {
+      "code": "TLK-AMJ", "name": "Aminjikarai", "centroid": { "lat": 13.0780, "lng": 80.2180 }, "weight": 1.0, "heavy_vehicle_share": 0.12,
+      "hotspots": {},
+      "localities": [
+        { "name": "Aminjikarai", "lat": 13.0730, "lng": 80.2240, "landmarks": ["Aminjikarai Market", "Poonamallee High Road"] },
+        { "name": "Anna Nagar", "lat": 13.0850, "lng": 80.2101, "landmarks": ["Anna Nagar Tower Park", "Anna Nagar Roundtana", "Anna Nagar 2nd Avenue"] },
+        { "name": "Shenoy Nagar", "lat": 13.0790, "lng": 80.2270, "landmarks": ["Shenoy Nagar Metro Station", "Pullah Avenue"] },
+        { "name": "Arumbakkam", "lat": 13.0720, "lng": 80.2090, "landmarks": ["Arumbakkam Metro Station", "MMDA Colony"] },
+        { "name": "Anna Nagar West", "lat": 13.0900, "lng": 80.2000, "landmarks": ["Thirumangalam Junction", "VR Mall"] },
+        { "name": "Anna Arch", "lat": 13.0800, "lng": 80.2180, "landmarks": ["Anna Arch Junction"] }
+      ],
+      "stations": [
+        { "code": "PS-AMJ-01", "name": "Aminjikarai Police Station", "lat": 13.0735, "lng": 80.2235 },
+        { "code": "PS-AMJ-02", "name": "Anna Nagar Police Station", "lat": 13.0860, "lng": 80.2110 },
+        { "code": "PS-AMJ-03", "name": "Thirumangalam Police Station", "lat": 13.0855, "lng": 80.2020 }
+      ]
+    },
+    {
+      "code": "TLK-AYN", "name": "Ayanavaram", "centroid": { "lat": 13.1030, "lng": 80.2270 }, "weight": 0.95, "heavy_vehicle_share": 0.12,
+      "hotspots": {},
+      "localities": [
+        { "name": "Ayanavaram", "lat": 13.0986, "lng": 80.2330, "landmarks": ["Ayanavaram Bus Terminus", "Konnur High Road"] },
+        { "name": "Villivakkam", "lat": 13.1080, "lng": 80.2080, "landmarks": ["Villivakkam Railway Station", "Villivakkam Bus Stand"] },
+        { "name": "Kolathur", "lat": 13.1240, "lng": 80.2120, "landmarks": ["Kolathur Red Hills Road", "Poompuhar Nagar"] },
+        { "name": "ICF Colony", "lat": 13.0935, "lng": 80.2160, "landmarks": ["ICF Main Gate", "ICF Stadium"] },
+        { "name": "Otteri", "lat": 13.0928, "lng": 80.2470, "landmarks": ["Otteri Bridge", "Brick Kiln Road"] },
+        { "name": "Jawahar Nagar", "lat": 13.1150, "lng": 80.2250, "landmarks": ["Jawahar Nagar Park"] }
+      ],
+      "stations": [
+        { "code": "PS-AYN-01", "name": "Ayanavaram Police Station", "lat": 13.0990, "lng": 80.2320 },
+        { "code": "PS-AYN-02", "name": "Villivakkam Police Station", "lat": 13.1075, "lng": 80.2090 },
+        { "code": "PS-AYN-03", "name": "Kolathur Police Station", "lat": 13.1230, "lng": 80.2130 },
+        { "code": "PS-AYN-04", "name": "ICF Police Station", "lat": 13.0940, "lng": 80.2170 }
+      ]
+    },
+    {
+      "code": "TLK-EGM", "name": "Egmore", "centroid": { "lat": 13.0780, "lng": 80.2640 }, "weight": 1.05, "heavy_vehicle_share": 0.12,
+      "hotspots": { "THEFT_BURGLARY": 1.7, "CHAIN_SNATCHING": 1.2, "PUBLIC_NUISANCE": 1.4, "PROTEST_LAW_AND_ORDER": 1.8, "OTHER": 1.6 },
+      "localities": [
+        { "name": "Egmore", "lat": 13.0732, "lng": 80.2609, "landmarks": ["Egmore Railway Station", "Government Museum", "Pantheon Road"] },
+        { "name": "Chintadripet", "lat": 13.0730, "lng": 80.2720, "landmarks": ["Chintadripet Fish Market", "Chintadripet MRTS Station"] },
+        { "name": "Periamet", "lat": 13.0830, "lng": 80.2690, "landmarks": ["Nehru Indoor Stadium", "Periamet Mosque"] },
+        { "name": "Vepery", "lat": 13.0850, "lng": 80.2600, "landmarks": ["Vepery High Road", "St. Matthias Church"] },
+        { "name": "Park Town", "lat": 13.0827, "lng": 80.2750, "landmarks": ["Chennai Central Railway Station", "Moore Market Complex"] },
+        { "name": "Pudupet", "lat": 13.0680, "lng": 80.2640, "landmarks": ["Pudupet Auto Spares Market", "Rajarathinam Stadium"] }
+      ],
+      "stations": [
+        { "code": "PS-EGM-01", "name": "Egmore Police Station", "lat": 13.0740, "lng": 80.2600 },
+        { "code": "PS-EGM-02", "name": "Periamet Police Station", "lat": 13.0835, "lng": 80.2680 },
+        { "code": "PS-EGM-03", "name": "Vepery Police Station", "lat": 13.0855, "lng": 80.2590 },
+        { "code": "PS-EGM-04", "name": "Chintadripet Police Station", "lat": 13.0735, "lng": 80.2710 }
+      ]
+    },
+    {
+      "code": "TLK-GND", "name": "Guindy", "centroid": { "lat": 13.0150, "lng": 80.2200 }, "weight": 1.0, "heavy_vehicle_share": 0.16,
+      "hotspots": {},
+      "localities": [
+        { "name": "Guindy", "lat": 13.0067, "lng": 80.2206, "landmarks": ["Kathipara Junction", "Guindy Railway Station", "SIDCO Industrial Estate"] },
+        { "name": "Saidapet", "lat": 13.0213, "lng": 80.2231, "landmarks": ["Saidapet Market", "Saidapet Bridge"] },
+        { "name": "Ekkattuthangal", "lat": 13.0215, "lng": 80.2050, "landmarks": ["Ekkattuthangal Metro Station", "Olympia Tech Park"] },
+        { "name": "Kotturpuram", "lat": 13.0180, "lng": 80.2420, "landmarks": ["Kotturpuram MRTS Station", "Anna Centenary Library"] },
+        { "name": "Little Mount", "lat": 13.0150, "lng": 80.2240, "landmarks": ["Little Mount Metro Station"] },
+        { "name": "Jafferkhanpet", "lat": 13.0310, "lng": 80.2080, "landmarks": ["Kasi Theatre Junction"] }
+      ],
+      "stations": [
+        { "code": "PS-GND-01", "name": "Guindy Police Station", "lat": 13.0080, "lng": 80.2200 },
+        { "code": "PS-GND-02", "name": "Saidapet Police Station", "lat": 13.0220, "lng": 80.2240 },
+        { "code": "PS-GND-03", "name": "Kotturpuram Police Station", "lat": 13.0185, "lng": 80.2410 }
+      ]
+    },
+    {
+      "code": "TLK-MDV", "name": "Madhavaram", "centroid": { "lat": 13.1488, "lng": 80.2306 }, "weight": 0.9, "heavy_vehicle_share": 0.25,
+      "hotspots": {},
+      "localities": [
+        { "name": "Madhavaram", "lat": 13.1488, "lng": 80.2306, "landmarks": ["Madhavaram Roundana", "Madhavaram Mofussil Bus Terminus"] },
+        { "name": "Madhavaram Milk Colony", "lat": 13.1520, "lng": 80.2420, "landmarks": ["Aavin Dairy Gate"] },
+        { "name": "Puzhal", "lat": 13.1590, "lng": 80.2040, "landmarks": ["Puzhal Central Prison", "Puzhal Lake"] },
+        { "name": "Retteri", "lat": 13.1330, "lng": 80.2150, "landmarks": ["Retteri Junction", "Retteri Lake"] },
+        { "name": "Moolakadai", "lat": 13.1300, "lng": 80.2410, "landmarks": ["Moolakadai Junction", "GNT Road"] },
+        { "name": "Mathur", "lat": 13.1720, "lng": 80.2400, "landmarks": ["Mathur MMDA"] }
+      ],
+      "stations": [
+        { "code": "PS-MDV-01", "name": "Madhavaram Police Station", "lat": 13.1480, "lng": 80.2300 },
+        { "code": "PS-MDV-02", "name": "Puzhal Police Station", "lat": 13.1585, "lng": 80.2050 },
+        { "code": "PS-MDV-03", "name": "Madhavaram Milk Colony Police Station", "lat": 13.1515, "lng": 80.2410 }
+      ]
+    },
+    {
+      "code": "TLK-MDR", "name": "Maduravoyal", "centroid": { "lat": 13.0550, "lng": 80.1700 }, "weight": 1.05, "heavy_vehicle_share": 0.24,
+      "hotspots": {},
+      "localities": [
+        { "name": "Maduravoyal", "lat": 13.0660, "lng": 80.1650, "landmarks": ["Maduravoyal Bypass", "Maduravoyal Junction"] },
+        { "name": "Valasaravakkam", "lat": 13.0400, "lng": 80.1720, "landmarks": ["Arcot Road Valasaravakkam"] },
+        { "name": "Porur", "lat": 13.0350, "lng": 80.1580, "landmarks": ["Porur Junction", "Porur Lake"] },
+        { "name": "Alapakkam", "lat": 13.0490, "lng": 80.1650, "landmarks": ["Alapakkam Main Road"] },
+        { "name": "Koyambedu", "lat": 13.0690, "lng": 80.1950, "landmarks": ["CMBT Bus Terminus", "Koyambedu Wholesale Market"] },
+        { "name": "Nerkundram", "lat": 13.0680, "lng": 80.1850, "landmarks": ["Nerkundram Bus Stop"] },
+        { "name": "Vanagaram", "lat": 13.0580, "lng": 80.1520, "landmarks": ["Vanagaram Junction"] }
+      ],
+      "stations": [
+        { "code": "PS-MDR-01", "name": "Maduravoyal Police Station", "lat": 13.0665, "lng": 80.1660 },
+        { "code": "PS-MDR-02", "name": "Valasaravakkam Police Station", "lat": 13.0405, "lng": 80.1730 },
+        { "code": "PS-MDR-03", "name": "Porur Police Station", "lat": 13.0360, "lng": 80.1590 },
+        { "code": "PS-MDR-04", "name": "Koyambedu Police Station", "lat": 13.0695, "lng": 80.1940 }
+      ]
+    },
+    {
+      "code": "TLK-MBM", "name": "Mambalam", "centroid": { "lat": 13.0420, "lng": 80.2200 }, "weight": 1.15, "heavy_vehicle_share": 0.10,
+      "hotspots": { "THEFT_BURGLARY": 1.7, "CHAIN_SNATCHING": 1.3, "PUBLIC_NUISANCE": 1.4, "PROTEST_LAW_AND_ORDER": 1.5, "OTHER": 1.7 },
+      "localities": [
+        { "name": "T. Nagar", "lat": 13.0418, "lng": 80.2341, "landmarks": ["Pondy Bazaar", "Ranganathan Street", "Panagal Park", "T. Nagar Bus Terminus"] },
+        { "name": "West Mambalam", "lat": 13.0382, "lng": 80.2226, "landmarks": ["Mambalam Railway Station", "Arya Gowda Road"] },
+        { "name": "K.K. Nagar", "lat": 13.0390, "lng": 80.1990, "landmarks": ["K.K. Nagar Bus Depot", "Sivan Park"] },
+        { "name": "Ashok Nagar", "lat": 13.0350, "lng": 80.2120, "landmarks": ["Ashok Pillar", "Udhayam Theatre Junction"] },
+        { "name": "Kodambakkam", "lat": 13.0500, "lng": 80.2250, "landmarks": ["Kodambakkam Bridge", "Kodambakkam Railway Station"] },
+        { "name": "Vadapalani", "lat": 13.0500, "lng": 80.2121, "landmarks": ["Vadapalani Murugan Temple", "Vadapalani Metro Station", "Forum Vijaya Mall"] },
+        { "name": "Virugambakkam", "lat": 13.0530, "lng": 80.1920, "landmarks": ["Virugambakkam Market"] }
+      ],
+      "stations": [
+        { "code": "PS-MBM-01", "name": "Pondy Bazaar Police Station", "lat": 13.0410, "lng": 80.2345 },
+        { "code": "PS-MBM-02", "name": "Mambalam Police Station", "lat": 13.0385, "lng": 80.2230 },
+        { "code": "PS-MBM-03", "name": "K.K. Nagar Police Station", "lat": 13.0395, "lng": 80.2000 },
+        { "code": "PS-MBM-04", "name": "Vadapalani Police Station", "lat": 13.0505, "lng": 80.2130 }
+      ]
+    },
+    {
+      "code": "TLK-MYL", "name": "Mylapore", "centroid": { "lat": 13.0400, "lng": 80.2650 }, "weight": 1.05, "heavy_vehicle_share": 0.08,
+      "hotspots": { "CHAIN_SNATCHING": 1.2, "OTHER": 1.2 },
+      "localities": [
+        { "name": "Mylapore", "lat": 13.0339, "lng": 80.2676, "landmarks": ["Kapaleeshwarar Temple", "Luz Corner", "Mylapore Tank"] },
+        { "name": "Mandaveli", "lat": 13.0270, "lng": 80.2640, "landmarks": ["Mandaveli Bus Depot", "RK Mutt Road"] },
+        { "name": "Royapettah", "lat": 13.0540, "lng": 80.2640, "landmarks": ["Royapettah Clock Tower", "Express Avenue Mall", "Royapettah Government Hospital"] },
+        { "name": "Alwarpet", "lat": 13.0330, "lng": 80.2530, "landmarks": ["TTK Road", "CP Ramaswamy Road"] },
+        { "name": "Santhome", "lat": 13.0330, "lng": 80.2780, "landmarks": ["Santhome Cathedral", "Santhome High Road"] },
+        { "name": "Triplicane", "lat": 13.0580, "lng": 80.2770, "landmarks": ["Parthasarathy Temple", "Marina Beach", "Chepauk Stadium"] },
+        { "name": "Teynampet", "lat": 13.0400, "lng": 80.2500, "landmarks": ["Teynampet Metro Station", "Gemini Flyover"] }
+      ],
+      "stations": [
+        { "code": "PS-MYL-01", "name": "Mylapore Police Station", "lat": 13.0345, "lng": 80.2670 },
+        { "code": "PS-MYL-02", "name": "Royapettah Police Station", "lat": 13.0545, "lng": 80.2630 },
+        { "code": "PS-MYL-03", "name": "Triplicane Police Station", "lat": 13.0585, "lng": 80.2760 },
+        { "code": "PS-MYL-04", "name": "Teynampet Police Station", "lat": 13.0405, "lng": 80.2495 }
+      ]
+    },
+    {
+      "code": "TLK-PRB", "name": "Perambur", "centroid": { "lat": 13.1200, "lng": 80.2450 }, "weight": 1.0, "heavy_vehicle_share": 0.15,
+      "hotspots": {},
+      "localities": [
+        { "name": "Perambur", "lat": 13.1180, "lng": 80.2330, "landmarks": ["Perambur Railway Station", "Perambur Barracks Road"] },
+        { "name": "Vyasarpadi", "lat": 13.1150, "lng": 80.2520, "landmarks": ["Vyasarpadi Jeeva Railway Station"] },
+        { "name": "Kodungaiyur", "lat": 13.1330, "lng": 80.2500, "landmarks": ["Kodungaiyur Dump Yard", "Ezhil Nagar"] },
+        { "name": "Sembiam", "lat": 13.1170, "lng": 80.2400, "landmarks": ["Sembiam Market"] },
+        { "name": "M.K.B. Nagar", "lat": 13.1250, "lng": 80.2580, "landmarks": ["MKB Nagar Bus Stand"] },
+        { "name": "Jamalia", "lat": 13.1100, "lng": 80.2440, "landmarks": ["Jamalia Bus Stop"] }
+      ],
+      "stations": [
+        { "code": "PS-PRB-01", "name": "Sembiam Police Station", "lat": 13.1175, "lng": 80.2395 },
+        { "code": "PS-PRB-02", "name": "Vyasarpadi Police Station", "lat": 13.1155, "lng": 80.2510 },
+        { "code": "PS-PRB-03", "name": "Kodungaiyur Police Station", "lat": 13.1325, "lng": 80.2490 },
+        { "code": "PS-PRB-04", "name": "M.K.B. Nagar Police Station", "lat": 13.1245, "lng": 80.2570 }
+      ]
+    },
+    {
+      "code": "TLK-PSW", "name": "Purasawalkam", "centroid": { "lat": 13.0880, "lng": 80.2530 }, "weight": 0.95, "heavy_vehicle_share": 0.10,
+      "hotspots": {},
+      "localities": [
+        { "name": "Purasawalkam", "lat": 13.0880, "lng": 80.2550, "landmarks": ["Purasawalkam High Road", "Doveton Junction"] },
+        { "name": "Kilpauk", "lat": 13.0825, "lng": 80.2400, "landmarks": ["Kilpauk Medical College Hospital", "Kilpauk Garden Road"] },
+        { "name": "Chetpet", "lat": 13.0730, "lng": 80.2440, "landmarks": ["Chetpet Lake", "Chetpet Railway Station"] },
+        { "name": "Pulianthope", "lat": 13.0950, "lng": 80.2640, "landmarks": ["Pulianthope High Road", "Basin Bridge"] },
+        { "name": "Choolai", "lat": 13.0870, "lng": 80.2650, "landmarks": ["Choolai Post Office Junction"] },
+        { "name": "Kellys", "lat": 13.0870, "lng": 80.2480, "landmarks": ["Kellys Junction"] }
+      ],
+      "stations": [
+        { "code": "PS-PSW-01", "name": "Kilpauk Police Station", "lat": 13.0830, "lng": 80.2410 },
+        { "code": "PS-PSW-02", "name": "Pulianthope Police Station", "lat": 13.0955, "lng": 80.2630 },
+        { "code": "PS-PSW-03", "name": "Chetpet Police Station", "lat": 13.0735, "lng": 80.2445 }
+      ]
+    },
+    {
+      "code": "TLK-SHN", "name": "Sholinganallur", "centroid": { "lat": 12.9100, "lng": 80.2300 }, "weight": 1.15, "heavy_vehicle_share": 0.14,
+      "hotspots": { "ROAD_ACCIDENT": 1.6, "CYBER_FRAUD": 1.8 },
+      "localities": [
+        { "name": "Sholinganallur", "lat": 12.9010, "lng": 80.2279, "landmarks": ["Sholinganallur Junction", "ELCOT SEZ"] },
+        { "name": "Perungudi", "lat": 12.9650, "lng": 80.2460, "landmarks": ["Perungudi Toll Plaza", "Perungudi Dump Yard"] },
+        { "name": "Thoraipakkam", "lat": 12.9380, "lng": 80.2340, "landmarks": ["Thoraipakkam OMR Signal", "PTC Bus Stop"] },
+        { "name": "Karapakkam", "lat": 12.9180, "lng": 80.2290, "landmarks": ["Karapakkam OMR Stretch"] },
+        { "name": "Injambakkam", "lat": 12.9160, "lng": 80.2450, "landmarks": ["VGP Golden Beach", "ECR Injambakkam"] },
+        { "name": "Neelankarai", "lat": 12.9490, "lng": 80.2550, "landmarks": ["Neelankarai ECR Signal"] },
+        { "name": "Semmancheri", "lat": 12.8480, "lng": 80.2240, "landmarks": ["Semmancheri Housing Board"] },
+        { "name": "Kannagi Nagar", "lat": 12.9330, "lng": 80.2330, "landmarks": ["Kannagi Nagar Bus Stop"] }
+      ],
+      "stations": [
+        { "code": "PS-SHN-01", "name": "Semmancheri Police Station", "lat": 12.8490, "lng": 80.2250 },
+        { "code": "PS-SHN-02", "name": "Thoraipakkam Police Station", "lat": 12.9385, "lng": 80.2330 },
+        { "code": "PS-SHN-03", "name": "Neelankarai Police Station", "lat": 12.9495, "lng": 80.2540 },
+        { "code": "PS-SHN-04", "name": "Kannagi Nagar Police Station", "lat": 12.9335, "lng": 80.2320 }
+      ]
+    },
+    {
+      "code": "TLK-TVT", "name": "Thiruvottiyur", "centroid": { "lat": 13.1800, "lng": 80.3000 }, "weight": 0.95, "heavy_vehicle_share": 0.45,
+      "hotspots": { "ROAD_ACCIDENT": 1.4, "TRAFFIC_OBSTRUCTION": 1.8 },
+      "localities": [
+        { "name": "Thiruvottiyur", "lat": 13.1640, "lng": 80.3000, "landmarks": ["Thiagaraja Swamy Temple", "Thiruvottiyur High Road"] },
+        { "name": "Ennore", "lat": 13.2130, "lng": 80.3230, "landmarks": ["Ennore Port Road", "Ennore Creek Bridge"] },
+        { "name": "Kathivakkam", "lat": 13.2000, "lng": 80.3150, "landmarks": ["Kathivakkam Market"] },
+        { "name": "Manali", "lat": 13.1670, "lng": 80.2610, "landmarks": ["Manali Express Road", "CPCL Refinery Gate"] },
+        { "name": "Wimco Nagar", "lat": 13.1810, "lng": 80.3070, "landmarks": ["Wimco Nagar Metro Station"] },
+        { "name": "Kaladipet", "lat": 13.1480, "lng": 80.2980, "landmarks": ["Kaladipet Market"] }
+      ],
+      "stations": [
+        { "code": "PS-TVT-01", "name": "Thiruvottiyur Police Station", "lat": 13.1645, "lng": 80.2990 },
+        { "code": "PS-TVT-02", "name": "Ennore Police Station", "lat": 13.2120, "lng": 80.3210 },
+        { "code": "PS-TVT-03", "name": "Manali Police Station", "lat": 13.1675, "lng": 80.2620 },
+        { "code": "PS-TVT-04", "name": "Sathangadu Police Station", "lat": 13.1560, "lng": 80.2900 }
+      ]
+    },
+    {
+      "code": "TLK-TDP", "name": "Tondiarpet", "centroid": { "lat": 13.1150, "lng": 80.2870 }, "weight": 1.0, "heavy_vehicle_share": 0.42,
+      "hotspots": { "ROAD_ACCIDENT": 1.4, "TRAFFIC_OBSTRUCTION": 1.8 },
+      "localities": [
+        { "name": "Tondiarpet", "lat": 13.1260, "lng": 80.2880, "landmarks": ["Tondiarpet High Road", "Tondiarpet Tollgate"] },
+        { "name": "Royapuram", "lat": 13.1140, "lng": 80.2940, "landmarks": ["Royapuram Railway Station", "Royapuram Bridge"] },
+        { "name": "Washermanpet", "lat": 13.1130, "lng": 80.2860, "landmarks": ["Washermanpet Metro Station", "Old Washermanpet Market"] },
+        { "name": "George Town", "lat": 13.0930, "lng": 80.2860, "landmarks": ["Parrys Corner", "Broadway Bus Terminus", "NSC Bose Road"] },
+        { "name": "Kasimedu", "lat": 13.1250, "lng": 80.2980, "landmarks": ["Kasimedu Fishing Harbour"] },
+        { "name": "Korukkupet", "lat": 13.1200, "lng": 80.2750, "landmarks": ["Korukkupet Railway Gate"] }
+      ],
+      "stations": [
+        { "code": "PS-TDP-01", "name": "Tondiarpet Police Station", "lat": 13.1255, "lng": 80.2875 },
+        { "code": "PS-TDP-02", "name": "Royapuram Police Station", "lat": 13.1135, "lng": 80.2930 },
+        { "code": "PS-TDP-03", "name": "Flower Bazaar Police Station", "lat": 13.0940, "lng": 80.2850 },
+        { "code": "PS-TDP-04", "name": "Kasimedu Fishing Harbour Police Station", "lat": 13.1245, "lng": 80.2970 }
+      ]
+    },
+    {
+      "code": "TLK-VLC", "name": "Velachery", "centroid": { "lat": 12.9850, "lng": 80.2300 }, "weight": 1.15, "heavy_vehicle_share": 0.12,
+      "hotspots": { "ROAD_ACCIDENT": 1.5, "CYBER_FRAUD": 1.7 },
+      "localities": [
+        { "name": "Velachery", "lat": 12.9815, "lng": 80.2180, "landmarks": ["Phoenix Marketcity", "Velachery MRTS Station", "Vijayanagar Bus Stand"] },
+        { "name": "Taramani", "lat": 12.9860, "lng": 80.2430, "landmarks": ["Tidel Park", "Taramani MRTS Station"] },
+        { "name": "Adyar", "lat": 13.0012, "lng": 80.2565, "landmarks": ["Adyar Signal", "Adyar Bridge", "Gandhi Nagar"] },
+        { "name": "Thiruvanmiyur", "lat": 12.9830, "lng": 80.2640, "landmarks": ["Thiruvanmiyur Bus Terminus", "Marundeeswarar Temple"] },
+        { "name": "Besant Nagar", "lat": 12.9990, "lng": 80.2670, "landmarks": ["Elliot's Beach", "Besant Nagar Bus Depot"] },
+        { "name": "Pallikaranai", "lat": 12.9380, "lng": 80.2050, "landmarks": ["Pallikaranai Marsh", "200 Feet Road"] },
+        { "name": "Madipakkam", "lat": 12.9640, "lng": 80.1990, "landmarks": ["Madipakkam Koot Road"] }
+      ],
+      "stations": [
+        { "code": "PS-VLC-01", "name": "Velachery Police Station", "lat": 12.9820, "lng": 80.2190 },
+        { "code": "PS-VLC-02", "name": "Adyar Police Station", "lat": 13.0020, "lng": 80.2555 },
+        { "code": "PS-VLC-03", "name": "Thiruvanmiyur Police Station", "lat": 12.9835, "lng": 80.2630 },
+        { "code": "PS-VLC-04", "name": "Pallikaranai Police Station", "lat": 12.9390, "lng": 80.2060 }
+      ]
+    }
+  ]
+}

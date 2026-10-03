@@ -1,0 +1,17 @@
+# Everything the collectors write: restored from / saved to the `state` release by the workflow
+**/data/
+!chennai-grievance-portal-main/data/
+chennai-grievance-portal-main/data/datasets/*
+!chennai-grievance-portal-main/data/datasets/README.md
+police_dataset_generator/output/
+chennai_hospital_data/*.csv
+district_intel/output/
+district_intel/config.ci.yaml
+state.tar.gz
+.hf/
+
+node_modules/
+__pycache__/
+*.pyc
+.env
+*.log

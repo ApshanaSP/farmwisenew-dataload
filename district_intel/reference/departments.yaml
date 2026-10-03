@@ -1,0 +1,29 @@
+# Department master. `source_names` lists every spelling the sources use.
+# `action_owner: false` marks data providers that never own a follow-up.
+- {code: GCC-SWD, name: Storm Water Drain, org: Greater Chennai Corporation, head: Superintending Engineer (SWD), route: "AE → EE → SE → Chief Engineer", action_owner: true, source_names: [Storm Water Drain Department]}
+- {code: GCC-SWM, name: Solid Waste Management, org: Greater Chennai Corporation, head: Zonal Officer (SWM), route: "Sanitary Inspector → Zonal Officer → Deputy Commissioner", action_owner: true, source_names: [Solid Waste Management Department]}
+- {code: GCC-ENG, name: Roads & Building Permissions, org: Greater Chennai Corporation, head: Superintending Engineer, route: "AE → AEE → EE → SE", action_owner: true, source_names: ["Engineering Department (Town Planning & Building Permissions)"]}
+- {code: GCC-ELE, name: Street Lighting & Electrical, org: Greater Chennai Corporation, head: Executive Engineer (Electrical), route: "AE → EE → SE", action_owner: true, source_names: [Electrical Department]}
+- {code: GCC-HLT, name: Public Health (GCC), org: Greater Chennai Corporation, head: City Health Officer, route: "Sanitary Officer → Zonal Health Officer → City Health Officer", action_owner: true, source_names: [Health Department]}
+- {code: GCC-PRK, name: Parks & Play Fields, org: Greater Chennai Corporation, head: Executive Engineer (Parks), route: "AE → EE", action_owner: true, source_names: ["Parks & Play Fields Department"]}
+- {code: GCC-REV, name: Revenue (Tax & Licence), org: Greater Chennai Corporation, head: Assistant Commissioner (Revenue), route: "Assessor → AC → DC (Revenue)", action_owner: true, source_names: [Revenue Department]}
+- {code: GCC-GAD, name: General Administration, org: Greater Chennai Corporation, head: Deputy Commissioner (General), route: "Zonal Officer → Deputy Commissioner", action_owner: true, source_names: [General Administration]}
+- {code: GCC-BRG, name: Bridges, org: Greater Chennai Corporation, head: Executive Engineer (Bridges), route: "AE → EE → SE", action_owner: true, source_names: [Bridges Department]}
+- {code: GCC-EDU, name: Education, org: Greater Chennai Corporation, head: Education Officer, route: "Headmaster → Zonal Education Officer → Education Officer", action_owner: true, source_names: [Education Department]}
+- {code: GCC-BLD, name: Buildings (GCC), org: Greater Chennai Corporation, head: Executive Engineer (Buildings), route: "AE → EE", action_owner: true, source_names: [Buildings Department]}
+- {code: GCC-MEC, name: Mechanical Engineering, org: Greater Chennai Corporation, head: Executive Engineer (Mechanical), route: "AE → EE", action_owner: true, source_names: [Mechanical Engineering Department]}
+- {code: GCC-LND, name: Land & Estate, org: Greater Chennai Corporation, head: Assistant Commissioner (Estate), route: "AC → DC", action_owner: true, source_names: ["Land & Estate Department"]}
+- {code: GCC-FMU, name: Financial Management Unit, org: Greater Chennai Corporation, head: Financial Advisor, route: "Accounts Officer → Financial Advisor", action_owner: true, source_names: [Financial Management Unit]}
+- {code: GCC-CNL, name: Council, org: Greater Chennai Corporation, head: Council Secretary, route: "Secretary → Mayor's Office", action_owner: true, source_names: [Council Department]}
+- {code: GCC-FWD, name: Family Welfare, org: Greater Chennai Corporation, head: Family Welfare Officer, route: "Medical Officer → Family Welfare Officer", action_owner: true, source_names: [Family Welfare Department]}
+- {code: POL-GCP, name: Greater Chennai Police, org: Tamil Nadu Police, head: Deputy Commissioner of Police, route: "SHO → ACP → DC → Commissioner", action_owner: true, source_names: [Police]}
+- {code: PWD-WRD, name: PWD Water Resources, org: Public Works Department, head: Superintending Engineer (WRD), route: "AEE → EE → SE → Chief Engineer", action_owner: true, source_names: [Water Resources]}
+- {code: PWD-BLD, name: PWD Buildings, org: Public Works Department, head: Superintending Engineer (Buildings), route: "AEE → EE → SE → Chief Engineer", action_owner: true, source_names: [Buildings]}
+- {code: HLT-DMS, name: Government Hospitals, org: Health & Family Welfare Department, head: Director of Medical Services, route: "Medical Superintendent → Dean → DMS", action_owner: true, source_names: [Health Services]}
+- {code: CMWSSB, name: Chennai Metrowater, org: CMWSSB, head: Superintending Engineer, route: "AE → EE → SE → Managing Director", action_owner: true, source_names: []}
+- {code: TANGEDCO, name: Electricity Distribution, org: TANGEDCO, head: Superintending Engineer, route: "AE → AEE → EE → SE", action_owner: true, source_names: []}
+- {code: TNPCB, name: Pollution Control Board, org: TNPCB, head: District Environmental Engineer, route: "AEE → DEE → JCEE", action_owner: true, source_names: []}
+- {code: DIST-DM, name: District Disaster Management, org: Collectorate, head: District Revenue Officer (Disaster), route: "Tahsildar → RDO → DRO → Collector", action_owner: true, source_names: []}
+- {code: DIST-REV, name: District Revenue, org: Collectorate, head: District Revenue Officer, route: "VAO → Tahsildar → RDO → DRO", action_owner: true, source_names: []}
+- {code: IMD, name: India Meteorological Department, org: Government of India, head: "-", route: "-", action_owner: false, source_names: []}
+- {code: WRD-CFM, name: Chennai Flood Monitoring (WRD), org: Water Resources Department, head: "-", route: "-", action_owner: false, source_names: []}

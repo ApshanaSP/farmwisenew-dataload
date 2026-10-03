@@ -1,0 +1,54 @@
+# Coordinates for stations whose sources publish none. These are APPROXIMATE
+# locality-level placements (precision_m says how far off they may be). Replace
+# them with surveyed coordinates when FarmwiseAI's data package provides them.
+# `same_as` joins records that describe one physical facility across sources.
+cpcb:
+  CPCB-alandur_bus_depot_chennai_cpcb: {lat: 13.0002, lon: 80.2010, precision_m: 800}
+  CPCB-arumbakkam_chennai_tnpcb: {lat: 13.0724, lon: 80.2106, precision_m: 800}
+  CPCB-gandhi_nagar_ennore_chennai_tnpcb: {lat: 13.2144, lon: 80.3195, precision_m: 1500}
+  CPCB-kodungaiyur_chennai_tnpcb: {lat: 13.1375, lon: 80.2478, precision_m: 800}
+  CPCB-manali_chennai_cpcb: {lat: 13.1668, lon: 80.2610, precision_m: 1000}
+  CPCB-manali_village_chennai_tnpcb: {lat: 13.1770, lon: 80.2700, precision_m: 1500}
+  CPCB-perungudi_chennai_tnpcb: {lat: 12.9654, lon: 80.2461, precision_m: 1000}
+  CPCB-royapuram_chennai_tnpcb: {lat: 13.1137, lon: 80.2954, precision_m: 800}
+  CPCB-velachery_res_area_chennai_cpcb: {lat: 12.9815, lon: 80.2180, precision_m: 1500}
+cfm:
+  RD001: {lat: 13.1640, lon: 80.1780, precision_m: 1500, same_as: "Puzhal Reservoir (Red Hills)"}
+  TNCH-07-T0726: {lat: 12.9720, lon: 80.0520, precision_m: 1500, same_as: "Chembarambakkam Reservoir"}
+  CFM-98: {lat: 12.9000, lon: 80.0900, precision_m: 3000}
+  CFM-100: {lat: 12.9580, lon: 80.1170, precision_m: 2000}
+  CFM-103: {lat: 13.0237, lon: 80.2260, precision_m: 500}
+  CFM-104: {lat: 13.0130, lon: 80.2560, precision_m: 800}
+  CFM-107: {lat: 13.0740, lon: 80.2650, precision_m: 1500}
+  CFM-111: {lat: 13.0720, lon: 80.2240, precision_m: 800}
+  CFM-112: {lat: 13.0680, lon: 80.2830, precision_m: 500}
+  CFM-115: {lat: 13.0980, lon: 80.0740, precision_m: 3000}
+  CFM-116: {lat: 13.0800, lon: 80.0900, precision_m: 3000}
+  CFM-117: {lat: 13.0760, lon: 80.1250, precision_m: 3000}
+  CFM-118: {lat: 13.1750, lon: 80.2500, precision_m: 1500}
+  CFM-119: {lat: 13.2200, lon: 80.3200, precision_m: 1000}
+  CFM-120: {lat: 13.2100, lon: 80.2600, precision_m: 3000}
+  CFM-121: {lat: 13.2350, lon: 80.2800, precision_m: 3000}
+  CFM-124: {lat: 12.9010, lon: 80.2279, precision_m: 1000}
+  CFM-125: {lat: 12.9780, lon: 80.2150, precision_m: 1500}
+  CFM-126: {lat: 12.9300, lon: 80.2350, precision_m: 1500}
+  CFM-130: {lat: 13.2500, lon: 80.0900, precision_m: 3000}
+  CFM-131: {lat: 13.2000, lon: 80.0500, precision_m: 3000}
+  CFM-132: {lat: 13.1375, lon: 80.2560, precision_m: 1000}
+  CFM-133: {lat: 13.1250, lon: 80.2560, precision_m: 1000}
+  CFM-134: {lat: 13.0690, lon: 80.2280, precision_m: 1000}
+  CFM-135: {lat: 12.8900, lon: 80.0700, precision_m: 3000}
+  CFM-137: {lat: 13.0850, lon: 80.2170, precision_m: 800}
+  CFM-138: {lat: 13.1650, lon: 80.2400, precision_m: 1500}
+# Downstream taluks for upstream basins (for reservoir and gauge alerts).
+basin_downstream_taluks:
+  Adyar: [TLK-ALD, TLK-GND, TLK-MBM, TLK-MYL, TLK-VLC]
+  Cooum: [TLK-MDR, TLK-AMJ, TLK-EGM, TLK-PSW, TLK-MYL]
+  Kosasthalayar: [TLK-MDV, TLK-TVT, TLK-AMB]
+  Kovalam: [TLK-SHN, TLK-VLC]
+reservoir_downstream_taluks:
+  Chembarambakkam Reservoir: [TLK-ALD, TLK-GND, TLK-MBM, TLK-MYL, TLK-VLC]
+  Puzhal Reservoir (Red Hills): [TLK-MDV, TLK-TVT, TLK-AMB, TLK-PRB]
+  Poondi Reservoir (Sathyamoorthy Sagar): [TLK-MDV, TLK-TVT]
+  Cholavaram Reservoir: [TLK-MDV, TLK-TVT]
+  Kannankottai-Thervoy Kandigai Reservoir: [TLK-MDV, TLK-TVT]

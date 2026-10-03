@@ -1,0 +1,180 @@
+{
+  "source": "https://raw.githubusercontent.com/datameet/Municipal_Spatial_Data/master/Chennai/Wards.geojson",
+  "sourceLabel": "DataMeet / Municipal_Spatial_Data / Chennai / Wards.geojson (community dataset, not GCC-official)",
+  "official": false,
+  "officialSourceNote": "GCC's own ArcGIS server (https://gis.chennaicorporation.gov.in/server/rest/services/) was not used: its TLS certificate had expired at import time. Re-run with --source <file> against an official GCC ward layer when one is obtainable.",
+  "fetchedAt": "2026-09-23T14:52:43.204Z",
+  "wardCount": 200,
+  "expectedWardCount": 200,
+  "complete": true,
+  "missingWards": [],
+  "duplicateWardPolygons": 0,
+  "unmappedZoneLabels": [],
+  "droppedFeatures": [
+    {
+      "wardNo": 0,
+      "zoneName": "St. Thomas Mount",
+      "reason": "ward number outside the GCC range 1-200"
+    }
+  ],
+  "zoneRanges": [
+    {
+      "zoneName": "Thiruvottiyur",
+      "zoneNumber": 1,
+      "wardCount": 14,
+      "wardStart": 1,
+      "wardEnd": 14,
+      "contiguous": true
+    },
+    {
+      "zoneName": "Manali",
+      "zoneNumber": 2,
+      "wardCount": 7,
+      "wardStart": 15,
+      "wardEnd": 21,
+      "contiguous": true
+    },
+    {
+      "zoneName": "Madhavaram",
+      "zoneNumber": 3,
+      "wardCount": 12,
+      "wardStart": 22,
+      "wardEnd": 33,
+      "contiguous": true
+    },
+    {
+      "zoneName": "Tondiarpet",
+      "zoneNumber": 4,
+      "wardCount": 15,
+      "wardStart": 34,
+      "wardEnd": 48,
+      "contiguous": true
+    },
+    {
+      "zoneName": "Royapuram",
+      "zoneNumber": 5,
+      "wardCount": 15,
+      "wardStart": 49,
+      "wardEnd": 63,
+      "contiguous": true
+    },
+    {
+      "zoneName": "Thiru-Vi-Ka-Nagar",
+      "zoneNumber": 6,
+      "wardCount": 15,
+      "wardStart": 64,
+      "wardEnd": 78,
+      "contiguous": true
+    },
+    {
+      "zoneName": "Ambattur",
+      "zoneNumber": 7,
+      "wardCount": 15,
+      "wardStart": 79,
+      "wardEnd": 93,
+      "contiguous": true
+    },
+    {
+      "zoneName": "Anna Nagar",
+      "zoneNumber": 8,
+      "wardCount": 15,
+      "wardStart": 94,
+      "wardEnd": 108,
+      "contiguous": true
+    },
+    {
+      "zoneName": "Teynampet",
+      "zoneNumber": 9,
+      "wardCount": 18,
+      "wardStart": 109,
+      "wardEnd": 126,
+      "contiguous": true
+    },
+    {
+      "zoneName": "Kodambakkam",
+      "zoneNumber": 10,
+      "wardCount": 16,
+      "wardStart": 127,
+      "wardEnd": 142,
+      "contiguous": true
+    },
+    {
+      "zoneName": "Valasaravakkam",
+      "zoneNumber": 11,
+      "wardCount": 13,
+      "wardStart": 143,
+      "wardEnd": 155,
+      "contiguous": true
+    },
+    {
+      "zoneName": "Alandur",
+      "zoneNumber": 12,
+      "wardCount": 12,
+      "wardStart": 156,
+      "wardEnd": 167,
+      "contiguous": true
+    },
+    {
+      "zoneName": "Perungudi",
+      "zoneNumber": 14,
+      "wardCount": 11,
+      "wardStart": 168,
+      "wardEnd": 191,
+      "contiguous": false
+    },
+    {
+      "zoneName": "Adyar",
+      "zoneNumber": 13,
+      "wardCount": 13,
+      "wardStart": 170,
+      "wardEnd": 182,
+      "contiguous": true
+    },
+    {
+      "zoneName": "Sholinganallur",
+      "zoneNumber": 15,
+      "wardCount": 9,
+      "wardStart": 192,
+      "wardEnd": 200,
+      "contiguous": true
+    }
+  ],
+  "nonContiguousZones": [
+    {
+      "zoneName": "Perungudi",
+      "wards": [
+        168,
+        169,
+        183,
+        184,
+        185,
+        186,
+        187,
+        188,
+        189,
+        190,
+        191
+      ]
+    }
+  ],
+  "overlappingZoneSpans": [
+    {
+      "zoneA": "Perungudi",
+      "spanA": [
+        168,
+        191
+      ],
+      "zoneB": "Adyar",
+      "spanB": [
+        170,
+        182
+      ]
+    }
+  ],
+  "bbox": {
+    "minLng": 80.14017660581803,
+    "minLat": 12.851972527539083,
+    "maxLng": 80.33122353291297,
+    "maxLat": 13.235185445234668
+  }
+}

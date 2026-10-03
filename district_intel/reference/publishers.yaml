@@ -1,0 +1,35 @@
+# Publisher credibility tiers. Domains not listed are "regional" unless they match
+# a social/aggregator pattern. reliability feeds priority and the evidence panel.
+tiers:
+  established: {reliability: 0.8}
+  regional: {reliability: 0.6}
+  aggregator: {reliability: 0.4}
+  social: {reliability: 0.3}
+established:
+  thehindu.com: The Hindu
+  timesofindia.indiatimes.com: The Times of India
+  newindianexpress.com: The New Indian Express
+  dtnext.in: DT Next
+  dinamani.com: Dinamani
+  dinamalar.com: Dinamalar
+  dailythanthi.com: Daily Thanthi
+  indianexpress.com: The Indian Express
+  hindustantimes.com: Hindustan Times
+  deccanherald.com: Deccan Herald
+  thenewsminute.com: The News Minute
+  ndtv.com: NDTV
+  indiatoday.in: India Today
+  ptinews.com: PTI
+  vikatan.com: Vikatan
+  hindutamil.in: Hindu Tamil Thisai
+  maalaimalar.com: Maalaimalar
+  puthiyathalaimurai.com: Puthiya Thalaimurai
+  polimernews.com: Polimer News
+  news18.com: News18
+  thanthitv.com: Thanthi TV
+  etvbharat.com: ETV Bharat
+  livemint.com: Mint
+  business-standard.com: Business Standard
+  economictimes.indiatimes.com: The Economic Times
+social_patterns: [facebook.com, instagram.com, youtube.com, x.com, twitter.com, threads.net, sharechat.com, linkedin.com]
+aggregator_patterns: [dailyhunt, msn.com, newsbreak, inshorts, yahoo.com, flipboard, newsnow, google.com]

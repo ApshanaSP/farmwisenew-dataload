@@ -1,0 +1,21 @@
+# Canonical taluk codes (police mnemonics, plus TLK-KLT for Kolathur).
+# Coordinates are read at build time from the police and news configs.
+# Source: chennai.nic.in revenue administration (17 taluks, checked 2026-09-24).
+- {code: TLK-ALD, name: Alandur, name_ta: ஆலந்தூர், police: TLK-ALD, pwd: TLK01, in_district: true}
+- {code: TLK-AMB, name: Ambattur, name_ta: அம்பத்தூர், police: TLK-AMB, pwd: TLK02, in_district: true}
+- {code: TLK-AMJ, name: Aminjikarai, name_ta: அமைந்தகரை, police: TLK-AMJ, pwd: TLK03, in_district: true}
+- {code: TLK-AYN, name: Ayanavaram, name_ta: அயனாவரம், police: TLK-AYN, pwd: TLK04, in_district: true}
+- {code: TLK-EGM, name: Egmore, name_ta: எழும்பூர், police: TLK-EGM, pwd: TLK05, in_district: true}
+- {code: TLK-GND, name: Guindy, name_ta: கிண்டி, police: TLK-GND, pwd: TLK06, in_district: true}
+- {code: TLK-KLT, name: Kolathur, name_ta: கொளத்தூர், police: null, pwd: null, in_district: true, note: "Official taluk; the police and PWD sources do not code it"}
+- {code: TLK-MDV, name: Madhavaram, name_ta: மாதவரம், police: TLK-MDV, pwd: TLK07, in_district: true}
+- {code: TLK-MDR, name: Maduravoyal, name_ta: மதுரவாயல், police: TLK-MDR, pwd: TLK08, in_district: true}
+- {code: TLK-MBM, name: Mambalam, name_ta: மாம்பலம், police: TLK-MBM, pwd: TLK09, in_district: true}
+- {code: TLK-MYL, name: Mylapore, name_ta: மயிலாப்பூர், police: TLK-MYL, pwd: TLK10, in_district: true}
+- {code: TLK-PRB, name: Perambur, name_ta: பெரம்பூர், police: TLK-PRB, pwd: TLK11, in_district: true}
+- {code: TLK-PSW, name: Purasawalkam, name_ta: புரசைவாக்கம், police: TLK-PSW, pwd: TLK12, in_district: true}
+- {code: TLK-SHN, name: Sholinganallur, name_ta: சோழிங்கநல்லூர், police: TLK-SHN, pwd: TLK13, in_district: true}
+- {code: TLK-TVT, name: Thiruvottiyur, name_ta: திருவொற்றியூர், police: TLK-TVT, pwd: TLK14, in_district: true}
+- {code: TLK-TDP, name: Tondiarpet, name_ta: தண்டையார்பேட்டை, police: TLK-TDP, pwd: TLK15, in_district: true}
+- {code: TLK-VLC, name: Velachery, name_ta: வேளச்சேரி, police: TLK-VLC, pwd: TLK16, in_district: true}
+- {code: TLK-TBM, name: Tambaram, name_ta: தாம்பரம், police: null, pwd: null, in_district: false, note: "Chengalpattu district; appears in hospital data only"}

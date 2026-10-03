@@ -1,0 +1,130 @@
+# =============================================================================
+# District Intelligence data layer - configuration
+# Reads the outputs of the existing collectors and generators (never edits them)
+# and builds the curated, dashboard-ready store in output/.
+# Paths are relative to the repository root (the folder above district_intel/).
+# =============================================================================
+
+timezone: Asia/Kolkata
+
+sources:
+  grievances:
+    complaints: chennai-grievance-portal-main/data/datasets/grievances.csv
+    history: chennai-grievance-portal-main/data/datasets/grievance_status_history.csv
+    duplicate_truth: chennai-grievance-portal-main/data/datasets/_truth/duplicate_truth.csv
+    generation_meta: chennai-grievance-portal-main/data/datasets/generation_meta.json
+    deep_link: "http://localhost:3000/citizen/track-complaints?code={code}"
+  wards_geojson: chennai-grievance-portal-main/data/boundaries/gcc-wards.geojson
+  gcc_reference_dir: chennai-grievance-portal-main/data/gcc-reference
+  police:
+    reports: police_dataset_generator/output/police_incident_reports.csv
+    stations: police_dataset_generator/output/police_stations.csv
+    ground_truth: police_dataset_generator/output/ground_truth_events.csv
+    taluks_config: police_dataset_generator/config/taluks.json
+    events_config: police_dataset_generator/config/events.json
+  pwd:
+    dir: pwd_dataset_generator/data/pwd
+  hospital:
+    csv: chennai_hospital_data/chennai_hospital_health_data.csv
+  news:
+    master: chennai_news_pipeline/data/processed/master_news.csv
+    config: chennai_news_pipeline/config.yaml
+    package_dir: chennai_news_pipeline
+  imd:
+    dir: imd_weather_collector/data
+  cpcb:
+    dir: cpcb_air_quality_collector/data
+  cfm:
+    dir: cfm_dss_collector/data
+
+output:
+  dir: district_intel/output
+  sqlite: district_intel/output/district_intel.db
+
+mysql:
+  # `python run_pipeline.py mysql` copies the SQLite store into MySQL (see dintel/mysql_export.py).
+  # Credentials: DI_MYSQL_HOST / DI_MYSQL_PORT / DI_MYSQL_USER / DI_MYSQL_PASSWORD environment
+  # variables, otherwise DB_HOST / DB_PORT / DB_USER / DB_PASSWORD from env_file (the portal's .env).
+  env_file: chennai-grievance-portal-main/.env
+  database: district_intel            # replaced on every export
+  ops_database: district_intel_ops    # the dashboard's own tables; only created if missing, never overwritten
+  export_after_build: true            # every build (including the scheduled refresh) also exports; a failed export retries next run
+
+pipeline:
+  # "auto" = the newest record time across sources (keeps a frozen snapshot stable).
+  # Use an ISO timestamp to pin it, or "now" for wall-clock time.
+  as_of: auto
+  snap_outside_points_m: 500        # points this close to a ward are snapped into it (flagged)
+  geo_review_threshold: 0.7         # geo confidence below this goes to the review queue
+  link_merge_threshold: 0.85
+  link_review_threshold: 0.40
+  baseline_days: 28                 # rolling window for expected counts
+  anomaly_p_value: 0.01
+  anomaly_min_count: 3
+  hotspot_eps_m: 250
+  hotspot_min_samples: 5
+
+overlay:
+  # Scenario overlay: adds clearly flagged synthetic records so that the separately
+  # generated sources describe one shared world (same rain days, same incidents seen
+  # from several sources) and writes the ground truth for cross-source linking.
+  # Real sources (news, IMD, CPCB, CFM) are never modified.
+  enabled: true
+  seed: 2026
+  rain_incidents_per_day: [4, 9]    # min, max planted flood incidents per world rain day
+  other_incidents: 70               # non-rain planted incidents across the window
+  news_anchored: 45                 # real news incidents that get departmental records
+
+llm:
+  # Optional. Every step has a deterministic fallback; LLM steps run only when enabled
+  # AND the API key variable is set. Cost stays bounded by the caps below.
+  enabled: false
+  provider: openai
+  model: gpt-4o-mini
+  api_key_env: OPENAI_API_KEY
+  max_calls_per_run: 200
+
+# Existing collectors and generators, run with their own command lines by
+# `python run_pipeline.py refresh`. Nothing here changes how they fetch.
+# Before each refresh the shared rain calendar (dintel/sync.py) rewrites the PWD
+# generator's --rainfall-csv input, so all synthetic sources keep the same rain days.
+# The hospital and PWD generators keep 180 days through their HISTORY_DAYS / WINDOW_DAYS
+# constants; police keeps 180 days through --days 180.
+# Every source is collected hourly (every_minutes: 60): the scheduled task runs hourly and at sign-in, so
+# a PC that was off overnight collects everything on its first run in the morning. A job with
+# every_minutes >= 1440 would instead run once a day, on the first check after refresh_hour (local time).
+refresh_hour: 6
+refresh:
+  - name: news
+    every_minutes: 60
+    cwd: chennai_news_pipeline
+    cmd: [python, run_pipeline.py, --no-db]
+  - name: imd
+    every_minutes: 60
+    cwd: imd_weather_collector
+    cmd: [python, imd_weather_collector.py, --backfill-days, "2"]
+  - name: cpcb
+    every_minutes: 60
+    cwd: cpcb_air_quality_collector
+    cmd: [python, cpcb_air_quality_collector.py]
+  - name: cfm
+    every_minutes: 60
+    cwd: cfm_dss_collector
+    cmd: [python, cfm_dss_collector.py, --backfill-days, "3"]
+  - name: hospital
+    every_minutes: 60
+    cwd: chennai_hospital_data
+    cmd: [python, chennai_hospital_data_generator.py]
+  - name: pwd
+    every_minutes: 60
+    cwd: pwd_dataset_generator
+    cmd: [python, generate_pwd_data.py, --rainfall-csv, ../district_intel/output/state/pwd_rainfall.csv]
+  - name: grievance
+    every_minutes: 60
+    cwd: chennai-grievance-portal-main
+    # CSV-only: reads real complaints from MySQL, never writes to it; {grievance_rain_days} comes from the shared calendar
+    cmd: [node, scripts/generate-synthetic-grievances.js, --days, "180", --seed, "42", --csv-only, --rain-days, "{grievance_rain_days}"]
+  - name: police
+    every_minutes: 60
+    cwd: police_dataset_generator
+    cmd: [npm.cmd, run, generate, "--", --refresh, --days, "180", --seed, "42", --mode=csv]

@@ -1,0 +1,155 @@
+# Source label -> unified category code. Order of precedence for grievances:
+# exact sub-type, then sub-type regex, then complaint type, then the text classifier (for "Other").
+grievance:
+  subtype:
+    Stagnation of Water: FLOOD_WATERLOGGING
+    Obstruction of Water Flow: DRAINAGE_SEWAGE
+    Repairs to Storm Water Drain: DRAINAGE_SEWAGE
+    New Drain Construction: DRAINAGE_SEWAGE
+    Desilting of Canal: DRAINAGE_SEWAGE
+    Desilting of Drain: DRAINAGE_SEWAGE
+    Disposal of Removed Silt on the Road: DRAINAGE_SEWAGE
+    Covering Manholes of Storm Water Drain: DRAINAGE_SEWAGE
+    Water entering Home/Shop: FLOOD_WATERLOGGING
+    Trap at home/ any place: FLOOD_WATERLOGGING
+    Pregnant women issues: FLOOD_RELIEF
+    Elderly Medicine: FLOOD_RELIEF
+    Food/Basic amenities demand: FLOOD_RELIEF
+    EB wire cut/Spark seen: STREETLIGHT_ELECTRICAL
+    Insufficient Barricading: DRAIN_WORKS_SAFETY
+    Illegal Parking on foot path: TRAFFIC_OBSTRUCTION
+    Unsafe dark spots/ corners: DARK_SPOT_SAFETY
+    Women related safety issues: DARK_SPOT_SAFETY
+    Cleanliness in footpath: SOLID_WASTE
+    Public defecation/urination: SANITATION_TOILETS
+    Electrical wires/obstruction on footpath: STREETLIGHT_ELECTRICAL
+    Removal of Shops in the Footpath: ENCROACHMENT
+    Street Dogs: STRAY_ANIMALS
+    Stray Cattle: STRAY_ANIMALS
+    Stray Pigs: STRAY_ANIMALS
+    Death of Stray Animals: STRAY_ANIMALS
+    Mosquito Menace: VECTOR_DISEASE
+    Public Health / Dengue / Malaria / Gastro Enteritis: VECTOR_DISEASE
+    Transfer Station Smell: SOLID_WASTE
+    Flies Menace from Dumping Ground: SOLID_WASTE
+    Biomedical waste / Health hazard waste removal: SOLID_WASTE
+    Complaints Regarding Plastics: SOLID_WASTE
+    Illegal Slaughtering: FOOD_SAFETY
+    Complaints regarding quality of food in hotels: FOOD_SAFETY
+    Road Side Eateries: FOOD_SAFETY
+    Complaints regarding unhygenic Restaurants: FOOD_SAFETY
+    Unauthorized Sale of Meat and Meat products: FOOD_SAFETY
+    Slaughter House related complaints: FOOD_SAFETY
+    Unhygenic and Improper Transport of Meat and Livestock: FOOD_SAFETY
+    Public toilet blockage: SANITATION_TOILETS
+    No water supply in public toilet: SANITATION_TOILETS
+    Public toilet cleaning: SANITATION_TOILETS
+    No electricity in public toilet: SANITATION_TOILETS
+    Open Defecation: SANITATION_TOILETS
+    Illegal Draining of Sewage to SWD / Open Site: DRAINAGE_SEWAGE
+    Safety in public toilets: DARK_SPOT_SAFETY
+    Illegal activities in toilet: DARK_SPOT_SAFETY
+    Inadequate lighting in and around the toilet: DARK_SPOT_SAFETY
+    Removal of Fallen Trees: TREES_PARKS
+    Tree Pruning: TREES_PARKS
+    Obstruction of Trees: TREES_PARKS
+    Unauthorized Tree Cutting: TREES_PARKS
+    Safety in parks/playgrounds: DARK_SPOT_SAFETY
+    Women related safety issues in parks: DARK_SPOT_SAFETY
+    Toilets in parks: SANITATION_TOILETS
+    Non functional lights/ no lights in parks: STREETLIGHT_ELECTRICAL
+    Violation of DCR/Building By laws: ENCROACHMENT
+    Unauthorized / Illegal Construction: ENCROACHMENT
+    Building Plan Sanction: ADMIN_SERVICES
+    Complaints regarding Burial Ground: CIVIC_FACILITIES
+    Complaints related to Schools: CIVIC_FACILITIES
+    Complaints related Shopping Complex: CIVIC_FACILITIES
+    Complaints regarding any other CoC building: CIVIC_FACILITIES
+    Complaints regarding Community Hall: CIVIC_FACILITIES
+    Slow Progress of Work: PUBLIC_WORKS
+    Poor Quality of Work: PUBLIC_WORKS
+    Unauthorized Advertisement Boards: ENCROACHMENT
+    Encroachment on the Public Property: ENCROACHMENT
+    Complaints regarding Bridges / Flyovers / Subways: ROAD_DAMAGE
+    Food Requirement: FLOOD_RELIEF
+    Relief Center Requirement: FLOOD_RELIEF
+    Parking Issue: TRAFFIC_OBSTRUCTION
+    Complaints related to issue of all types of Registration Certificate: ADMIN_SERVICES
+    Issue of Birth and Death Certificate: ADMIN_SERVICES
+  subtype_regex:
+    - {pattern: "(?i)pothole", code: ROAD_DAMAGE}
+    - {pattern: "(?i)sewerage pipe", code: DRAINAGE_SEWAGE}
+    - {pattern: "(?i)encroaching", code: ENCROACHMENT}
+    - {pattern: "(?i)parking", code: TRAFFIC_OBSTRUCTION}
+    - {pattern: "(?i)water supply disrupted", code: WATER_SUPPLY}
+  type:
+    Water Stagnation: FLOOD_WATERLOGGING
+    Flood: FLOOD_WATERLOGGING
+    Storm Water Drains: DRAIN_WORKS_SAFETY
+    Garbage: SOLID_WASTE
+    Road and Footpath: ROAD_DAMAGE
+    Street Light: STREETLIGHT_ELECTRICAL
+    Public Health: HEALTH_SERVICES
+    Public Toilet: SANITATION_TOILETS
+    Park and Playground: TREES_PARKS
+    Air Quality: AIR_POLLUTION
+    Building Plan Permission: ENCROACHMENT
+    Tax and Licence: ADMIN_SERVICES
+    Voter ID: ADMIN_SERVICES
+    General: CIVIC_FACILITIES
+    MEGA STREETS - CONSTRUCTION PHASE: PUBLIC_WORKS
+    MEGA STREETS - OPERATION PHASE: PUBLIC_WORKS
+    MEGA STREETS - PLANNING PHASE: PUBLIC_WORKS
+    Other: OTHER
+
+police:
+  ROAD_ACCIDENT: ROAD_ACCIDENT
+  TRAFFIC_OBSTRUCTION: TRAFFIC_OBSTRUCTION
+  THEFT_BURGLARY: CRIME_PROPERTY
+  CHAIN_SNATCHING: CRIME_PROPERTY
+  CYBER_FRAUD: CRIME_PROPERTY
+  ASSAULT: CRIME_VIOLENT
+  MURDER: CRIME_VIOLENT
+  CRIMES_AGAINST_WOMEN: CRIME_VIOLENT
+  MISSING_PERSON: MISSING_PERSON
+  DRUGS_ILLICIT_LIQUOR: DRUGS_LIQUOR
+  PROTEST_LAW_AND_ORDER: PUBLIC_ORDER
+  PUBLIC_NUISANCE: PUBLIC_ORDER
+  WEATHER_EMERGENCY: FLOOD_WATERLOGGING
+  OTHER: POLICE_OTHER
+
+pwd:
+  waterlogging: FLOOD_WATERLOGGING
+  canal_overflow: FLOOD_WATERLOGGING
+  lake_surplus: WATERBODY_INFRA
+  bund_breach: WATERBODY_INFRA
+  sluice_failure: WATERBODY_INFRA
+  blocked_drain: DRAINAGE_SEWAGE
+  building_crack: BUILDING_SAFETY
+  wall_collapse: BUILDING_SAFETY
+  encroachment: ENCROACHMENT
+  bridge_damage: ROAD_DAMAGE
+
+# Hospital alerts are "; "-separated. First matching rule wins.
+hospital_alert:
+  - {pattern: "(?i)(dengue|malaria|viral fever|diarrh|cholera|typhoid|jaundice|hepatitis).*surge", code: VECTOR_DISEASE}
+  - {pattern: "(?i)surge", code: HEALTH_SERVICES}
+  - {pattern: "(?i)(bed|medicine|ambulance)", code: HEALTH_SERVICES}
+
+# News pipeline department names -> department codes (kept as dept_src).
+news_department:
+  Revenue Department: GCC-REV
+  Engineering Department (Town Planning & Building Permissions): GCC-ENG
+  Electrical Department: GCC-ELE
+  Solid Waste Management Department: GCC-SWM
+  Storm Water Drain Department: GCC-SWD
+  Bridges Department: GCC-BRG
+  Health Department: GCC-HLT
+  Family Welfare Department: GCC-FWD
+  Education Department: GCC-EDU
+  Parks & Play Fields Department: GCC-PRK
+  Buildings Department: GCC-BLD
+  Mechanical Engineering Department: GCC-MEC
+  Land & Estate Department: GCC-LND
+  General Administration: GCC-GAD
+  Financial Management Unit: GCC-FMU

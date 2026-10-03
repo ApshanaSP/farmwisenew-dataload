@@ -1,0 +1,599 @@
+# =============================================================================
+# Chennai District News Dataset Pipeline - configuration
+# Every tunable value lives here. Secrets (API keys, DB passwords) go in .env.
+# =============================================================================
+
+timezone: Asia/Kolkata
+
+paths:
+  raw_dir: data/raw
+  processed_dir: data/processed
+  state_file: data/state/pipeline_state.json
+  classification_cache: data/state/classification_cache.json   # LLM answers (only used with an API key)
+  log_dir: logs
+
+run:
+  # Normal daily run: Google News "when:" window. 2d = last 48 hours.
+  daily_lookback: 2d
+  daily_lookback_hours: 48          # used by API connectors (from= parameter)
+  backfill_days: 90                 # first run / --backfill: fetch this many days back from the run date
+  backfill_window_days: 5           # Google News backfill is split into windows of this size
+  # Rolling window for data/processed/master_news.csv: each run drops rows whose article
+  # date (published_date, else fetch date) is older than this many days before the run
+  # date. 0 = keep everything. Dated per-run files in data/raw and data/processed are not touched.
+  master_retention_days: 90
+  # Timestamps without a timezone are assumed to be in this zone.
+  naive_datetime_timezone: Asia/Kolkata
+
+http:
+  # Browser-compatible UA plus an identifying token. Some publishers (e.g. The Hindu)
+  # drop connections from UAs that look like generic bots. Add a contact URL/e-mail
+  # for your office in the parentheses if you want publishers to be able to reach you.
+  user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36 (compatible; ChennaiDistrictNewsDataset/1.0)"
+  robots_user_agent: ChennaiDistrictNewsDataset   # token matched against robots.txt rules
+  timeout_seconds: 20
+  retries: 3
+  backoff_factor: 1.5               # sleeps 0s, 3s, 6s ... between retries
+  retry_on_status: [429, 500, 502, 503, 504]
+  default_min_interval_seconds: 1.0 # min gap between two requests to the same domain
+  per_domain_min_interval_seconds:
+    news.google.com: 1.0
+  # Use the Windows/macOS certificate store (needed when antivirus software such as
+  # Avast/Kaspersky inspects HTTPS, or behind corporate proxies). Requires `truststore`.
+  use_system_trust_store: true
+
+extraction:
+  enabled: true
+  respect_robots_txt: true
+  max_workers: 6
+  max_articles_per_run: 2500        # safety cap on article-page downloads per run
+  min_body_chars: 200               # shorter extractions are treated as failed
+  # Never download article pages from these domains (Google News links are redirects).
+  skip_domains: [news.google.com]
+
+language:
+  tamil_ratio_threshold: 0.30       # share of Tamil-script letters to label a text "ta"
+  # Latin-script text is "en" unless langdetect is this sure it is another language
+  # (short headlines are often misdetected, so langdetect is not used below the length).
+  other_latin_min_probability: 0.95
+  other_latin_min_chars: 120
+  sample_chars: 1500                # characters of title+body used for detection
+
+url_cleaning:
+  resolve_google_news_offline: true # decode old-style Google News links without any request
+  tracking_params: [fbclid, gclid, dclid, msclkid, yclid, igshid, mc_cid, mc_eid, _ga,
+                    ref, ref_src, ref_url, cmpid, ocid, oc, s_cid, pfrom, ito, rss, feed]
+  tracking_param_prefixes: [utm_, at_, pk_, hsa_]
+
+# -----------------------------------------------------------------------------
+# SOURCES
+# -----------------------------------------------------------------------------
+google_news:
+  enabled: true
+  base_url: https://news.google.com/rss/search
+  editions:
+    en: {hl: en-IN, gl: IN, ceid: "IN:en"}
+    ta: {hl: ta, gl: IN, ceid: "IN:ta"}
+  queries:
+    core:
+      en: ["Chennai", "Greater Chennai Corporation", "Chennai Collector", "Chennai Metrowater"]
+      ta: ["சென்னை", "சென்னை மாநகராட்சி", "சென்னை ஆட்சியர்", "சென்னை குடிநீர் வாரியம்"]
+    topics:
+      en: ["Chennai flood", "Chennai rain", "Chennai waterlogging", "Chennai water supply",
+           "Chennai power cut", "Chennai road", "Chennai metro rail", "Chennai garbage",
+           "Chennai hospital", "Chennai dengue", "Chennai protest", "Chennai accident",
+           "Chennai fire", "Chennai crime", "Chennai school", "Chennai ration",
+           "Chennai pension", "Chennai market prices", "Chennai cyclone"]
+      ta: ["சென்னை வெள்ளம்", "சென்னை மழை", "சென்னை மழைநீர் தேக்கம்", "சென்னை குடிநீர்",
+           "சென்னை மின்தடை", "சென்னை சாலை", "சென்னை மெட்ரோ ரயில்", "சென்னை குப்பை",
+           "சென்னை மருத்துவமனை", "சென்னை டெங்கு", "சென்னை போராட்டம்", "சென்னை விபத்து",
+           "சென்னை தீ விபத்து", "சென்னை குற்றம்", "சென்னை பள்ளி", "சென்னை ரேஷன்",
+           "சென்னை ஓய்வூதியம்", "சென்னை காய்கறி விலை", "சென்னை புயல்"]
+  # One query per gazetteer place (taluks / GCC zones / localities below).
+  place_queries:
+    enabled: true
+    languages:
+      taluks: [en, ta]
+      zones: [en, ta]
+      localities: [en]
+    template_en: '"{name}" Chennai'   # {name} = English place name
+    template_ta: '"{name}"'           # {name} = first Tamil alias
+
+rss_feeds:
+  - name: The Hindu
+    url: https://www.thehindu.com/news/cities/chennai/feeder/default.rss
+    language: en
+  - name: Times of India
+    url: https://timesofindia.indiatimes.com/rssfeeds/2950623.cms
+    language: en
+  - name: DT Next
+    url: https://www.dtnext.in/api/v1/collections/newschennai-news.rss
+    language: en
+  - name: The New Indian Express
+    url: https://www.newindianexpress.com/cities/chennai/rssfeed/?id=182&getXmlFeed=true
+    language: en
+  - name: Dinamani
+    # Dinamani publishes a single all-stories feed (no Chennai-only feed as of Sep 2026);
+    # the Chennai relevance filter narrows it down.
+    url: https://www.dinamani.com/stories.rss
+    language: ta
+
+# Publishers without RSS: Google-News-style sitemaps of their latest stories.
+sitemaps:
+  - name: Dinamalar
+    url: https://www.dinamalar.com/sitemap_latest.xml
+    language: ta
+    article_url_pattern: "/news/"     # sitemap entries not matching are not articles
+
+# Optional connectors: used only when the key is present in .env.
+api_sources:
+  newsapi:
+    env_key: NEWSAPI_KEY
+    endpoint: https://newsapi.org/v2/everything
+    queries: ["Chennai"]
+    language: en
+    page_size: 100
+  gnews:
+    env_key: GNEWS_API_KEY
+    endpoint: https://gnews.io/api/v4/search
+    queries: ["Chennai"]
+    lang: en
+    country: in
+    max: 10                           # free plan limit per request
+
+# -----------------------------------------------------------------------------
+# CHENNAI RELEVANCE FILTER
+# -----------------------------------------------------------------------------
+relevance:
+  # Removed from the text before place matching.
+  exclusion_phrases:
+    - Chennai Super Kings
+    - சென்னை சூப்பர் கிங்ஸ்
+    - Chennai Express
+    - Chennai 600028
+    - Madras Regiment
+    - Madras eye
+    - Madras Cafe
+    - Madurai Bench of the Madras High Court
+    - Madurai Bench of Madras High Court
+    - Madras High Court Madurai Bench
+    - Madras High Court's Madurai Bench
+    - சென்னை உயர் நீதிமன்ற மதுரைக் கிளை
+    - சென்னை உயர்நீதிமன்ற மதுரைக் கிளை
+    - சென்னை உயர் நீதிமன்ற மதுரை கிளை
+    - சென்னை உயர்நீதிமன்ற மதுரை கிளை
+    # Manali (Himachal Pradesh) - the Chennai zone of the same name stays matchable
+    - Kullu-Manali
+    - Kullu Manali
+    - Manali-Leh
+    - Manali, Himachal
+    - Manali in Himachal
+  # first_mentioned_place may be the district name itself ("Chennai") when it
+  # appears before any taluk/zone/locality.
+  first_place_includes_district: true
+
+# -----------------------------------------------------------------------------
+# GAZETTEER
+# Matching rules:
+#   * English aliases: case-insensitive, whole words; spaces/dots/hyphens are flexible
+#     ("T. Nagar" matches "T Nagar", "T.Nagar").
+#   * Tamil aliases: must start a word; case suffixes are allowed (சென்னையில்).
+#     An alias ending in pulli (்) also matches inflected forms (மயிலாப்பூரில்).
+#   * requires_context: true -> the place is listed when mentioned, but on its own it
+#     does NOT make an article Chennai-relevant (names shared with other districts/states).
+#   * ta_block_suffixes: Tamil continuations that make the match a different word.
+# Coordinates are approximate centroids for map placement - refine as needed.
+# -----------------------------------------------------------------------------
+gazetteer:
+  district:
+    name: Chennai
+    latitude: 13.0827
+    longitude: 80.2707
+    aliases_en: [Chennai, Madras, Greater Chennai Corporation, CMWSSB, Chennai Metrowater, Ripon Building]
+    aliases_ta: [சென்னை, மெட்ராஸ், மதராஸ்]
+
+  # 17 revenue taluks, verified 2026-09-24 against https://chennai.nic.in/revenue-administration/
+  # (the official list includes Kolathur in addition to the 16 names in the original brief).
+  taluks:
+    - {name: Alandur, gcc_zone: 12, latitude: 12.9975, longitude: 80.2006,
+       aliases_en: [Alandur], aliases_ta: [ஆலந்தூர்]}
+    - {name: Ambattur, gcc_zone: 7, latitude: 13.1143, longitude: 80.1548,
+       aliases_en: [Ambattur], aliases_ta: [அம்பத்தூர்]}
+    - {name: Aminjikarai, latitude: 13.0698, longitude: 80.2245,
+       aliases_en: [Aminjikarai, Aminjikkarai, Aminjakarai], aliases_ta: [அமைந்தகரை]}
+    - {name: Ayanavaram, latitude: 13.0986, longitude: 80.2330,
+       aliases_en: [Ayanavaram], aliases_ta: [அயனாவரம்]}
+    - {name: Egmore, latitude: 13.0732, longitude: 80.2609,
+       aliases_en: [Egmore], aliases_ta: [எழும்பூர்]}
+    - {name: Guindy, latitude: 13.0067, longitude: 80.2206,
+       aliases_en: [Guindy], aliases_ta: [கிண்டி]}
+    - {name: Kolathur, latitude: 13.1231, longitude: 80.2121,
+       aliases_en: [Kolathur, Kolattur], aliases_ta: [கொளத்தூர்]}
+    - {name: Madhavaram, gcc_zone: 3, latitude: 13.1488, longitude: 80.2306,
+       aliases_en: [Madhavaram, Madavaram, Madhvaram], aliases_ta: [மாதவரம்]}
+    - {name: Maduravoyal, latitude: 13.0654, longitude: 80.1636,
+       aliases_en: [Maduravoyal, Madhuravoyal], aliases_ta: [மதுரவாயல்]}
+    - {name: Mambalam, latitude: 13.0382, longitude: 80.2210,
+       aliases_en: [Mambalam], aliases_ta: [மாம்பலம்]}
+    - {name: Mylapore, latitude: 13.0368, longitude: 80.2676,
+       aliases_en: [Mylapore], aliases_ta: [மயிலாப்பூர்]}
+    - {name: Perambur, latitude: 13.1210, longitude: 80.2330,
+       aliases_en: [Perambur], aliases_ta: [பெரம்பூர்]}
+    - {name: Purasawalkam, latitude: 13.0885, longitude: 80.2560,
+       aliases_en: [Purasawalkam, Purasaiwalkam, Purasaiwalkkam, Purasaiwakkam, Purasawakkam, Purasaivakkam],
+       aliases_ta: [புரசைவாக்கம்]}
+    - {name: Sholinganallur, gcc_zone: 15, latitude: 12.9010, longitude: 80.2279,
+       aliases_en: [Sholinganallur, Sholinganalur, Sholinganallore], aliases_ta: [சோழிங்கநல்லூர்]}
+    - {name: Thiruvottiyur, gcc_zone: 1, latitude: 13.1643, longitude: 80.3003,
+       aliases_en: [Thiruvottiyur, Tiruvottiyur, Tiruvotriyur, Thiruvotriyur, Thiruvottriyur],
+       aliases_ta: [திருவொற்றியூர்]}
+    - {name: Tondiarpet, gcc_zone: 4, latitude: 13.1260, longitude: 80.2880,
+       aliases_en: [Tondiarpet, Tondiarpettai, Tondairpet], aliases_ta: [தண்டையார்பேட்டை]}
+    - {name: Velachery, latitude: 12.9815, longitude: 80.2180,
+       aliases_en: [Velachery, Velacheri], aliases_ta: [வேளச்சேரி]}
+
+  # Greater Chennai Corporation zones that are not also taluk names
+  # (zones 1 Thiruvottiyur, 3 Madhavaram, 4 Tondiarpet, 7 Ambattur, 12 Alandur and
+  # 15 Sholinganallur are covered by the taluk entries above).
+  zones:
+    - {name: Manali, gcc_zone: 2, latitude: 13.1668, longitude: 80.2610,
+       aliases_en: [Manali], aliases_ta: [மணலி], ta_block_suffixes: ["ல்"]}
+    - {name: Royapuram, gcc_zone: 5, latitude: 13.1137, longitude: 80.2954,
+       aliases_en: [Royapuram], aliases_ta: [ராயபுரம்]}
+    - {name: Thiru-Vi-Ka Nagar, gcc_zone: 6, latitude: 13.1170, longitude: 80.2380,
+       aliases_en: [Thiru-Vi-Ka Nagar, Thiru. Vi. Ka. Nagar, Thiruvika Nagar, TVK Nagar],
+       aliases_ta: [திரு.வி.க. நகர், திருவிக நகர்]}
+    - {name: Anna Nagar, gcc_zone: 8, latitude: 13.0850, longitude: 80.2101,
+       aliases_en: [Anna Nagar], aliases_ta: [அண்ணா நகர், அண்ணாநகர்]}
+    - {name: Teynampet, gcc_zone: 9, latitude: 13.0405, longitude: 80.2503,
+       aliases_en: [Teynampet], aliases_ta: [தேனாம்பேட்டை]}
+    - {name: Kodambakkam, gcc_zone: 10, latitude: 13.0520, longitude: 80.2255,
+       aliases_en: [Kodambakkam], aliases_ta: [கோடம்பாக்கம்]}
+    - {name: Valasaravakkam, gcc_zone: 11, latitude: 13.0400, longitude: 80.1720,
+       aliases_en: [Valasaravakkam], aliases_ta: [வளசரவாக்கம்]}
+    - {name: Adyar, gcc_zone: 13, latitude: 13.0012, longitude: 80.2565,
+       aliases_en: [Adyar, Adayar], aliases_ta: [அடையாறு, அடையாற்]}
+    - {name: Perungudi, gcc_zone: 14, latitude: 12.9654, longitude: 80.2461,
+       aliases_en: [Perungudi], aliases_ta: [பெருங்குடி]}
+
+  # Major localities (all inside Chennai revenue district).
+  localities:
+    - {name: T. Nagar, latitude: 13.0418, longitude: 80.2341,
+       aliases_en: [T. Nagar, Thyagaraya Nagar, Thiyagaraya Nagar], aliases_ta: [தி.நகர், தியாகராய நகர்]}
+    - {name: Triplicane, latitude: 13.0588, longitude: 80.2756,
+       aliases_en: [Triplicane], aliases_ta: [திருவல்லிக்கேணி]}
+    - {name: Chintadripet, latitude: 13.0732, longitude: 80.2713,
+       aliases_en: [Chintadripet, Chindadripet], aliases_ta: [சிந்தாதிரிப்பேட்டை]}
+    - {name: Vepery, latitude: 13.0850, longitude: 80.2620,
+       aliases_en: [Vepery], aliases_ta: [வேப்பேரி]}
+    - {name: Washermanpet, latitude: 13.1125, longitude: 80.2870,
+       aliases_en: [Washermanpet, Old Washermanpet], aliases_ta: [வண்ணாரப்பேட்டை]}
+    - {name: Kodungaiyur, latitude: 13.1375, longitude: 80.2478,
+       aliases_en: [Kodungaiyur], aliases_ta: [கொடுங்கையூர்]}
+    - {name: Vyasarpadi, latitude: 13.1170, longitude: 80.2560,
+       aliases_en: [Vyasarpadi], aliases_ta: [வியாசர்பாடி]}
+    - {name: Sembium, latitude: 13.1180, longitude: 80.2330,
+       aliases_en: [Sembium, Sembiam], aliases_ta: [செம்பியம்]}
+    - {name: Pulianthope, latitude: 13.0980, longitude: 80.2630,
+       aliases_en: [Pulianthope], aliases_ta: [புளியந்தோப்பு]}
+    - {name: Otteri, latitude: 13.0950, longitude: 80.2500,
+       aliases_en: [Otteri], aliases_ta: [ஓட்டேரி]}
+    - {name: Kilpauk, latitude: 13.0820, longitude: 80.2420,
+       aliases_en: [Kilpauk], aliases_ta: [கீழ்ப்பாக்கம்]}
+    - {name: Villivakkam, latitude: 13.1080, longitude: 80.2050,
+       aliases_en: [Villivakkam], aliases_ta: [வில்லிவாக்கம்]}
+    - {name: Koyambedu, latitude: 13.0694, longitude: 80.1948,
+       aliases_en: [Koyambedu], aliases_ta: [கோயம்பேடு, கோயம்பேட்]}
+    - {name: Arumbakkam, latitude: 13.0720, longitude: 80.2100,
+       aliases_en: [Arumbakkam], aliases_ta: [அரும்பாக்கம்]}
+    - {name: Nungambakkam, latitude: 13.0569, longitude: 80.2425,
+       aliases_en: [Nungambakkam], aliases_ta: [நுங்கம்பாக்கம்]}
+    - {name: Vadapalani, latitude: 13.0500, longitude: 80.2121,
+       aliases_en: [Vadapalani, Vadapalni], aliases_ta: [வடபழனி]}
+    - {name: Saidapet, latitude: 13.0213, longitude: 80.2231,
+       aliases_en: [Saidapet], aliases_ta: [சைதாப்பேட்டை]}
+    - {name: Ashok Nagar, latitude: 13.0350, longitude: 80.2120, requires_context: true,
+       aliases_en: [Ashok Nagar], aliases_ta: [அசோக் நகர்]}
+    - {name: K.K. Nagar, latitude: 13.0410, longitude: 80.1990, requires_context: true,
+       aliases_en: [K.K. Nagar], aliases_ta: [கே.கே.நகர்]}
+    - {name: Saligramam, latitude: 13.0540, longitude: 80.2000,
+       aliases_en: [Saligramam], aliases_ta: [சாலிகிராமம்]}
+    - {name: Virugambakkam, latitude: 13.0530, longitude: 80.1920,
+       aliases_en: [Virugambakkam], aliases_ta: [விருகம்பாக்கம்]}
+    - {name: Porur, latitude: 13.0382, longitude: 80.1565,
+       aliases_en: [Porur], aliases_ta: [போரூர்]}
+    - {name: Ramapuram, latitude: 13.0320, longitude: 80.1780, requires_context: true,
+       aliases_en: [Ramapuram], aliases_ta: [ராமாபுரம்]}
+    - {name: Mogappair, latitude: 13.0837, longitude: 80.1750,
+       aliases_en: [Mogappair, Mugappair], aliases_ta: [முகப்பேர்]}
+    - {name: Padi, latitude: 13.0980, longitude: 80.1860, requires_context: true,
+       aliases_en: [Padi], aliases_ta: []}   # Tamil "பாடி" is also a common verb
+    - {name: Korattur, latitude: 13.1100, longitude: 80.1830,
+       aliases_en: [Korattur], aliases_ta: [கொரட்டூர்]}
+    - {name: Puzhal, latitude: 13.1580, longitude: 80.2030,
+       aliases_en: [Puzhal], aliases_ta: [புழல்]}
+    - {name: Ennore, latitude: 13.2146, longitude: 80.3203,
+       aliases_en: [Ennore], aliases_ta: [எண்ணூர்]}
+    - {name: Kasimedu, latitude: 13.1230, longitude: 80.2950,
+       aliases_en: [Kasimedu], aliases_ta: [காசிமேடு]}
+    - {name: George Town, latitude: 13.0930, longitude: 80.2860, requires_context: true,
+       aliases_en: [George Town, Georgetown], aliases_ta: [ஜார்ஜ் டவுன்]}
+    - {name: Parrys, latitude: 13.0900, longitude: 80.2880,
+       aliases_en: [Parrys, Parry's Corner, Parrys Corner], aliases_ta: [பாரிமுனை]}
+    - {name: Chepauk, latitude: 13.0630, longitude: 80.2800,
+       aliases_en: [Chepauk], aliases_ta: [சேப்பாக்கம்]}
+    - {name: Marina Beach, latitude: 13.0500, longitude: 80.2824,
+       aliases_en: [Marina Beach], aliases_ta: [மெரினா]}
+    - {name: Royapettah, latitude: 13.0540, longitude: 80.2640,
+       aliases_en: [Royapettah], aliases_ta: [ராயப்பேட்டை]}
+    - {name: Alwarpet, latitude: 13.0339, longitude: 80.2550,
+       aliases_en: [Alwarpet], aliases_ta: [ஆழ்வார்பேட்டை]}
+    - {name: Mandaveli, latitude: 13.0270, longitude: 80.2620,
+       aliases_en: [Mandaveli, Mandavelli], aliases_ta: [மந்தைவெளி]}
+    - {name: Nandanam, latitude: 13.0290, longitude: 80.2390, requires_context: true,
+       aliases_en: [Nandanam], aliases_ta: [நந்தனம்]}
+    - {name: Ekkattuthangal, latitude: 13.0210, longitude: 80.2050,
+       aliases_en: [Ekkattuthangal, Ekkaduthangal, Ekkatuthangal], aliases_ta: [ஈக்காட்டுத்தாங்கல்]}
+    - {name: Besant Nagar, latitude: 13.0003, longitude: 80.2667,
+       aliases_en: [Besant Nagar], aliases_ta: [பெசன்ட் நகர்]}
+    - {name: Thiruvanmiyur, latitude: 12.9830, longitude: 80.2594,
+       aliases_en: [Thiruvanmiyur, Tiruvanmiyur], aliases_ta: [திருவான்மியூர்]}
+    - {name: Taramani, latitude: 12.9863, longitude: 80.2432,
+       aliases_en: [Taramani, Tharamani], aliases_ta: [தரமணி]}
+    - {name: Pallikaranai, latitude: 12.9349, longitude: 80.2137,
+       aliases_en: [Pallikaranai], aliases_ta: [பள்ளிக்கரணை]}
+    - {name: Madipakkam, latitude: 12.9623, longitude: 80.1986,
+       aliases_en: [Madipakkam], aliases_ta: [மடிப்பாக்கம்]}
+    - {name: Nanganallur, latitude: 12.9807, longitude: 80.1880,
+       aliases_en: [Nanganallur], aliases_ta: [நங்கநல்லூர்]}
+    - {name: Meenambakkam, latitude: 12.9870, longitude: 80.1760,
+       aliases_en: [Meenambakkam], aliases_ta: [மீனம்பாக்கம்]}
+    - {name: Thoraipakkam, latitude: 12.9406, longitude: 80.2380,
+       aliases_en: [Thoraipakkam, Thoraippakkam], aliases_ta: [துரைப்பாக்கம்]}
+    - {name: Karapakkam, latitude: 12.9180, longitude: 80.2290,
+       aliases_en: [Karapakkam], aliases_ta: [கரப்பாக்கம்]}
+    - {name: Neelankarai, latitude: 12.9490, longitude: 80.2590,
+       aliases_en: [Neelankarai, Neelangarai], aliases_ta: [நீலாங்கரை]}
+    - {name: Kottivakkam, latitude: 12.9680, longitude: 80.2590,
+       aliases_en: [Kottivakkam], aliases_ta: [கொட்டிவாக்கம்]}
+    - {name: Enjambakkam, latitude: 12.9200, longitude: 80.2500,
+       aliases_en: [Enjambakkam, Injambakkam], aliases_ta: [ஈஞ்சம்பாக்கம்]}
+    - {name: Semmancheri, latitude: 12.8680, longitude: 80.2240,
+       aliases_en: [Semmancheri, Semmenchery], aliases_ta: [செம்மஞ்சேரி]}
+    - {name: Pattinapakkam, latitude: 13.0269, longitude: 80.2785,
+       aliases_en: [Pattinapakkam, Pattinappakkam], aliases_ta: [பட்டினப்பாக்கம்]}
+    - {name: Santhome, latitude: 13.0330, longitude: 80.2780,
+       aliases_en: [Santhome, San Thome], aliases_ta: [சாந்தோம்]}
+    - {name: Kotturpuram, latitude: 13.0170, longitude: 80.2420,
+       aliases_en: [Kotturpuram], aliases_ta: [கோட்டூர்புரம்]}
+    - {name: Choolaimedu, latitude: 13.0640, longitude: 80.2270,
+       aliases_en: [Choolaimedu], aliases_ta: [சூளைமேடு]}
+
+# -----------------------------------------------------------------------------
+# CLASSIFICATION: department + complaint flag (runs on Chennai-relevant rows)
+# -----------------------------------------------------------------------------
+classification:
+  enabled: true
+  text_max_chars: 1500              # title + summary + body characters used
+  # Used when no model can place an article (crime, politics, cinema ...).
+  # Such rows carry department_method = "fallback".
+  fallback_department: General Administration
+  # Blanked out before department matching: names that merely contain department words.
+  ignore_phrases: [பள்ளிக்கரணை, Pallikaranai, Chennai Petroleum Corporation, CHENNPETRO, real estate,
+                   Prestige Estates, Estates, Chennai Super Kings, Tower Park Road, பட்டாக் கத்தி,
+                   பட்டா கத்தி, பட்டாக்கத்தி]
+
+  keyword_model:
+    strong_weight: 2                # en / ta terms
+    weak_weight: 1                  # en_weak / ta_weak terms
+    title_weight: 2                 # a term in the title counts this many times
+    min_weak_terms: 2               # without a strong term, need this many different weak terms
+    # For articles already flagged as complaints, one weak term is informative
+    # ("uneven road" complaint -> Engineering), so the bar is lowered.
+    min_weak_terms_for_complaints: 1
+
+  embedding_model:                  # offline zero-shot for English rows with no keyword hit.
+    # Disabled: on the 90-day data, headlines without department keywords were mostly
+    # crime/politics/prices and MiniLM forced them into departments at low similarity
+    # ("Electrician hacked to death" -> Electrical). Enable only with a better model.
+    enabled: false
+    model: sentence-transformers/all-MiniLM-L6-v2   # must already be in the local HF cache
+    min_similarity: 0.40
+    languages: [en]
+
+  llm:                              # optional; used only when the key is in .env
+    enabled: true
+    env_key: OPENAI_API_KEY
+    endpoint: https://api.openai.com/v1/chat/completions
+    model: gpt-4o-mini
+    batch_size: 20
+    max_items_per_run: 20000
+    timeout_seconds: 60
+
+  complaint:
+    threshold: 2                    # score needed (and at least one grievance/problem cue)
+    grievance_weight: 2             # strong civic-grievance wording
+    grievance_weak_weight: 1        # grievance words that also appear in politics / crime stories
+    problem_weight: 1
+    negative_weight: 2              # announcements, scheduled notices, crime reports
+    grievance_en: [complain, woes, plight, irked, apathy, neglect, no action, despite complaints,
+                   poor maintenance, poorly maintained, menace, inconvenience, hardship, ordeal,
+                   nightmare, bear the brunt, left in the lurch, cry for help, residents rue, fume,
+                   residents demand, residents urge, Citizen Connect, decry]
+    grievance_weak_en: [complaint, grievance, allege, demand, urge, petition, protest, agitation,
+                        road roko, suffer, anger, struggle, trouble, hassle, lack of]
+    grievance_ta: [அவதி, தவிப்பு, அலட்சியம், கண்டுகொள்ளாத, நடவடிக்கை எடுக்கப்படவில்லை, தொல்லை, வேதனை]
+    grievance_weak_ta: [புகார், கோரிக்கை, போராட்டம், ஆர்ப்பாட்டம், மறியல், முற்றுகை, குற்றச்சாட்டு,
+                        குற்றம்சாட்டு, அதிருப்தி, சிரமம், நடவடிக்கை இல்லை]
+    problem_en: [overflowing, overflow, stagnant, stagnation, waterlogged, waterlogging, inundated,
+                 submerged, damaged, broken, pothole, potholed, crater, dilapidated, crumbling,
+                 caved in, cave-in, collapse, unattended, uncleared, not cleared, clogged, choked,
+                 pile up, piled up, dumped, stench, foul smell, stray dog, stray cattle, shortage,
+                 scarcity, no water, erratic supply, power cut, power outage, outage, dark stretch,
+                 non-functional, defunct, not working, leak, leakage, contaminated, sewage, delayed,
+                 incomplete, abandoned, unsafe, encroachment, traffic snarl, dug up, left open,
+                 open drain, exposed wire, snapped wire, mosquito]
+    problem_ta: [தேங்கி, தேக்கம், சேதமடைந்த, சேதம், பழுதடைந்த, பழுது, குண்டும் குழியுமாக, பள்ளம்,
+                 துர்நாற்றம், நிரம்பி வழி, அகற்றப்படாத, அகற்றாமல், தட்டுப்பாடு, மின்தடை, மின்வெட்டு,
+                 இருளில், கசிவு, உடைந்த, சீரமைக்கப்படாத, ஆக்கிரமிப்பு, கழிவுநீர், அபாயம், ஆபத்தான,
+                 கொசு, தெரு நாய்]
+    negative_en: [inaugurate, launch, unveil, sanction, allocate, award, felicitate, celebrate, festival,
+                  arrested, murder, booked, remanded, sentenced, acquitted, police, detained, custody,
+                  FIR, POCSO, assault, scheduled, maintenance work, power shutdown, to face, to witness,
+                  full list, list of areas, grievance meeting, grievances meeting, to be held,
+                  tomorrow, areas to, localities, locations to]
+    negative_ta: [திறந்து வைத்தார், தொடங்கி வைத்தார், திறப்பு விழா, அடிக்கல், வழங்கினார், ஒதுக்கீடு,
+                  கைது, கொலை, போலீஸ், காவல்துறை, அறிவிப்பு, பராமரிப்பு பணி, முழு லிஸ்ட், எந்தெந்த பகுதி,
+                  எங்கெல்லாம், நாளை, லிஸ்ட், ஏரியா]
+
+  # The 15 departments. `description` feeds the embedding model and the LLM prompt;
+  # en/ta are strong terms, en_weak/ta_weak weak terms. Tamil nouns ending in ம்
+  # inflect as -த்த- (பாலம் -> பாலத்தில்), so their -த் stems are listed too.
+  departments:
+    - name: Revenue Department
+      description: property tax, professional tax, trade licence, tax collection and arrears, land records and patta, taluk office and tahsildar, revenue certificates, ration cards, old age pension, relief compensation
+      en: [property tax, professional tax, profession tax, trade licence, trade license, tax arrears,
+           tax collection, patta, tahsildar, taluk office, village administrative officer, community certificate,
+           income certificate, ration card, old age pension, relief assistance, compensation]
+      en_weak: [tax, revenue, ration, pension, collector, certificate]
+      ta: [சொத்து வரி, தொழில் வரி, பட்டா, வட்டாட்சியர், தாசில்தார், கிராம நிர்வாக அலுவலர்,
+           குடும்ப அட்டை, ரேஷன், முதியோர் உதவித்தொகை, நிவாரணம், இழப்பீடு]
+      ta_weak: [வரி, ஓய்வூதியம், சான்றிதழ், ஆட்சியர்]
+
+    - name: Engineering Department (Town Planning & Building Permissions)
+      description: roads, potholes, road relaying and repair, footpaths, building plan approval, building permission, unauthorised and illegal construction, town planning, CMDA
+      en: [pothole, road relaying, road repair, relaying, road cut, road damage, footpath, pavement,
+           building permission, building plan, planning permission, unauthorised construction,
+           unauthorized construction, illegal construction, town planning, CMDA, speed breaker, road work,
+           uneven road, road surface, damaged road, road restoration, road caved, sinkhole, slushy road,
+           bus shelter, bus stop, bus route road, unlaid road, unlaid]
+      en_weak: [construction, roads]
+      ta: [குண்டும் குழியுமாக, சாலை சீரமைப்பு, சாலை பணி, நடைபாதை, கட்டட அனுமதி, கட்டிட அனுமதி,
+           திட்ட அனுமதி, விதிமீறல் கட்டட, விதிமீறல் கட்டிட, வேகத்தடை, சிஎம்டிஏ]
+      ta_weak: [சாலைகள்]
+
+    - name: Electrical Department
+      description: street lights, power cuts, electricity supply, transformers, electric poles and cables, electrocution, crematorium furnaces
+      en: [street light, streetlight, power cut, power outage, power shutdown, power supply, transformer,
+           electric pole, electrocution, electrocuted, live wire, electric shock, TNEB, Tangedco, TNPDCL,
+           electricity board, overhead cable, crematorium]
+      en_weak: [electricity, cable]
+      ta: [மின்தடை, மின்வெட்டு, மின் தடை, தெருவிளக்கு, தெரு விளக்கு, மின்கம்பம், மின் கம்பம்,
+           மின்கம்பி, மின் கம்பி, மின்மாற்றி, டிரான்ஸ்பார்மர், மின்வாரியம், மின்சார வாரியம், மின்சாரம் தாக்கி]
+      ta_weak: [மின்சாரம், மின்சாரத்]
+
+    - name: Solid Waste Management Department
+      description: garbage collection, waste dumping, dump yards, conservancy and sanitary workers, waste segregation, biomining, waste to energy, plastic ban
+      en: [garbage, solid waste, waste management, dump yard, dumpyard, dumping yard, dumping ground,
+           conservancy, sanitary worker, conservancy worker, biomining, bio-mining, waste-to-energy,
+           segregation, litter, trash, debris, plastic ban, Urbaser, Ramky, compost]
+      en_weak: [waste, dump, cleanliness]
+      ta: [குப்பை, குப்பைகள், குப்பைக் கிடங்கு, தூய்மைப் பணியாளர், தூய்மை பணியாளர், துப்புரவு பணியாளர்,
+           திடக்கழிவு, கழிவுகள், பிளாஸ்டிக் தடை]
+      ta_weak: [கழிவு, தூய்மை, பிளாஸ்டிக்]
+
+    - name: Storm Water Drain Department
+      description: storm water drains, waterlogging, flooding and inundation after rain, rainwater stagnation, canals and desilting, sewage overflow on streets, monsoon preparedness
+      en: [storm water drain, stormwater drain, SWD, waterlogging, water-logging, waterlogged, inundation,
+           inundated, rainwater stagnation, water stagnation, stagnant water, desilting, canal, drain, flooding,
+           Buckingham canal, Otteri Nullah, Captain Cotton canal, sewage overflow, flood, monsoon preparedness, heavy rain,
+           submerged]
+      en_weak: [rain, monsoon, sewage, drainage, lake, Cooum]
+      ta: [கனமழை, கன மழை, மழைநீர் வடிகால், மழைநீர் தேக்கம், தண்ணீர் தேங்கி, மழைநீர் தேங்கி, வெள்ளம், வெள்ளத்,
+           வெள்ளநீர், வெள்ள நீர், கால்வாய், தூர்வார, வடிகால், கழிவுநீர், சாக்கடை, மூழ்கி, பருவமழை முன்னெச்சரிக்கை]
+      ta_weak: [மழை, பருவமழை, ஏரி]
+
+    - name: Bridges Department
+      description: bridges, flyovers, road over bridges, road under bridges, subways and underpasses, causeways, elevated corridors
+      en: [bridge, flyover, overbridge, over-bridge, road over bridge, ROB, RUB, road under bridge,
+           subway, underpass, causeway, elevated corridor, grade separator, footbridge, foot overbridge]
+      ta: [பாலம், பாலத், மேம்பாலம், மேம்பாலத், சுரங்கப்பாதை, சுரங்கப் பாதை, தரைப்பாலம், தரைப்பாலத்,
+           நடை மேம்பாலம்]
+
+    - name: Health Department
+      description: public health, dengue, malaria, fever, mosquito control and fogging, stray dogs and rabies, food safety and adulteration, hospitals and urban health centres, birth and death certificates, disease outbreaks
+      en: [dengue, malaria, chikungunya, fever, mosquito, fogging, stray dog, dog bite, rabies,
+           animal birth control, food safety, food poisoning, adulteration, adulterated, urban primary health centre,
+           UPHC, primary health centre, health centre, cholera, diarrhoea, jaundice, epidemic, outbreak,
+           birth certificate, death certificate, stray cattle, street dog, public health, burial ground]
+      en_weak: [hospital, health, doctor, disease, infection, patient, medical]
+      ta: [டெங்கு, மலேரியா, காய்ச்சல், கொசு, தெரு நாய், தெருநாய், நாய்க்கடி, ரேபிஸ்,
+           உணவு பாதுகாப்பு, உணவுப் பாதுகாப்பு, கலப்படம், சுகாதார நிலையம், பிறப்பு சான்றிதழ், இறப்பு சான்றிதழ், தொற்று நோய்,
+           வயிற்றுப்போக்கு, மஞ்சள் காமாலை, மாடுகள்]
+      ta_weak: [மருத்துவமனை, சுகாதார, மருத்துவ, நோய், நோயாளி]
+
+    - name: Family Welfare Department
+      description: maternal and child health, pregnant women, antenatal care, newborn and infant care, immunisation and vaccination drives, family planning, anganwadi and child nutrition
+      en: [maternity, maternal, pregnant, pregnancy, antenatal, newborn, new-born, infant, family planning,
+           sterilisation, sterilization, immunisation, immunization, vaccination drive, polio, child health,
+           malnutrition, anganwadi, breastfeeding, baby care kit]
+      en_weak: [vaccination, vaccine, child welfare]
+      ta: [கர்ப்பிணி, பிரசவம், மகப்பேறு, பச்சிளம், குழந்தை நலம், குடும்ப நலம், குடும்பக் கட்டுப்பாடு,
+           போலியோ, அங்கன்வாடி, ஊட்டச்சத்து, தாய்ப்பால்]
+      ta_weak: [தடுப்பூசி, குழந்தைகள்]
+
+    - name: Education Department
+      description: corporation and government schools, students, teachers, breakfast and noon meal schemes, examinations, admissions, classrooms
+      en: [school, teacher, headmaster, breakfast scheme, noon meal, mid-day meal,
+           classroom, board exam, public exam, admission, corporation school, smart class]
+      en_weak: [student, college, education, exam, university]
+      ta: [பள்ளி, பள்ளிகள், ஆசிரியர், தலைமை ஆசிரியர், காலை உணவு திட்டம்,
+           மதிய உணவு, சத்துணவு, பொதுத்தேர்வு, வகுப்பறை, மாணவர் சேர்க்கை]
+      ta_weak: [மாணவர், மாணவி, மாணவிகள், கல்லூரி, தேர்வு, கல்வி]
+
+    - name: Parks & Play Fields Department
+      description: public parks, playgrounds and play fields, open gyms, trees and tree felling, fallen trees, greenery, swimming pools, walking tracks, beaches and eco parks
+      en: [park, playground, play field, playfield, open gym, tree felling, trees felled, fallen tree,
+           uprooted, tree plantation, greenery, sponge park, eco park, swimming pool, walking track, Tower Park,
+           Semmozhi Poonga, beach beautification]
+      en_weak: [tree, green cover, stadium, sports]
+      ta: [பூங்கா, பூங்காக்கள், விளையாட்டு மைதானம், விளையாட்டு மைதானத், மைதானம், மைதானத், மரம், மரத்,
+           மரங்கள், மரக்கன்று, நீச்சல் குளம், நீச்சல் குளத், நடைப்பயிற்சி]
+      ta_weak: []
+
+    - name: Buildings Department
+      description: corporation buildings, community halls, public toilets and conveniences, school and hospital buildings, dilapidated or collapsed buildings, night shelters, marriage halls, ward offices
+      en: [community hall, public toilet, public convenience, toilet, school building, dilapidated building,
+           building collapse, building collapsed, night shelter, homeless shelter, marriage hall, ward office,
+           Amma Unavagam, Ripon Building, corporation building]
+      en_weak: [building, renovation]
+      ta: [சமுதாயக்கூடம், சமுதாய நலக்கூடம், சமுதாயக் கூடம், பொதுக் கழிப்பிடம், பொது கழிப்பிடம், கழிப்பறை,
+           கழிவறை, பழுதடைந்த கட்டடம், இடிந்து விழுந்த, இரவு நேர காப்பகம், திருமண மண்டபம், அம்மா உணவகம்]
+      ta_weak: [கட்டடம், கட்டடத், கட்டிடம், கட்டிடத்]
+
+    - name: Mechanical Engineering Department
+      description: corporation vehicles and fleet, garbage compactor trucks, lorries, JCBs and earth movers, motor pumps for dewatering, suction and jetting machines, vehicle workshops and maintenance
+      en: [compactor, garbage truck, garbage lorry, corporation vehicle, fleet, vehicle maintenance, workshop,
+           JCB, earth mover, earthmover, motor pump, dewatering pump, dewatering, suction machine,
+           super sucker, jetting machine, battery-operated vehicle, tractor, machinery]
+      en_weak: [vehicle, lorry, truck, pump, machine]
+      ta: [மோட்டார் பம்ப், மோட்டார் பம்புகள், ஜேசிபி, இயந்திரங்கள், லாரிகள், வாகனங்கள்]
+      ta_weak: [லாரி, வாகனம், இயந்திரம்]
+
+    - name: Land & Estate Department
+      description: corporation and government land, encroachment on public land, land grabbing, land acquisition, lease and rent of corporation shops and markets, eviction, poramboke land
+      en: [land grab, land grabbing, government land, corporation land, public land, land encroachment,
+           land acquisition, eviction, evicted, lease, rent arrears, corporation shop, shops lease,
+           poramboke, OSR land, reclaimed land, retrieved land]
+      en_weak: [land, encroach]
+      ta: [நில அபகரிப்பு, அரசு நிலம், அரசு நிலத், நில ஆக்கிரமிப்பு, நிலம் மீட்பு, மீட்கப்பட்ட நிலம், குத்தகை,
+           புறம்போக்கு, நில எடுப்பு, நிலம் கையகப்படுத்த, கடை வாடகை, வெளியேற்ற]
+      ta_weak: [நிலம், நிலத், ஆக்கிரமிப்பு, வாடகை]
+
+    - name: General Administration
+      description: corporation council and administration, mayor, commissioner, councillors and ward committees, staff, recruitment and transfers, grievance meetings, e-governance and helplines, government orders and schemes
+      en: [council meeting, corporation council, mayor, commissioner, councillor, ward committee,
+           zonal office, grievance day, grievance redressal, helpline, recruitment, transferred, suspended,
+           e-governance, government order]
+      en_weak: [scheme]
+      ta: [மேயர், ஆணையர், மாமன்ற கூட்டம், மாமன்றக் கூட்டம், மாமன்ற உறுப்பினர், கவுன்சிலர், மண்டல அலுவலகம்,
+           குறைதீர், குறைதீர்ப்பு, பணியிட மாற்றம், பணியிடை நீக்கம், அரசாணை, மாநகராட்சி கூட்டம்]
+      ta_weak: [மாநகராட்சி, அதிகாரிகள், ஊழியர்கள், திட்டம்]
+
+    - name: Financial Management Unit
+      description: corporation budget, funds and allocations, loans and grants, World Bank and ADB funding, municipal bonds, audit, expenditure and finance commission grants
+      en: [budget, fund allocation, funds allocated, allocated, sanctioned, loan, World Bank, ADB,
+           Asian Development Bank, municipal bond, audit, expenditure, finance commission]
+      en_weak: [grant, finance, financial]
+      ta: [பட்ஜெட், நிதி ஒதுக்கீடு, நிதிநிலை அறிக்கை, கடன், மானியம், வரவு செலவு, தணிக்கை, உலக வங்கி]
+      ta_weak: [நிதி, ஒதுக்கீடு]
