@@ -51,7 +51,7 @@ jobs:
 
       - name: Check the API key secret
         run: |
-          if [ -z "$REFRESH_API_KEY" ]; then
+          if [ -z "$(echo "$REFRESH_API_KEY" | tr -d "[:space:]")" ]; then
             echo "::error::Add the repository secret REFRESH_API_KEY (Settings > Secrets and variables > Actions)"; exit 1
           fi
 

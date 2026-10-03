@@ -27,7 +27,7 @@ FROM_DURABLE = ("complaints", "complaint_status_history")  # the website's own r
 
 def api(route: str) -> dict:
     req = urllib.request.Request(f"{API_URL}{route}", data=b"{}", method="POST",
-                                 headers={"x-refresh-key": os.environ["REFRESH_API_KEY"], "content-type": "application/json"})
+                                 headers={"x-refresh-key": os.environ["REFRESH_API_KEY"].strip(), "content-type": "application/json"})
     with urllib.request.urlopen(req, timeout=300) as r:
         return json.loads(r.read())
 
