@@ -4,6 +4,13 @@ The District IQ data job, moved off the PC. Every hour GitHub Actions collects s
 the `district_intel` store and uploads it to AWS. The website (running with `DATA_BACKEND=aws`) loads each new build
 within 5 minutes, so the dashboard stays current with the PC switched off.
 
+## Where the code comes from
+
+This repository holds only the job: the workflow, `ci/`, `aws/` and the grievance generator's slim
+`chennai-grievance-portal-main/package.json`. The pipeline, the collectors and the generators are taken from the main
+repo ([ApshanaSP/farmwisenew](https://github.com/ApshanaSP/farmwisenew), branch `main`) at the start of every run (code
+paths only, no data), so there is one copy of the code: a fix pushed to the main repo is live on the next hourly run.
+
 ## What one run does (`.github/workflows/dataload.yml`)
 
 0. **Hour check**: if the build AWS serves was made in this clock hour (IST), the run stops here (a few seconds), so
@@ -30,6 +37,8 @@ A source that fails (a site timing out) is logged as a warning and retried the n
 ## Setup
 
 - Repository secret **`REFRESH_API_KEY`**: Settings > Secrets and variables > Actions.
+- Optional secrets **`GROQ_API_KEY`** (AI news labelling) and **`GEMINI_API_KEY`** (AI page 2 briefing): same place.
+  The job writes them into `district_intel/.env` for the run; without them the pipeline uses its rules.
 - **Hourly start (cron-job.org)**: GitHub's own schedule skips many runs (3 of 12 hours ran on 3-4 Oct 2026), so a
   free cron-job.org job starts the workflow through the API every hour; runs started that way begin within seconds.
   1. GitHub > Settings > Developer settings > Fine-grained tokens > Generate: only this repository, permission
@@ -51,5 +60,5 @@ A source that fails (a site timing out) is logged as a warning and retried the n
   click (or any commit) turns it back on. The cron-job.org start is not affected.
 - The `state` release asset is public, so it never holds the grievance files (they include real citizens'
   complaints); every run rebuilds those in full from AWS.
-- Code here is copied from the main project; the collectors' fetching methods are not changed. Only `ci/`, the
-  workflow and `chennai-grievance-portal-main/package.json` are new.
+- Until 4 Oct 2026 this repository kept its own copy of the code, which fell behind the main repo; since then the
+  code is taken from the main repo every run (see "Where the code comes from").

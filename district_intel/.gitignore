@@ -1,5 +1,0 @@
-__pycache__/
-.pytest_cache/
-output/.refresh.lock
-# trained on citizens' complaint text; rebuilt daily on each machine, never published (repos are public)
-output/models/

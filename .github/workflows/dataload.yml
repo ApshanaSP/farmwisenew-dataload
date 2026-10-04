@@ -6,7 +6,11 @@
 # backup: it skips many runs (3 of 12 hours ran on 3-4 Oct 2026). Whatever starts it, a run first checks whether
 # this clock hour's build is already on AWS and stops there if so, so extra starts cost a few seconds.
 #
+# The code (pipeline, collectors, generators) is taken from the main repo ApshanaSP/farmwisenew at the start of every
+# run; this repository keeps only the workflow, ci/ and aws/.
+#
 # Needs one repository secret: REFRESH_API_KEY (the team API key; it never expires, and no AWS keys are used).
+# Optional: GROQ_API_KEY (AI news labelling) and GEMINI_API_KEY (AI page 2 briefing); without them the rules are used.
 # Between runs, the collectors' history lives in the `state` release (ci/state.py); the first run starts from the
 # `seed` branch's copy of the PC's state when there is no release yet.
 name: Hourly data load
@@ -92,13 +96,62 @@ jobs:
       GH_TOKEN: ${{ github.token }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4          # this repository: the workflow, ci/ and aws/ only
+
+      # The code comes from the main repo (ApshanaSP/farmwisenew, branch main), so there is one copy of the pipeline,
+      # the collectors and the generators: a fix pushed there is live on the next hourly run. Only code paths are
+      # taken; the data comes from the saved state below. The grievance generator's slim package.json stays here.
+      - name: Take the code from the main repo
+        uses: actions/checkout@v4
+        with:
+          repository: ApshanaSP/farmwisenew
+          ref: main
+          path: .main
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /district_intel/
+            !/district_intel/output/
+            !/district_intel/docs/
+            /chennai_news_pipeline/
+            !/chennai_news_pipeline/data/
+            /imd_weather_collector/imd_weather_collector.py
+            /cpcb_air_quality_collector/cpcb_air_quality_collector.py
+            /cfm_dss_collector/cfm_dss_collector.py
+            /chennai_hospital_data/chennai_hospital_data_generator.py
+            /pwd_dataset_generator/generate_pwd_data.py
+            /police_dataset_generator/
+            !/police_dataset_generator/output/
+            /chennai-grievance-portal-main/scripts/
+            /chennai-grievance-portal-main/src/lib/ai-classifier.ts
+            /chennai-grievance-portal-main/src/lib/constants.ts
+            /chennai-grievance-portal-main/data/gcc-reference/
+            /chennai-grievance-portal-main/data/boundaries/
+
+      - name: Put the main repo's code in place
+        run: |
+          git -C .main log -1 --format="code from farmwisenew main %h (%ad): %s" --date=format:"%d %b %H:%M"
+          rsync -a --exclude .git .main/ ./
+          rm -rf .main
 
       - name: Check the API key secret
         run: |
           if [ -z "$(echo "$REFRESH_API_KEY" | tr -d "[:space:]")" ]; then
             echo "::error::Add the repository secret REFRESH_API_KEY (Settings > Secrets and variables > Actions)"; exit 1
           fi
+
+      # Optional AI keys for the pipeline's news labelling (Groq) and page 2 briefing (Gemini), from the repository
+      # secrets GROQ_API_KEY and GEMINI_API_KEY. The pipeline reads them only from district_intel/.env. Without a key it
+      # uses the rule-based labels, so a missing or expired key never stops the hourly load.
+      - name: AI keys (optional)
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          : > district_intel/.env
+          for k in GROQ_API_KEY GEMINI_API_KEY; do
+            v="$(printenv "$k" | tr -d '[:space:]')"
+            if [ -n "$v" ]; then echo "$k=$v" >> district_intel/.env; echo "$k: set"; else echo "$k: not set (rule-based)"; fi
+          done
 
       - uses: actions/setup-python@v5
         with:
