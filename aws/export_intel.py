@@ -46,12 +46,29 @@ from dintel.store import INDEXES  # noqa: E402
 API_URL = "https://i6q6oi20lb.execute-api.ap-south-1.amazonaws.com"
 
 
+def fetch(req: urllib.request.Request, timeout: int, tries: int = 4) -> bytes:
+    """Send a request, retrying a dropped or timed-out connection (GitHub's machines see the odd "connection reset by
+    peer" mid-upload; on 4 Oct 2026 one lost the hour's build). An HTTP error answer is not retried: it is raised."""
+    for k in range(tries):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                return r.read()
+        except urllib.error.HTTPError:
+            raise
+        except (urllib.error.URLError, ConnectionError, TimeoutError) as e:
+            if k == tries - 1:
+                raise
+            wait = 5 * 3 ** k
+            print(f"  {req.full_url.split('?')[0][-60:]}: {e}; trying again in {wait} s")
+            time.sleep(wait)
+    raise RuntimeError("unreachable")
+
+
 def api(path: str, body: dict, key: str) -> dict:
     req = urllib.request.Request(f"{API_URL}{path}", data=json.dumps(body).encode(), method="POST",
                                  headers={"x-refresh-key": key, "content-type": "application/json"})
     try:
-        with urllib.request.urlopen(req, timeout=60) as r:
-            return json.loads(r.read())
+        return json.loads(fetch(req, 60))
     except urllib.error.HTTPError as e:
         sys.exit(f"{path}: HTTP {e.code} {e.read().decode()[:300]}")
 
@@ -61,8 +78,7 @@ def live_built_at(key: str) -> str:
     req = urllib.request.Request(f"{API_URL}/intel/snapshot", data=b"{}", method="POST",
                                  headers={"x-refresh-key": key, "content-type": "application/json"})
     try:
-        with urllib.request.urlopen(req, timeout=60) as r:
-            return json.loads(r.read()).get("built_at", "")
+        return json.loads(fetch(req, 60)).get("built_at", "")
     except urllib.error.HTTPError as e:
         if e.code == 404:  # nothing published yet
             return ""
@@ -99,9 +115,10 @@ def main() -> int:
     sent = 0
     for n, url in urls["upload"].items():
         req = urllib.request.Request(url, data=blobs[n], method="PUT", headers={"content-type": "application/gzip"})
-        with urllib.request.urlopen(req, timeout=300) as r:
-            if r.status != 200:
-                sys.exit(f"upload of {n} failed: HTTP {r.status}")
+        try:
+            fetch(req, 300)
+        except urllib.error.HTTPError as e:
+            sys.exit(f"upload of {n} failed: HTTP {e.code}")
         sent += len(blobs[n])
 
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
