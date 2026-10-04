@@ -1,5 +1,10 @@
-# Every hour, on GitHub's machine instead of the PC: collect 7 of the 8 sources (CPCB stays on the PC: GitHub cannot
-# reach it), rebuild the district_intel store and upload it to AWS. The website (DATA_BACKEND=aws) picks up the new build within 5 minutes.
+# Every hour, on GitHub's machine instead of the PC: collect 7 of the 8 sources, take CPCB from the PC (GitHub cannot
+# reach the CPCB site; the PC pushes its files to the `cpcb` branch), rebuild the district_intel store and upload it to
+# AWS. The website (DATA_BACKEND=aws) picks up the new build within 5 minutes.
+#
+# Started every hour by cron-job.org through the API (workflow_dispatch; see README). GitHub's own schedule is only a
+# backup: it skips many runs (3 of 12 hours ran on 3-4 Oct 2026). Whatever starts it, a run first checks whether
+# this clock hour's build is already on AWS and stops there if so, so extra starts cost a few seconds.
 #
 # Needs one repository secret: REFRESH_API_KEY (the team API key; it never expires, and no AWS keys are used).
 # Between runs, the collectors' history lives in the `state` release (ci/state.py); the first run starts from the
@@ -8,8 +13,13 @@ name: Hourly data load
 
 on:
   schedule:
-    - cron: "17 * * * *"   # every hour at :17 (GitHub may start scheduled runs a few minutes late)
-  workflow_dispatch:       # "Run workflow" button in the Actions tab
+    - cron: "17 * * * *"   # backup for the cron-job.org call (GitHub starts scheduled runs late or not at all)
+  workflow_dispatch:       # cron-job.org every hour, the Collector console's Refresh, and the "Run workflow" button
+    inputs:
+      force:
+        description: "Run even if this hour's build is already on AWS"
+        type: boolean
+        default: false
 
 permissions:
   contents: write          # to save the state release
@@ -19,7 +29,42 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      due: ${{ steps.due.outputs.due }}
+    steps:
+      - name: Is this hour's build already on AWS?
+        id: due
+        env:
+          REFRESH_API_KEY: ${{ secrets.REFRESH_API_KEY }}
+          FORCE: ${{ inputs.force }}
+        run: |
+          python3 - <<'EOF'
+          import json, os, urllib.request
+          from datetime import datetime
+          from zoneinfo import ZoneInfo
+          hour = datetime.now(ZoneInfo("Asia/Kolkata")).strftime("%Y-%m-%d %H")
+          built = ""
+          try:
+              req = urllib.request.Request("https://i6q6oi20lb.execute-api.ap-south-1.amazonaws.com/intel/snapshot",
+                                           data=b"{}", method="POST", headers={"content-type": "application/json",
+                                           "x-refresh-key": os.environ.get("REFRESH_API_KEY", "").strip()})
+              with urllib.request.urlopen(req, timeout=60) as r:
+                  built = json.loads(r.read()).get("built_at", "")  # IST wall clock, like this hour
+          except Exception as e:  # noqa: BLE001  (unreadable: run, and let the load job report the problem)
+              print(f"could not read the build AWS serves ({e})")
+          due = os.environ.get("FORCE") == "true" or not built.startswith(hour)
+          print(f"AWS serves the build from {built or 'unknown'}; now {hour}:xx IST -> "
+                + ("run" if due else "skip: this hour's build is already there"))
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              print(f"due={str(due).lower()}", file=f)
+          EOF
+
   load:
+    needs: check
+    if: needs.check.outputs.due == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 90
 
@@ -93,6 +138,18 @@ jobs:
             echo "::warning::no saved state and no seed branch: starting from empty history"
           fi
           echo "STATE_OK=1" >> "$GITHUB_ENV"
+
+      - name: Take CPCB from the PC
+        run: |
+          # GitHub's machines cannot reach airquality.cpcb.gov.in, so the PC collects CPCB every hour and pushes its
+          # files to the `cpcb` branch (district_intel/scripts/push_cpcb.py in the main repo). They replace the copy
+          # saved in the state, which nothing here updates.
+          if git fetch --depth 1 origin cpcb 2>/dev/null; then
+            git checkout FETCH_HEAD -- cpcb_air_quality_collector/data
+            git log -1 --format="%s" FETCH_HEAD
+          else
+            echo "::warning::no cpcb branch yet: CPCB stays as last saved"
+          fi
 
       - name: Load the grievance generator's MySQL from AWS
         run: bash ci/run.sh "MySQL seeding" python ci/seed_mysql.py

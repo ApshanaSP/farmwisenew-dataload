@@ -54,13 +54,17 @@ def day_start(now: float, hour: int) -> float:
 def is_due(job: dict, st: dict, now: float, hour: int) -> bool:
     """Daily jobs are due until they have succeeded once since today's collection hour, so a run
     missed while the laptop slept or was off happens as soon as it is back. A failed attempt is
-    retried after an hour. Faster jobs keep their interval."""
+    retried after an hour. Faster jobs are due once their interval, less up to 30 minutes, has passed
+    since the last run started: the hourly task fires on the hour, so measuring a full hour from when
+    the last run finished skipped every other hour, and a run at 11:16 after sign-in must not push
+    the 12:00 run to 13:00."""
     rec = st.get(job["name"], {})
     last_ok = rec.get("last_ok", rec.get("last_run", 0) if rec.get("ok") else 0)
     last_try = rec.get("last_run", 0)
     if job["every_minutes"] >= 1440:
         return last_ok < day_start(now, hour) and now - last_try >= 3300
-    return now - last_try >= job["every_minutes"] * 60
+    every = job["every_minutes"] * 60
+    return now - rec.get("started", last_try) >= every - min(every / 2, 1800)
 
 
 def refresh(settings, force: bool = False, only: set[str] | None = None) -> list[str]:
@@ -83,6 +87,7 @@ def refresh(settings, force: bool = False, only: set[str] | None = None) -> list
         # A feed that fails once (a site timing out, the laptop sleeping mid-run, MySQL still
         # starting after boot) usually works a minute later, so try up to three times now
         # instead of leaving the day's data missing until the next hourly check.
+        started = time.time()
         for attempt in range(1, ATTEMPTS + 1):
             log.info("refresh %s: %s (in %s)%s", job["name"], " ".join(cmd), cwd, f" [attempt {attempt}]" if attempt > 1 else "")
             try:
@@ -97,7 +102,7 @@ def refresh(settings, force: bool = False, only: set[str] | None = None) -> list
             log.warning("refresh %s: failed (%s); retrying in %d s", job["name"], tail.strip().splitlines()[-1][:160] if tail.strip() else "no output", RETRY_WAIT_S)
             time.sleep(RETRY_WAIT_S)
         prev_ok = st.get(job["name"], {}).get("last_ok", 0)
-        st[job["name"]] = {"last_run": time.time(), "ok": ok, "last_ok": time.time() if ok else prev_ok, "attempts": attempt, "tail": tail[-800:]}
+        st[job["name"]] = {"started": started, "last_run": time.time(), "ok": ok, "last_ok": time.time() if ok else prev_ok, "attempts": attempt, "tail": tail[-800:]}
         _save_state(st)  # after every job, so an interrupted run keeps what already succeeded
         log.info("refresh %s: %s", job["name"], "ok" if ok else f"FAILED after {attempt} attempts (see output/state/refresh_state.json)")
         ran.append(job["name"])

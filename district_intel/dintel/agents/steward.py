@@ -21,6 +21,23 @@ def _mtime(p: Path) -> pd.Timestamp | None:
     return pd.Timestamp(p.stat().st_mtime, unit="s", tz="UTC").tz_convert(IST) if p.exists() else None
 
 
+def _later(*ts: pd.Timestamp | None) -> pd.Timestamp | None:
+    ts = [t for t in ts if t is not None and pd.notna(t)]
+    return max(ts) if ts else None
+
+
+def _refresh_runs(settings: Settings) -> dict[str, tuple[pd.Timestamp | None, pd.Timestamp | None]]:
+    """run_pipeline.py's record of each feed's last try and last success. A generator that already has today's
+    rows exits without rewriting its file (hospital: once a day), so the file time alone would read as stale."""
+    try:
+        st = json.loads((settings.out_dir / "state" / "refresh_state.json").read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    at = lambda s: pd.Timestamp(float(s), unit="s", tz="UTC").tz_convert(IST) if s else None  # noqa: E731
+    return {k: (at(v.get("last_run")), at(v.get("last_ok"))) for k, v in st.items()
+            if not k.startswith("_") and isinstance(v, dict)}
+
+
 def source_health(settings: Settings, events: pd.DataFrame, obs: pd.DataFrame, docs_raw_rows: int, now: pd.Timestamp) -> pd.DataFrame:
     every = {r["name"]: r["every_minutes"] for r in settings.raw.get("refresh", [])}
     rows = []
@@ -81,7 +98,13 @@ def source_health(settings: Settings, events: pd.DataFrame, obs: pd.DataFrame, d
     state = json.loads(st.read_text(encoding="utf-8")) if st.exists() else {}
     master = settings.src("news", "master")
     newest = events.loc[events["source"] == "news", "reported_at"].max()
-    add("news", "live collector (RSS, sitemaps, Google News)", _mtime(master), _mtime(master), newest, docs_raw_rows,
+    runs = _refresh_runs(settings)
+
+    def ran(name, f):  # (last run, last success): the file time, or the refresh record when that is later
+        last_try, last_ok = runs.get(name, (None, None))
+        return _later(_mtime(f), last_try), _later(_mtime(f), last_ok)
+
+    add("news", "live collector (RSS, sitemaps, Google News)", *ran("news", master), newest, docs_raw_rows,
         f"State: {', '.join(f'{k}={v}' for k, v in state.items() if not isinstance(v, (dict, list)))[:200]}")
     # generators and the portal export
     for name, path, kind in (("grievance", settings.src("grievances", "complaints"), "departmental app export (synthetic history + live filings)"),
@@ -89,7 +112,7 @@ def source_health(settings: Settings, events: pd.DataFrame, obs: pd.DataFrame, d
                              ("pwd", settings.src("pwd", "dir") / "pwd_incidents.csv", "departmental dataset (synthetic generator)"),
                              ("hospital", settings.src("hospital", "csv"), "departmental dataset (synthetic generator)")):
         src_ev = events[(events["source"] == name) & (events["is_overlay"] == 0)]
-        add(name, kind, _mtime(path), _mtime(path), src_ev["reported_at"].max(), int(len(src_ev)), "")
+        add(name, kind, *ran(name, path), src_ev["reported_at"].max(), int(len(src_ev)), "")
     return pd.DataFrame(rows)
 
 
