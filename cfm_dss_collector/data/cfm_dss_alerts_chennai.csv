@@ -1,0 +1,13 @@
+﻿alert_id,alert_type,issued_at,valid_from,valid_to,covered_location_id,alert_text,source_url,fetch_method,fetched_at
+bulletin-932,bulletin,2026-09-30,,,,Observed Rainfall_30 09 2026,https://chennaifloodmonitor.tn.gov.in/HomePage/GetBulletins,playwright,2026-10-01T09:42:40+05:30
+bulletin-933,bulletin,2026-09-30,,,,Rainfall Forecast_ECMWF_Ens75_30 09 2026 00 UTC,https://chennaifloodmonitor.tn.gov.in/HomePage/GetBulletins,playwright,2026-10-02T12:43:51+05:30
+bulletin-934,bulletin,2026-09-30,,,,Rainfall Forecast_NCEP GFS_Ens75_30 09 2026 00 UTC,https://chennaifloodmonitor.tn.gov.in/HomePage/GetBulletins,playwright,2026-10-01T09:42:40+05:30
+bulletin-935,bulletin,2026-09-30,,,,Lake Inflow Forecast_30 09 2026,https://chennaifloodmonitor.tn.gov.in/HomePage/GetBulletins,playwright,2026-10-01T09:42:40+05:30
+bulletin-936,bulletin,2026-09-30,,,,Lake Water Level Forecast_30 09 2026,https://chennaifloodmonitor.tn.gov.in/HomePage/GetBulletins,playwright,2026-10-01T09:42:40+05:30
+bulletin-937,bulletin,2026-09-30,,,,River Water Level Forecast_30 09 2026,https://chennaifloodmonitor.tn.gov.in/HomePage/GetBulletins,playwright,2026-10-02T12:43:51+05:30
+bulletin-939,bulletin,2026-10-05,,,,Lake Inflow Forecast NCEPGFS Ensemble 05_10_2026 00 UTC,https://chennaifloodmonitor.tn.gov.in/HomePage/GetBulletins,playwright,2026-10-17T18:24:35+05:30
+bulletin-940,bulletin,2026-10-05,,,,Lake Water Level Forecast NCEPGFS Ensemble 05_10_2026 00 UTC,https://chennaifloodmonitor.tn.gov.in/HomePage/GetBulletins,playwright,2026-10-17T18:24:35+05:30
+bulletin-941,bulletin,2026-10-15,,,,Trial 1,https://chennaifloodmonitor.tn.gov.in/HomePage/GetBulletins,playwright,2026-10-17T18:24:35+05:30
+bulletin-942,bulletin,2026-10-16,,,,Rainfall Forecast_ECMWF_Ens75_16 10 2026 00 UTC,https://chennaifloodmonitor.tn.gov.in/HomePage/GetBulletins,playwright,2026-10-17T18:24:35+05:30
+bulletin-943,bulletin,2026-10-16,,,,Rainfall Forecast_ECMWF_Det_16 10 2026 00 UTC,https://chennaifloodmonitor.tn.gov.in/HomePage/GetBulletins,playwright,2026-10-17T18:24:35+05:30
+bulletin-933,bulletin,2026-10-30,,,,Rainfall Forecast_ECMWF_Ens75_30 09 2026 00 UTC,https://chennaifloodmonitor.tn.gov.in/HomePage/GetBulletins,playwright,2026-10-01T09:42:40+05:30
