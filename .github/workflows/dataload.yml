@@ -34,7 +34,7 @@ concurrency:
 
 jobs:
   check:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04   # pinned: ubuntu-latest moves to Ubuntu 26 from 19 Oct 2026 (Playwright's --with-deps)
     timeout-minutes: 5
     outputs:
       due: ${{ steps.due.outputs.due }}
@@ -69,7 +69,7 @@ jobs:
   load:
     needs: check
     if: needs.check.outputs.due == 'true'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04   # pinned: ubuntu-latest moves to Ubuntu 26 from 19 Oct 2026 (Playwright's --with-deps)
     timeout-minutes: 90
 
     services:
@@ -192,13 +192,19 @@ jobs:
           fi
           echo "STATE_OK=1" >> "$GITHUB_ENV"
 
-      - name: Take CPCB from the PC
+      - name: Take CPCB and CFM-DSS from the PC
         run: |
-          # GitHub's machines cannot reach airquality.cpcb.gov.in, so the PC collects CPCB every hour and pushes its
-          # files to the `cpcb` branch (district_intel/scripts/push_cpcb.py in the main repo). They replace the copy
-          # saved in the state, which nothing here updates.
+          # GitHub's machines cannot reach airquality.cpcb.gov.in, nor (since 14 Oct 2026) chennaifloodmonitor.tn.gov.in,
+          # so the PC collects both every hour and pushes their files to the `cpcb` branch
+          # (district_intel/scripts/push_cpcb.py in the main repo). They replace the copy saved in the state.
+          # GitHub still collects CFM-DSS itself while the branch has no CFM files (an older PC script).
+          echo "GH_ONLY=news,imd,cfm,hospital,pwd,grievance,police" >> "$GITHUB_ENV"
           if git fetch --depth 1 origin cpcb 2>/dev/null; then
             git checkout FETCH_HEAD -- cpcb_air_quality_collector/data
+            if git cat-file -e FETCH_HEAD:cfm_dss_collector/data/cfm_dss_run_log.csv 2>/dev/null; then
+              git checkout FETCH_HEAD -- cfm_dss_collector/data
+              echo "GH_ONLY=news,imd,hospital,pwd,grievance,police" >> "$GITHUB_ENV"
+            fi
             git log -1 --format="%s" FETCH_HEAD
           else
             echo "::warning::no cpcb branch yet: CPCB stays as last saved"
@@ -215,7 +221,7 @@ jobs:
           # CPCB is left to the PC: GitHub's machines cannot connect to airquality.cpcb.gov.in (checked on run 4), so
           # here it only burned three timed-out tries every hour. The PC collects it and sends it with aws/push.py cpcb.
           bash ci/run.sh "Collection and build" python district_intel/run_pipeline.py refresh --all \
-            --only news,imd,cfm,hospital,pwd,grievance,police --config district_intel/config.ci.yaml
+            --only "$GH_ONLY" --config district_intel/config.ci.yaml
           python - <<'EOF'
           import json
           st = json.load(open("district_intel/output/state/refresh_state.json"))
