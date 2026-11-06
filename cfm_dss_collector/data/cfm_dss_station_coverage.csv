@@ -1,0 +1,29 @@
+﻿station_id,station_name,station_type,basin,latitude,longitude,relevance,affected_taluks,basis
+RD001,Red Hills,gate_site,,,,upstream,,"district 'Tiruvallur' from CFM-DSS sensor AWLR0005 (Redhills Lake); Red Hills (Puzhal) surplus channel flows into Chennai (see gauge 138, Burma Nagar); CFM-DSS sensor list places the lake outside Chennai"
+TNCH-07-T0726,Chembarambakkam Tank,gate_site,,,,upstream,,district 'Kancheepuram' from CFM-DSS sensor AWLR0006 (Chembarambakkam Lake); Chembarambakkam lake surplus feeds the Adyar through Chennai; CFM-DSS sensor list places the lake outside Chennai
+CFM-100,Tirumeermalai Bridge,river_gauge,Adyar,,,upstream,,district 'Chengalpattu' from CFM-DSS sensor AWLR0044 (Thiruneermalai Bridge); Adyar outfalls to the sea within Chennai
+CFM-103,Saidapet Bridge,river_gauge,Adyar,,,inside_chennai,,district 'Chennai' from CFM-DSS sensor AWLR0042 (Saidapet Bridge); inside Chennai district
+CFM-104,TVK Bridge,river_gauge,Adyar,,,inside_chennai,,district 'Chennai' from CFM-DSS sensor AWLR0043 (Thiru Vi ka Bridge); inside Chennai district
+CFM-106,Basin Bridge,river_gauge,Cooum,,,upstream,,district not published by CFM-DSS; Cooum outfalls to the sea within Chennai
+CFM-107,Captain Cotton Bridge,river_gauge,Cooum,,,inside_chennai,,"district 'Chennai' from CFM-DSS sensor AWLR0029 (T.V.K. Link Road bridge, Captain Cotton Canal); inside Chennai district"
+CFM-111,Aminjikarai Bridge,river_gauge,Cooum,,,inside_chennai,,district 'Chennai' from CFM-DSS sensor AWLR0032 (Aminjikarai bridge); inside Chennai district
+CFM-112,Napier Bridge,river_gauge,Cooum,,,inside_chennai,,district 'Chennai' from CFM-DSS sensor AWLR0034 (Napier Bridge); inside Chennai district
+CFM-115,Paruthipattu Anicut,river_gauge,Cooum,,,upstream,,district 'Tiruvallur' from CFM-DSS sensor AWLR0065 (Paruthipattu Anicut); Cooum outfalls to the sea within Chennai
+CFM-116,ORRCooum Bridge,river_gauge,Cooum,,,upstream,,district not published by CFM-DSS; Cooum outfalls to the sea within Chennai
+CFM-117,Korattur Anicut,river_gauge,Cooum,,,upstream,,district 'Tiruvallur' from CFM-DSS sensor AWLR0001 (Korattur Anicut); Cooum outfalls to the sea within Chennai
+CFM-118,Manali Bridge,river_gauge,Kosasthalayar,,,inside_chennai,,Manali is in Chennai district (GCC Zone 2); not in CFM-DSS sensor list; inside Chennai district
+CFM-119,Ennore Bridge,river_gauge,Kosasthalayar,,,inside_chennai,,district 'Chennai' from CFM-DSS sensor AWLR0016 (Ennore Creek Bridge); inside Chennai district
+CFM-120,Vichoor Bridge,river_gauge,Kosasthalayar,,,upstream,,district 'Tiruvallur' from CFM-DSS sensor AWLR0023 (Vichoor brodge (SH 56/104 Bridge)); Kosasthalayar outfalls to the sea within Chennai
+CFM-121,Vallur Anicut,river_gauge,Kosasthalayar,,,upstream,,district 'Tiruvallur' from CFM-DSS sensor AWLR0026 (Vallur Anicut); Kosasthalayar outfalls to the sea within Chennai
+CFM-124,Sholinganallur Bridge,river_gauge,Kovalam,,,inside_chennai,,Sholinganallur taluk is in Chennai district; not in CFM-DSS sensor list; inside Chennai district
+CFM-125,VeerangalOdai,river_gauge,Kovalam,,,inside_chennai,,district 'Chennai' from CFM-DSS sensor AWLR0050 (Velachery - Tambaram main road bridge across Veerangal Odai); inside Chennai district
+CFM-126,OkkiumMaduvu Bridge,river_gauge,Kovalam,,,inside_chennai,,"district 'Chennai' from CFM-DSS sensor AWLR0049 (OMR road bridge, Okkium Madavu); inside Chennai district"
+CFM-130,Tamaraipakkam Upper Supply Channel D/s bridge,river_gauge,Kosasthalayar,,,upstream,,district 'Tiruvallur' from CFM-DSS sensor AWLR0013 (Tamaraipakkam Upper Supply Channel D/s bridge); Kosasthalayar outfalls to the sea within Chennai
+CFM-131,Uriyur bridge across Kosasthalayar River (Second location),river_gauge,Kosasthalayar,,,upstream,,district 'Ranipet' from CFM-DSS sensor AWLR0021 (Uriyur bridge across Kosasthalayar River (Second location)); Kosasthalayar outfalls to the sea within Chennai
+CFM-132,"Kodungaiyur dumpyard road bridge, Kodungaiyur Canal",river_gauge,Cooum,,,inside_chennai,,"district 'Chennai' from CFM-DSS sensor AWLR0030 (Kodungaiyur dumpyard road bridge, Kodungaiyur Canal); inside Chennai district"
+CFM-133,"Erukkancherry High Road bridge, Otteri Nullah",river_gauge,Cooum,,,inside_chennai,,"district 'Chennai' from CFM-DSS sensor AWLR0031 (Erukkancherry High Road bridge, Otteri Nullah); inside Chennai district"
+CFM-134,Nelson Manickam road bridge across Arumbakkam drain,river_gauge,Cooum,,,inside_chennai,,district 'Chennai' from CFM-DSS sensor AWLR0035 (Nelson Manickam road bridge across Arumbakkam drain); inside Chennai district
+CFM-135,Orathur madavu near Adanur Tank,river_gauge,Adyar,,,upstream,,district 'Kancheepuram' from CFM-DSS sensor AWLR0039 (Orathur madavu near Adanur Tank); Adyar outfalls to the sea within Chennai
+CFM-137,Anna Nagar 3rd avenue road bridge across Otteri Nullah,river_gauge,Cooum,,,inside_chennai,,district 'Chennai' from CFM-DSS sensor AWLR0057 (Anna Nagar 3rd avenue road bridge across Otteri Nullah); inside Chennai district
+CFM-138,Burma Nagar Main Road bridge across Redhills Surplus Channel,river_gauge,Kosasthalayar,,,inside_chennai,,district 'Chennai' from CFM-DSS sensor AWLR0061 (Burma Nagar Main Road bridge across Redhills Surplus Channel); inside Chennai district
+CFM-98,ORR-Perungalathur Bridge,river_gauge,Adyar,,,upstream,,Perungalathur is in Chengalpattu district; not in CFM-DSS sensor list; Adyar outfalls to the sea within Chennai

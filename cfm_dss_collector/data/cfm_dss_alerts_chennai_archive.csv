@@ -1,0 +1,8 @@
+﻿alert_id,alert_type,issued_at,valid_from,valid_to,covered_location_id,alert_text,source_url,fetch_method,fetched_at
+bulletin-922,bulletin,2025-10-23,,,,Street Flood Inundation Forecast,https://chennaifloodmonitor.tn.gov.in/HomePage/GetBulletins,playwright,2026-09-25T21:51:42+05:30
+bulletin-923,bulletin,2025-10-23,,,,River Water Level Forecast,https://chennaifloodmonitor.tn.gov.in/HomePage/GetBulletins,playwright,2026-09-25T21:51:42+05:30
+bulletin-924,bulletin,2025-10-23,,,,Lake Water Level Forecast,https://chennaifloodmonitor.tn.gov.in/HomePage/GetBulletins,playwright,2026-09-25T21:51:42+05:30
+bulletin-928,bulletin,2025-10-28,,,,Observed Rainfall_28 10 2025,https://chennaifloodmonitor.tn.gov.in/HomePage/GetBulletins,playwright,2026-09-25T21:51:42+05:30
+bulletin-929,bulletin,2025-10-28,,,,Rainfall Forecast_NCEPGFS_Ens75_27 10 2025 18 UTC,https://chennaifloodmonitor.tn.gov.in/HomePage/GetBulletins,playwright,2026-09-25T21:51:42+05:30
+bulletin-930,bulletin,2025-10-28,,,,Rainfall Forecast_ECMWF_Ens75_27 10 2025 18 UTC,https://chennaifloodmonitor.tn.gov.in/HomePage/GetBulletins,playwright,2026-09-25T21:51:42+05:30
+bulletin-931,bulletin,2025-10-28,,,,Rainfall Forecast_NCEPGFS_Det_27 10 2025 18 UTC,https://chennaifloodmonitor.tn.gov.in/HomePage/GetBulletins,playwright,2026-09-25T21:51:42+05:30
