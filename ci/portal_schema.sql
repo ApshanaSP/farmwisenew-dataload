@@ -97,7 +97,7 @@ CREATE TABLE `complaints` (
   `initials` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `first_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `last_name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `gender` enum('Male','Female','Transgender') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `gender` enum('Male','Female','Transgender','Not stated') COLLATE utf8mb4_unicode_ci NOT NULL,
   `street_address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `pincode` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Complainant PIN code. Optional; the reported location has its own.',
   `mobile_number` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
