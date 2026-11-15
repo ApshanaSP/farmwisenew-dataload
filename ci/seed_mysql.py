@@ -56,6 +56,10 @@ def main() -> int:
     while cur.nextset():
         pass
     cur.execute("SET FOREIGN_KEY_CHECKS = 0")
+    # Not strict: a website row that does not fit this copy's schema (a longer text, a new enum value) is cut to fit
+    # with a warning instead of stopping the hourly load. The generator only reads these rows. From 9 Nov 2026 the
+    # Manu Desk's petitions (gender 'Not stated', descriptions of 800+ characters) failed every run for six days.
+    cur.execute("SET SESSION sql_mode = 'NO_ENGINE_SUBSTITUTION'")
     cur.execute("SHOW TABLES")
     tables = {r[0] for r in cur.fetchall()}
     rows = {t: r for t, r in reference["rows"].items() if t in tables}
@@ -65,9 +69,14 @@ def main() -> int:
             continue
         cols = list(data[0])
         sql = f"INSERT INTO `{t}` ({', '.join(f'`{c}`' for c in cols)}) VALUES ({', '.join(['%s'] * len(cols))})"
+        warned = []
         for i in range(0, len(data), 2000):
             cur.executemany(sql, [tuple(value(r.get(c)) for c in cols) for r in data[i:i + 2000]])
-        print(f"  {t}: {len(data)} rows")
+            cur.execute("SHOW WARNINGS")
+            warned += [w[2] for w in cur.fetchall()]
+        print(f"  {t}: {len(data)} rows" + (f", {len(warned)} values cut to fit" if warned else ""))
+        for w in warned[:5]:
+            print(f"    warning: {w}")
     con.commit()
     con.close()
     print(f"MySQL {DATABASE}: {len(rows)} tables loaded from AWS")
