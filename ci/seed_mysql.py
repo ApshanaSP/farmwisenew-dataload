@@ -40,7 +40,19 @@ def download(url: str) -> dict:
 def value(v):
     if isinstance(v, dict) and "$b64" in v:
         return base64.b64decode(v["$b64"])
+    if isinstance(v, str) and v.startswith("enc:v1:"):
+        return locked(v)
     return v
+
+
+def locked(v: str) -> str:
+    """A personal value the website saved encrypted (src/lib/pii.ts: enc:v1:<key id>:<fingerprint or ->:<ciphertext>).
+    This copy never holds the key. A mobile number or name becomes a 10-character token of its fingerprint, the same for
+    the same person, so the grievance loader's reporter_hash still tells one person's complaints from another's (cut to
+    the 10 characters of mobile_number, every locked number would have read "enc:v1:xxx", one person for all). Anything
+    else (an address) says it is locked."""
+    parts = v.split(":", 4)
+    return "x" + parts[3][:9] if len(parts) == 5 and parts[3] not in ("", "-") else "(encrypted)"
 
 
 def main() -> int:
